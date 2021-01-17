@@ -7,15 +7,18 @@ services:
     image: php:7.3-apache
     build: 
       context: ./apache2
+    environment: 
+      volumes: 
+        apache2/www:/var/www/html/
     ports: 
-       - 80:80
+      - 80:80
     depends_on: 
-        - mysql
+      - mysql
     links: 
-        - mysql
+      - mysql
 
   mysql:
-    image: mysql
+    image: mysql8
     build:
       context: ./mysql
     command: --default-authentication-plugin=mysql_native_password
