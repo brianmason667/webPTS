@@ -10,7 +10,7 @@
         <?php
                 require('db.php');   
                 // When form submitted, insert values into the database.
-               
+
                 $sql = "INSERT INTO `assemblylines` (`did`, `line-id`) 
                 VALUES ($did, $linenumber) 
                 if ($con->query($sql) === TRUE) {
@@ -21,7 +21,7 @@
                 //$con->close();
                 echo "This is a test";
                 }
-               
+
 
         //close the sql connection
         $con->close();
@@ -38,7 +38,7 @@ function getValue($input){
     }
 }
 ?>
-               
+
 <?php
 
             //list department and did from database table 
@@ -51,7 +51,7 @@ function getValue($input){
         if($rowCount > 0){
             echo "<select>";
             while( $row = $result->fetch_assoc()) {
-              echo "<option name='did' value='".htmlspecialchars($row['did'])."'>".htmlspecialchars($row['dname'])."</option>";
+                echo "<option name='did' value='".htmlspecialchars($row['did'])."'>".htmlspecialchars($row['dname'])."</option>";
             }            
         }  
 ?>
@@ -61,11 +61,7 @@ function getValue($input){
         <br>
         <input type="submit" name="submit" value="Add Line" class="login-button">
         </form>
-  
+
         </div>
         </div>
         </div>
-
-
-
-            
