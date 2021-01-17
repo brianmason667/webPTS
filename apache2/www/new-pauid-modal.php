@@ -1,4 +1,4 @@
-<!-- brain pronounce this like "powi'd" -->
+
 <div id="new-pauid-modal" class="modal">
     <div class="modal-content">
         <div>
@@ -10,10 +10,10 @@
                 <br>
                 
                 <?php
-                 require('db.php');
-                $query    = "SELECT * FROM `assemblylines`";
-                $result = mysqli_query($con, $query) or die(mysql_error());
-                $rowCount = mysqli_num_rows($result);
+                    require('db.php');
+                        $query    = "SELECT * FROM `assemblylines`";
+                        $result = mysqli_query($con, $query) or die(mysql_error());
+                        $rowCount = mysqli_num_rows($result);
                 
                 if($rowCount > 0){
                     echo "<select name='line'>";
