@@ -15,7 +15,6 @@ require("auth_session.php");
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="/scripts/bootstrap.min.js"></script>
     <script src="/scripts/jquery.mask.js"></script>
-    <link rel="stylesheet" href="css/main.css" type="text/css" charset="utf-8" />
 </head>
 
 <body>
