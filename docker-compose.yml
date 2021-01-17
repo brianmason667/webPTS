@@ -1,15 +1,14 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: "3.7"
 
 services:
 
   apache2:
     image: php:7.3-apache
+    volumes: 
+      - ./apache2/www:/var/www/html/
     build: 
       context: ./apache2
-    environment: 
-      volumes: 
-        apache2/www:/var/www/html/
     ports: 
       - 80:80
     depends_on: 
@@ -19,21 +18,22 @@ services:
 
   mysql:
     image: mysql8
+    volumes:
+      - ./mysql/save:/var/lib/mysql
     build:
       context: ./mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example1
-      MYSQL_DATABASE: webpts
-      volumes:
-        mysql/save:/var/lib/mysql
-        mysql/init:/tmp/database
+      MYSQL_DATABASE: webpts      
       ports:
         3306:3306
 
-  adminer:
-    image: adminer
+  phpmyadmin:
+    image: phpmyadmin
     restart: always
     ports:
-      - 8080:8080
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
