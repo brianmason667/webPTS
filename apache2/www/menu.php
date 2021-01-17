@@ -114,7 +114,7 @@
     <?php include("defects-modal.php");?>
     <?php include("admin-dcode-modal.php");?>
     <?php include("admin-fcode-modal.php");?>
-    <?php //include("admin-line-modal.php");?>
+    <?php include("admin-line-modal.php");?>
     <?php include("admin-products-modal.php");?>
 
     <!-- ############ end of Modals ############ -->

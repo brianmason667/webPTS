@@ -8,41 +8,10 @@
     
     
         <?php
-                require('db.php');   
-                // When form submitted, insert values into the database.
-
-                $sql = "INSERT INTO `assemblylines` (`did`, `line-id`) 
-                VALUES ($did, $linenumber) 
-                if ($con->query($sql) === TRUE) {
-                echo "New record created successfully";
-                } else {
-                        echo "Error: " . $sql . "<br>" . $con->error;
-                }
-                //$con->close();
-                echo "This is a test";
-                }
-
-
-        //close the sql connection
-        $con->close();
-}
-
-function checkInput($input){
-	return isset($_POST[$input]);
-}
-function getValue($input){
-    if($_POST[$input] !=NULL){
-        return $_POST[$input];
-    }else{
-        return 0;
-    }
-}
-?>
-
-<?php
-
+    require("db.php");   
+      
             //list department and did from database table 
-        $query    = "SELECT * FROM `departments`";
+        $query = "SELECT * FROM `departments`";
         
         $result = mysqli_query($con, $query) or die(mysql_error());
         

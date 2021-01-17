@@ -1,9 +1,0 @@
-<?php
-    //needs to compile vars to get dbname
-    $uid=$date+$line+$shift;
-    $con = mysqli_connect("localhost","AEIL0001","PASSWORD","ProductionActualDatabase",PAUID);
-    // check connection
-    if (mysqli_connect_errno()){
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    }
-?>

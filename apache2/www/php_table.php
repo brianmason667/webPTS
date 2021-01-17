@@ -26,7 +26,6 @@
                 $resultset[] = $row;
             }
 
-
             # If records found
         if( count($resultset > 0 )) {
             echo '<table class="sep-rows" >
@@ -35,7 +34,7 @@
                     
                     foreach ($columns as $k => $column_name ){
                             echo '<th>'.$column_name.'</th>';
-                     }
+                }
 
             echo '</tr>
                 </thead>
@@ -45,7 +44,7 @@
                     $column_counter =0;
                     echo "<tr>";
                     for ($i=0; $i < count($columns); $i++){
-                         echo '<td>'.$row[$columns[$column_counter++]].'</td>';
+                        echo '<td>'.$row[$columns[$column_counter++]].'</td>';
                     }
                     echo "</tr>";
 
