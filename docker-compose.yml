@@ -30,6 +30,19 @@ services:
       ports:
         3306:3306
 
+  python3:
+    image: python:3
+    build:
+      context: ./python3
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    volumes:
+      - ./python3/code:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+
   phpmyadmin:
     image: phpmyadmin
     restart: always
