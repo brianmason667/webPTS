@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css"/>
 </head>
-<body>
+<body> <div style="font-size:34px">? what are you looking for ? chances are you are here by mistake.</div>
 <?php
     require('db.php');
     // When form submitted, check and create user session.
