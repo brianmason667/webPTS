@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>webpts</title>
+    <meta name="description" content="web based production tracking system">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <script src="{% static 'main/jquery.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'main/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+    <script src="{% static 'main/bootstrap.min.js' %}"></script>
+  </head>
+  <body>
+    <ul id="smenu" class="smenu active">
+      <li>
+          <a>File</a>
+          <ul>
+              <li>
+                  <div><a id="newpauidmenuoption">New Production Actual<span></span></a></div>
+              </li>
+              <li><a id="loadpauidmenuoption">Open Production Actual</a></li>
+              <li><a id="edit-preferences">Preferences..</a></li>
+              <li><a id="Reload">Reload (With out save)</a></li>
+              <li><a id="Write">Write (Save all data)</a></li>
+          </ul>
+      </li>
+      <li>
+          <a>Production</a>
+          <ul>
+              <li><a id="edit-run">Add/Edit Run<span></span></a></li>
+              <li><a id="edit-redo"> <span></span></a></li>
+              <li class="split"></li>
+              <li><a class="image" id="edit-stroke">Stroke..</a></li>
+              <li><a class="image" id="edit-fill">Fill..</a></li>
+              <li class="split"></li>
+          </ul>
+      </li>
+      <li>
+          <a>Downtime</a>
+          <ul>
+              <li><a id="downtimemenuoption">Add/Edit Downtime</a></li>
+              <li><a id="fcode-request">New Fcode request</a></li>
+              <li class="split"></li>
+              <li><a id=""></a></li>
+              <li><a id=""></a></li>
+          </ul>
+      </li>
+      <li>
+          <a>Defects</a>
+          <ul>
+              <li><a id="defectmenuoption">Add/Edit defect</a></li>
+              <li><a id="dcode-request">New Dcode request</a></li>
+              <li><a id=""></a></li>
+              <li><a id=""></a></li>
+              <li class="split"></li>
+          </ul>
+      <li>
+          <a>Charts</a>
+          <ul>
+              <li><a id="production-control">Production Control<span>PC</span></a></li>
+              <li><a id="quality-control">Quality Control <span>QC</span></a></li>
+              <li class="split"></li>
+              <li><a id="auto-total-chart">Chart Totals, End of month<span>Ctrl + 0</span></a></li>
+          </ul>
+      </li>
+      <li>
+          <a>Help</a>
+          <ul>
+              <li><a id="help-shortcuts">Keyboard shortcuts..</a></li>
+              <li class="split"></li>
+              <li><a id="help-email">Email</a></li>
+          </ul>
+      </li>
+  
+      <!-- this is hidden when not administrator-->
+  
+      <li class="menu-float-right">
+              <a>username-here</a>
+              <ul>
+              <li><a href=logout.php id="logout">logout</a></li>
+          </ul>
+      </li>
+  
+  
+      <li id="admin-menu" class="menu-float-right">
+          <a id="admin-menu">Administrator</a>
+          <ul>
+              </li></li>
+              
+              <li><a id="adminlinemenuoptition">Add/Remove lines</a></li>
+              <li><a id="admindcodemenuoption">Add/Remove dcode</a></li>
+              <li><a id="adminfcodemenuoptition">Add/Remove fcode</a></li>
+              <li><a id="adminproductmenuoptition">Add/Remove products</a></li>
+              <li><a href="admin-display.php">Display<span>Products,Codes,Cycle times</span></a></li>
+              <li><a href="" id="back">Main Dashboard<span>(Back)</span></a></li>
+          </ul>
+      </li> 
+  
+      
+  
+  </ul>
+  
+  
+  <div id="new-pauid-modal" class="modal">
+      <div class="modal-content">
+          <div>
+              <span></span>
+              <h1 class="modal-title">New Production Actual</h1>
+              <form action="newpauid.php" method="post">
+                  <!-- <p>YYYY-MM-DD</p> -->
+                  <input id="new-pauid-date" class="new-pauid-modal-content-input" name="date" required></input>
+                  <br>
+                  
+                  <?php
+                      require('db.php');
+                          $query    = "SELECT * FROM `assemblylines`";
+                          $result = mysqli_query($con, $query) or die(mysql_error());
+                          $rowCount = mysqli_num_rows($result);
+                  
+                  if($rowCount > 0){
+                      echo "<select name='line'>";
+                      while( $row = $result->fetch_assoc()) {
+                          echo "<option>".htmlspecialchars($row['line-id'])."</option>";
+                      }
+                      echo "</select>";
+                  }
+              ?>
+                  
+                  <br>
+                  <select name="shift">
+                      <option value="1">First Shift</option>
+                      <option value="2">Second Shift</option>
+                  </select>
+                  <br>
+                  <input type="submit" name="newpauidokbutton" value="OK" id="newpauidokbutton">
+                  <input type="button" class="close-modal" name="newpauidbackbutton" value="Close" id="newpauidclosebutton">
+              </form>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+  
+      //set the date to be dafault today.
+  
+      //document.getElementById('new-pauid-date').valueAsDate = new Date();
+      $('#new-pauid-date').val(getTodaysDate());
+  
+      function getTodaysDate() {
+      var d = new Date(),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+  
+      if (month.length < 2)
+          month = '0' + month;
+      if (day.length < 2)
+          day = '0' + day;
+  
+      return [month, day, year].join('/');
+  }
+      
+  </script>
+                <!-- downtimes-modal -->
+                <div id="downtime-modal" class="modal">
+                  <div  class="modal-content">
+                      <div>
+                          <h1 class="modal-title">Downtime</h1>                    
+                          <form id="downtime" action="main.php" method="post">
+                              
+              <table>
+              <thead>
+                      <tr>
+                      <th>Run</th>
+                      <th>Machine</th>
+                      <th>Product Number</th>
+                      <th>Stop Time</th>
+                      <th>Start Time</th>
+                      <th>Totals</th>
+                      <th>Fcode</th>
+                      <th># of TM</th>
+                      <th>Han-Cho</th>
+                      <th>Shoku-Cho</th>
+                      <th>Maintenace</th>
+                      <th>Ko-Cho</th>
+                      <th>Explanation of Trouble</th>
+                      <th>P/U</th>
+                      </tr>
+              </thead>
+              <tbody>
+                      <tr>
+                      <td>    <input style="width:30px;" name="run" value="" type="number" placeholder="0"></td>
+                      <td>    
+                          
+              <!--         
+                      
+                              <select style="width:45;" name="Machine">
+                                      <option value="HM1">HM1</option>
+                                      <option value="HM2">HM2</option>
+                                      <option value="AS0003">AS0003</option>
+                                      <option value="AS0004">AS0004</option>
+                                      <option value="ASA">ASA</option>
+                                      <option value="RA">RA</option>
+                                      <option value="BP">BP</option>
+                                      <option value="SI">SI</option>
+                                      <option value="FPS">FPS</option>
+                                      <option value="TF1">TF1</option>
+                                      <option value="TF2">TF2</option>
+                                      <option value="HT">HT</option>
+                                      <option value="NT">NT</option>
+                                      <option value="LE">LE</option>
+                              </select>
+               -->
+              
+                                  <!-- somehow this needs to refrence pauid to know what line to show machines from -->
+                                          <?php
+                                              $query    = "SELECT * FROM `machines`";
+                                              $result = mysqli_query($con, $query) or die(mysql_error());
+                                              $rowCount = mysqli_num_rows($result);
+                                              
+                                              if($rowCount > 0){
+                                                  echo "<label for='ddl_machine'></label>"; 
+                                                  echo "<select name='machine' id='ddl_machine'>";
+                                                  while( $row = $result->fetch_assoc()) {
+                                                      echo "<option>".htmlspecialchars($row['machine-name'])."</option>";
+                                                  }
+                                                  echo "</select>";
+                                              }
+                                          ?> 
+              
+              
+                      </td>
+                      <td>    <input style="width: 111px;" name="product number" value="" type="number" placeholder="482828-10210"></td>
+                      <td>    <input style="width:120px;" name="stoptime" value="" type="time" placeholder="0"></td>
+                      <td>    <input style="width:120px;" name="starttime" value="" type="time" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="totals" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="fcode" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="tm" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="hancho" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="shoko" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="maintenance" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:45px;" name="kocho" value="" type="number" placeholder="0"></td>
+                      <td>    <input style="width:500px;" name="trouble" value="" type="text" placeholder="Explanation of Trouble"></td>
+                      <td>    <input style="width:45px;" name="pu" value="" type="number" placeholder="0"></td>        
+                      </tr>
+                                 <!-- temporary-php-to-see-what-look-lik -->
+                                  <?php
+                                      for ($i = 0; $i <= 20; $i++) {
+                                              echo '        <tr>
+                                              <td>    <input style="width:30px;" name="run" value="" type="number" placeholder="0"></td>
+                                              <td>    <select style="width:45;" name="Machine">
+                                                              <option value="HM1">HM1</option>
+                                                              <option value="HM2">HM2</option>
+                                                              <option value="AS0003">AS0003</option>
+                                                              <option value="AS0004">AS0004</option>
+                                                              <option value="ASA">ASA</option>
+                                                              <option value="RA">RA</option>
+                                                              <option value="BP">BP</option>
+                                                              <option value="SI">SI</option>
+                                                              <option value="FPS">FPS</option>
+                                                              <option value="TF1">TF1</option>
+                                                              <option value="TF2">TF2</option>
+                                                              <option value="HT">HT</option>
+                                                              <option value="NT">NT</option>
+                                                              <option value="LE">LE</option>
+                                                      </select>
+                                              </td>
+                                              <td>    <input style="width: 111px;" name="product number" value="" type="number" placeholder="482828-10210"></td>
+                                              <td>    <input style="width:120px;" name="stoptime" value="" type="time" placeholder="0"></td>
+                                              <td>    <input style="width:120px;" name="starttime" value="" type="time" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="totals" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="fcode" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="tm" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="hancho" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="shoko" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="maintenance" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:45px;" name="kocho" value="" type="number" placeholder="0"></td>
+                                              <td>    <input style="width:500px;" name="trouble" value="" type="text" placeholder="Explanation of Trouble"></td>
+                                              <td>    <input style="width:45px;" name="pu" value="" type="number" placeholder="0"></td>        
+                                              </tr>';
+                                      }
+                                  ?>
+              </tbody>
+                                  
+              
+                                  
+              
+                              </table>
+                              <input type="button" name="downtimeokbutton" value="OK" id="downtimeokbutton">
+                              <input type="button" class="close-modal" name="downtimebackbutton" value="Close" id="downtimeclosebutton">                
+                          
+                          </form>
+                      </div>
+                  </div>
+              </div>
+              
+ <!--                    end of downtimes-modal               -->
+<!-- start of defect-modal -->
+
+<div id="defect-modal" class="modal">
+  <div class="modal-content">
+      <div>
+          <span></span>
+          <h1 class="modal-title">Defects</h1>
+
+
+          <form id="defects-form" action="main.php" method="post">
+              <table style="border:1px;">
+                  <tr>
+                      <th>Run</th>
+                      <th>4M</th>
+                      <th>Trash</th>
+                      <th>Repair</th>
+                      <th>Analysis</th>
+                      <th>Quarantine</th>
+                      <th>Cabbage Patch</th>
+                      <th>Machine</th>
+                      <th>Production Number</th>
+                      <th>Code</th>
+                      <th>Defect Details</th>
+                      <th>New Code UID</th>
+            </tr>
+                  <tr>
+                      <td><input style="width:45px;" name="run" value="" size="" type="number" placeholder="0"></td>
+                      </td>
+                      <td><input style="width:45px;" name="4M" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="t" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="machine" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="pnumber" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="dcode" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="code-details" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="uid" value="" size="" type="number" placeholder="0"></td>
+      
+                  </tr>
+              
+              <!-- temporary-php-to-see-what-look-lik -->
+              <?php
+                      for ($i = 0; $i <= 20; $i++) {
+                              echo '  <tr>
+                              <td><input style="width:45px;" name="run" value="" size="" type="number" placeholder="0"></td>
+                              </td>
+                              <td><input style="width:45px;" name="4M" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="t" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="machine" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="pnumber" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="dcode" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="code-details" value="" size="" type="number" placeholder="0"></td>
+                              <td><input style="width:45px;" name="uid" value="" size="" type="number" placeholder="0"></td>
+              
+                          </tr>   ';
+                      }
+                  ?>
+              
+              
+              
+              </table>
+
+              <input type="submit" name="defectokbutton" value="OK" id="defectokbutton">
+              <input type="button" class="close-modal" name="defectbackbutton" value="Close" id="defectclosebutton">
+              
+                          </form>
+      </div>
+  </div>
+</div>
+
+
+          <!-- end of defect-modal -->
+      <!-- ########### start of Modals Includes ########### -->
+      
+      
+      <!-- <?php include("admin-dcode-modal.php");?>
+      <?php include("admin-fcode-modal.php");?>
+      <?php include("admin-products-modal.php");?> -->
+      <!-- ############ end of Modals ############ -->
+  
+  
+  <script>
+  
+      //Get the button that opens the modal
+      var newPauidButton = document.getElementById("newpauidmenuoption");
+  
+      //When the user clicks the button, open the modal 
+      newPauidButton.onclick = function () {
+          openModalWithId("new-pauid-modal");
+      }
+  
+  
+      //Get the button that opens the modal
+      var downtimeButton = document.getElementById("downtimemenuoption");
+  
+      //When the user clicks the button, open the modal 
+      downtimeButton.onclick = function () {
+          openModalWithId("downtime-modal");
+      }
+  
+      //Get the button that opens the modal
+      var defectButton = document.getElementById("defectmenuoption");
+  
+      //When the user clicks the button, open the modal 
+      defectButton.onclick = function () {
+          openModalWithId("defect-modal");
+      }
+  
+      //Get the button that opens the modal
+      var dcodeButton = document.getElementById("admindcodemenuoption");
+  
+      //When the user clicks the button, open the modal 
+      dcodeButton.onclick = function () {
+          openModalWithId("admin-dcode-modal");
+      }
+  
+      //Get the button that opens the modal
+      var fcodeButton = document.getElementById("adminfcodemenuoptition");
+  
+      //When the user clicks the button, open the modal 
+      fcodeButton.onclick = function () {
+          openModalWithId("admin-fcode-modal");
+      }
+  
+      //Get the button that opens the modal
+      var fcodeButton = document.getElementById("adminlinemenuoptition");
+  
+      //When the user clicks the button, open the modal 
+      fcodeButton.onclick = function () {
+          openModalWithId("admin-lines-modal");
+      }
+  
+          //Get the button that opens the modal
+          var fcodeButton = document.getElementById("adminproductmenuoptition");
+  
+  //When the user clicks the button, open the modal 
+  fcodeButton.onclick = function () {
+      openModalWithId("admin-products-modal");
+  }
+  </script>
+
+<!-- end of smenu -->
+
+<div class="container">
+  <div class="row">
+      <div class="col-sm-6">
+      <!-- start of block1 div-->
+      <div name=block1 class="rounded-block"
+          style="width:450px; flex-grow:1; font-size:10px; text-align:left; ">
+          <h1
+              style="margin-top:0px; padding:5px 15px; font-size:25px; color:rgba(0,0,0,.75); background-color:#ccc">
+              Prodcution Actual Record</h1>
+          <br></br>
+          <h2 style="display:inline-block; color:rgba(0,0,0,.75); background-color:#ccc">user:
+              <?php echo $_SESSION['username']; ?>
+          </h2>
+          <br></br>
+          <!--make hr go up table go down?-->
+          <table style="letter-spacing:2px; display:block; padding:10px; font-size:15px; width:100%; border-top: 2px solid #09c;">
+              <tr>
+                  <td width="150px">Line#</td>
+                  <td>
+                      <?php echo $_SESSION['line']; ?>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Date:</td>
+                  <td>
+                      <?php echo $_SESSION['date']; ?>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Han-Cho:</td>
+                  <td>
+                      <?php echo $_SESSION['name']; ?>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Shift:</td>
+                  <td>
+                      <?php echo $_SESSION['shift']; ?>
+                  </td>
+              </tr>
+          </table>
+      </div>
+      </div>
+      <div class="col-sm-6">
+          <!-- include block 2 datatable -->
+          <div name="block2" id="block2" class="block2 rounded-block center-text" style="padding:10px;">
+
+
+            <form id="hourly" action="main.php" method="post">
+                    <table style="boarder:1px;">
+                    <tr>
+                            <td>
+                            <!--required td for blankspace -->
+                            </td>
+                            <td>Hour 1</td>
+                            <td>Hour 2</td>
+                            <td>Hour 3</td>
+                            <td>Hour 4</td>
+                            <td>Hour 5</td>
+                            <td>Hour 6</td>
+                            <td>Hour 7</td>
+                            <td>Hour 8</td>
+                            <td>Hour 9</td>
+                            <td>Hour 10</td>
+                            <td>Hour 11</td>
+                            <td>Hour 12</td>
+                    </tr>
+                    <tr>
+                            <td>Pcs/Per/Hour</td>
+                            <td><input style="" name="hour1input" value="<?php echo $hour1;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour2input" value="<?php echo $hour2;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour3input" value="<?php echo $hour3;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour4input" value="<?php echo $hour4;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour5input" value="<?php echo $hour5;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour6input" value="<?php echo $hour6;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour7input" value="<?php echo $hour7;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour8input" value="<?php echo $hour8;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour9input" value="<?php echo $hour9;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour10input" value="<?php echo $hour10;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour11input" value="<?php echo $hour11;?>" type="number" placeholder="0"></td>
+                            <td><input style="" name="hour12input" value="<?php echo $hour12;?>" type="number" placeholder="0"></td>
+                    </tr>
+                    <tr>
+                            <td>Cumulative Pcs.</td>
+                            <td><input id="calchour1" style=""  type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour2" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour3" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour4" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour5" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour6" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour7" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour8" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour9" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour10" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour11" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour12" style="" type="number" placeholder="0" disabled></td>
+                    </tr>
+                    </table>
+                    <!-- <input type="submit" name="hourlyokbutton" value="OK" id="hourlyokbutton"> -->
+            </form>
+            
+            
+            <!-- form end tag required -->
+            </div>
+      </div>
+      
+  </div>
+  <div class="row">
+      <div class="col-sm-12">   
+          <!-- include block 3 datatable -->
+          <div name="block3" class="rounded-block center-text">
+            <form>
+                <table id="block3" class="block3 sep-rows">
+                    <tr>
+                        <th>Run#</th>
+                        <th>Partal Start</th>
+                        <th>Partal End</th>
+                        <th>Finished Goods</th>
+                        <th>Kanban Count</th>
+                        <th>Product Number</th>
+                        <th>Team Members</th>
+                        <th>Start Time</th>
+                        <th>Finish Time</th>
+                        <th>Plan Down Time</th>
+                        <th>Net Operation</th>
+                        <th>Plan Qty</th>
+                        <th>Result Qty</th>
+                        <th>Scrap</th>
+                        <th>Repair</th>
+                        <th>Analysis</th>
+                        <th>Quarantine</th>
+                        <th>Cabbage Patch</th>
+                        <th>Unplan Downtime</th>
+                        <th>Cycle Time</th>
+                        <th>Standard Time</th>
+                        <th>OA</th>
+                        <th>OA w/o Downtime</th>
+                    </tr>
+                    <tr>
+                        <td><input style="min-width:30px;" type="number" maxlength="2" placeholder="0"></td>
+                        <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
+                        <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
+                        <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
+                        <td><input style="min-width:47px" type="number" placeholder="0"></td>
+                        <td><input style="min-width:120px;" id="pnumber" maxlength="12" placeholder="000000-00000"></td>
+                        <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
+                        <td><input type="time"></td>
+                        <td><input type="time"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                        <td><input type="text" placeholder="0"></td>
+                        <td><input type="number" placeholder="0"></td>
+                    </tr>
+                    
+                                     <tr>
+                            <td><input style="min-width:30px;" type="number" maxlength="2" placeholder="0"></td>
+                            <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
+                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
+                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
+                            <td><input style="min-width:47px" type="number" placeholder="0"></td>
+                            <td><input style="min-width:120px;" maxlength="12" placeholder="000000-00000"></td>
+                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
+                            <td><input type="time"></td>
+                            <td><input type="time"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                            <td><input type="text" placeholder="0"></td>
+                            <td><input type="number" placeholder="0"></td>
+                        </tr>
+    
+                </table>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="save-message">
+  <span>All data was saved</span>
+</div>
+
+
+
+
+
+
+    <p>test page
+        {% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>test3</p>
+{% endif %}
+
+    </p>
+  </body>
+  <script src="{% static 'main/main.js' %}"></script>
+</html>

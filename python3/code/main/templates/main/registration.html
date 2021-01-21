@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- doctype is required -->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Registration</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class='reg-form'>
+                  <h3 class='login-title'>You are registered successfully.</h1><br/>
+                  <p class='link'>Click here to <a href='login.php'>Login</a></p>
+                  </div>
+        
+            <div class='reg-form'>
+                  <h3 class='login-title'>Required fields are missing.</h1><br/>
+                  <p class='link'>Click here to <a href='registration.php'>registration</a> again.</p>
+                  </div>"
+    
+    <form class="reg-form" action="" method="post">
+        <h1 class="login-title">Registration</h1>
+        <input type="text" class="login-input" name="username" placeholder="AEILXXXX" required />
+        <input type="text" class="login-input" name="name" placeholder="Name" required />
+	<input type="text" class="login-input" name="email" placeholder="Email Adress">
+        <input type="password" class="login-input" name="password" placeholder="Password">
+        <input type="submit" name="submit" value="Register" class="login-button">
+        <p class="link">Already have an account? <br><a href="login.php">Login here</a></p>
+    </form>
+    
+</body>
+</html>
