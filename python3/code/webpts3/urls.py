@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('', lambda r: HttpResponseRedirect('main/')),
     path('main/', include('main.urls')),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

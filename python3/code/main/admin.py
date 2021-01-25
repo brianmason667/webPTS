@@ -14,7 +14,7 @@
 
 from django.contrib import admin
 
-from .models import (users, assembly_lines, pauid, departments, hourly)
+from .models import (assembly_line, pauid, department, hourly)
 
 
 class hourlyInline(admin.TabularInline):
@@ -32,8 +32,7 @@ class hourlyInline(admin.TabularInline):
 #     list_filter = ['pub_date']
 #     search_fields = ['question_text']
 
-admin.site.register(users)
-admin.site.register(assembly_lines)
+admin.site.register(assembly_line)
 admin.site.register(pauid)
-admin.site.register(departments)
+admin.site.register(department)
 admin.site.register(hourly)
