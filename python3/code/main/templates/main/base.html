@@ -20,7 +20,7 @@
             <a>File</a>
             <ul>
                 <li>
-                    <div><a id="newpauidmenuoption">New Production Actual<span></span></a></div>
+                    <div><a href="{% url 'main:newpauid' %}" id="">New Production Actual<span></span></a></div>
                 </li>
                 <li><a id="loadpauidmenuoption">Open Production Actual</a></li>
                 <li><a id="edit-preferences">Preferences..</a></li>
@@ -444,7 +444,7 @@
     <div class="save-message">
         <span>All data was saved</span>
     </div>
-    <div id="pauid-info">1920 x 1080 px @ 17%</div>
+    <div class="pauid-info">1920 x 1080 px @ 17%</div>
     {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a>

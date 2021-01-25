@@ -1,17 +1,37 @@
+{% extends 'main/base.html' %}
 
-  <body>
-    <p>      
-<h1>{{ question.question_text }}</h1>
+{% block content %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<body>
+    <p>
+    <h1>userid{{ user.id }}</h1>
 
-<form action="{% url 'main:newpauid' %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-{% endfor %}
-<input type="submit" value="Vote">
-</form>
+    <!-- ####################################### new new-pauid-modal starts here ####################################### -->
+    <div id="new-pauid-modal" class="modal-disabe-display-none">
+        <div class="modal-content">
+            <div>
+                <span></span>
+                <h1 class="modal-title">New Production Actual</h1>
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+                <form action="{% url 'main:newpauid' %}" method="post">
+                    {% csrf_token %}
+                    {% for choice in question.choice_set.all %}
+                    <input type="select" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                    {% endfor %}
+                    <a href="{% url 'main:index' %}"><input type="button" value="back"></a>
+                    <input type="submit" value="OK">
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
     </p>
-  
+    {% endblock %}
+    
+    

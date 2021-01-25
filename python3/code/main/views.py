@@ -21,6 +21,16 @@ class IndexView(generic.ListView):
         """
         return pauid.id
 
+class newpauidView(generic.ListView):
+    template_name = 'main/newpauid.html'
+    context_object_name = ''
+    model = pauid
+    def get_queryset(self):
+        """
+        testing
+        """
+        return pauid.id
+
 
 # class AdminDisplayView(generic.DetailView):
 #     # model = users
