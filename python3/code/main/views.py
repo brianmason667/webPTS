@@ -9,27 +9,42 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from .models import hourly
 from .models import pauid
+from django import forms
+from .forms import NameForm
 
 
 class IndexView(generic.ListView):
     template_name = 'main/index.html'
     context_object_name = ''
-    model = pauid
     def get_queryset(self):
         """
         testing
         """
         return pauid.id
-
-class newpauidView(generic.ListView):
+    
+class NewPauidView(generic.CreateView):
+    model = pauid
+    form_class = NameForm
     template_name = 'main/newpauid.html'
-    context_object_name = ''
-    model = pauid
-    def get_queryset(self):
-        """
-        testing
-        """
-        return pauid.id
+    pa_date = forms.SelectDateWidget()
+    shift = forms.NumberInput()
+    assembly_line_number_id = forms.Select()
+    your_name = forms.CharField(label='Your name', max_length=100)
+    def NewPauidForm(request):
+        # if is post requrest we process form data
+        if request.method == 'POST':
+        #create for instance and populate it with data from request
+            form = NewPauidForm(request.POST)
+            if form.is_valid():
+            # proc the data in form.cleaned_data are required
+                return HttpResponseRedirect('/main/')
+        else:
+            form = NewPauidForm()
+        
+        return render(request, 'newpauid.html', {'form': form})
+
+
+
 
 
 # class AdminDisplayView(generic.DetailView):

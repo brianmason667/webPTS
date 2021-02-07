@@ -11,36 +11,31 @@
                     <h1
                         style="margin-top:0px; padding:5px 15px; font-size:25px; color:rgba(0,0,0,.75); background-color:#ccc">
                         Prodcution Actual Record</h1>
-                    <br></br>
-                    <h2 style="display:inline-block; color:rgba(0,0,0,.75); background-color:#ccc">user:
-                        <?php echo $_SESSION['username']; ?>
-                    </h2>
-                    <br></br>
-                    <!--make hr go up table go down?-->
+                    <br>
                     <table
-                        style="letter-spacing:2px; display:block; padding:10px; font-size:15px; width:100%; border-top: 2px solid #09c;">
+                        style="letter-spacing:2px; display:block; padding:8px; font-size:15px; width:100%; border-top: 2px solid #09c;">
                         <tr>
                             <td width="150px">Line#</td>
                             <td>
-                                <?php echo $_SESSION['line']; ?>
+                                {{ pauid.userid_id }}
                             </td>
                         </tr>
                         <tr>
                             <td>Date:</td>
                             <td>
-                                <?php echo $_SESSION['date']; ?>
+                                {{ pauid.pa_date }}
                             </td>
                         </tr>
                         <tr>
                             <td>Han-Cho:</td>
                             <td>
-                                {{ user.username }}
+                            {{ user.first_name }} {{ user.last_name }}
                             </td>
                         </tr>
                         <tr>
                             <td>Shift:</td>
                             <td>
-                                <?php echo $_SESSION['shift']; ?>
+                                {{ pauid.shift }}
                             </td>
                         </tr>
                     </table>

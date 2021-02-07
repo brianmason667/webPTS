@@ -22,7 +22,7 @@ class pauid(models.Model):
     pa_date = models.DateTimeField('production actual date')
     assembly_line_number = models.ForeignKey(assembly_line, on_delete=models.CASCADE)
     shift = models.IntegerField(default=0)
-    userid = models.ForeignKey(user, on_delete=models.CASCADE)
+    user = models.ForeignKey(user, on_delete=models.CASCADE)
     def __int__(self):
         return self.assembly_line_number
 
@@ -39,4 +39,4 @@ class hourly(models.Model):
     hour9 = models.IntegerField(default=0)
     hour10 = models.IntegerField(default=0)
     hour11 = models.IntegerField(default=0)
-    hour12 = models.IntegerField(default=0)
+    
