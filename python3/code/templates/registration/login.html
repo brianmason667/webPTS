@@ -1,34 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <title>Login</title>
-    {% load static %}
-    <script src="{% static 'main/jquery.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'main/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
-    <script src="{% static 'main/bootstrap.min.js' %}"></script>
+{% extends "base_generic.html" %}
 
-</head>
 {% block content %}
-<body> 
-    <form class="login-form" method="post">
-        <h1 class="login-title">Login</h1>
 
-        {% csrf_token %}
-        {{ form.as_p }}
-        
-        <input type="submit" value="Login" name="submit" class="login-button"/>
-        <p class="link">Don't have an account? <br>
-        <a href="registration.php">Registration Now</a></p>
-  </form>
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
 
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
 
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+</tr>
+</table>
 
+<input type="submit" value="login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
 
-</body>
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
 {% endblock %}
-</html>
-
-
-

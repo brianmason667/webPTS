@@ -23,7 +23,7 @@ services:
     build:
       context: ./mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: example1
       MYSQL_DATABASE: webpts      
@@ -35,7 +35,7 @@ services:
     build:
       context: ./python3
     command: python manage.py runserver 0.0.0.0:8000
-    restart: always
+    restart: on-failure
     volumes:
       - ./python3/code:/code
     ports:
@@ -45,7 +45,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
-    restart: always
+    restart: on-failure
     ports:
       - 8080:80
     environment:
