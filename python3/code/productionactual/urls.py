@@ -16,11 +16,3 @@ urlpatterns = [
 # urlpatterns += [
 #     path('<uuid:pk>/', views.ProductionActual, name='ProductionActual'),
 # ]
-
-urlpatterns += [
-    path('<uuid:pk>/', views.ProductionActual, name='ProductionActual'),
-]
-
-urlpatterns += [
-    path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
-]

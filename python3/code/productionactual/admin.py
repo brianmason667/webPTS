@@ -2,23 +2,20 @@ from django.contrib import admin
 
 from django.contrib import admin
 
-from .models import (assembly_line, productionactual, department, hourly)
+from .models import (AssemblyLine, ProductionActual, Product, Department, Hourly, Machine, Defect, Downtime, Shift, DefectInstance, DowntimeInstance)
 
 
 class hourlyInline(admin.TabularInline):
-    model = hourly
+    model = Hourly
 
-# class QuestionAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         (None,               {'fields': ['question_text']}),
-#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-#     ]
-#     inlines = [ChoiceInline]
-#     list_display = ('question_text', 'pub_date', 'was_published_recently')
-#     list_filter = ['pub_date']
-#     search_fields = ['question_text']
-
-admin.site.register(assembly_line)
-admin.site.register(productionactual)
-admin.site.register(department)
-admin.site.register(hourly)
+admin.site.register(AssemblyLine)
+admin.site.register(ProductionActual)
+admin.site.register(Department)
+admin.site.register(Hourly)
+admin.site.register(Machine)
+admin.site.register(Defect)
+admin.site.register(Downtime)
+admin.site.register(Product)
+admin.site.register(Shift)
+admin.site.register(DefectInstance)
+admin.site.register(DowntimeInstance)
