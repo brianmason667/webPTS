@@ -12,8 +12,8 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', lambda r: HttpResponseRedirect('pa/')),
-    path('pa/', include('productionactual.urls')),
+    path('', lambda r: HttpResponseRedirect('ProductionActual/')),
+    path('ProductionActual/', include('productionactual.urls')),
     path('admin/', admin.site.urls),
     path('acc/', include('django.contrib.auth.urls')),
     path('catalog/', include('catalog.urls')),

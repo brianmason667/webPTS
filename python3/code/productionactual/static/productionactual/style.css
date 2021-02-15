@@ -1,0 +1,581 @@
+@font-face {
+    font-family: 'Arial Narrow';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arial Narrow'), local('ArialNarrow-Regular'),
+        url(fonts/arial-narrow.woff) format('woff'),
+        url(fonts/arial-narrow.ttf) format('truetype');
+}
+
+@font-face{
+    font-family:Open Sans;
+    src:url(fonts/OpenSans.woff2) format("woff2"); 
+    font-display:swap
+  }
+
+
+:root{
+  --accent-color:#09c;
+  --accent-light-color:#00a3da
+}
+
+*{ -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-user-drag:none; -moz-user-drag:none; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; -ms-touch-action:manipulation; 
+    touch-action:manipulation; vertical-align:top; font-weight:400; outline:none
+}
+body,html{
+  margin:0;
+  padding:0; 
+  height:100%; 
+  width:100%; 
+  color:#fff; 
+  /* overflow:hidden;  */
+  font-size:20px; 
+  background-color:#000; 
+  font-family:Arial Narrow;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #191818; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
+
+/* ::-webkit-scrollbar-corner {
+background-color: black;
+} */
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+h1,h2,h3,h4,h5,h1.login-title{ text-transform:uppercase; font-weight:700; margin:0
+}
+
+h2{
+    font-size: 20px;
+}
+
+label{
+    font-size: 15px;
+}
+
+::selection { background: #f7a494; }
+input::selection {  background: #f7a494; }
+
+input[type=range]::-moz-range-track{ background:none
+}
+input[type=range]::-moz-focusring{ outline:1px solid #282828;
+	outline-offset:-1px
+}
+input[type=range]{
+	-webkit-appearance:none;
+	height:26px;
+	margin:0;
+	background:linear-gradient(90deg,hsla(0,0%,100%,.2) 0,hsla(0,0%,100%,.2));
+	background-size:100% 2px;
+	background-position:50%;
+	background-repeat:no-repeat; 
+    overflow:hidden;
+	outline:none;
+	cursor:pointer
+}
+input[type=range]::-ms-tooltip{ display:none
+}
+input[type=range]::-moz-range-thumb{ border:none; width:20px; height:20px; background:#555; border-radius:10px; position:relative; z-index:3; background:radial-gradient(ellipse at center,#292c31 0,#292c31 33%,#54565a 38%,#54565a 
+    46%,#292c31 52%,#292c31 100%); background-size:20px 20px; background-position:50%; background-repeat:no-repeat
+}
+input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:20px; height:20px; background:#555; border-radius:10px; position:relative; z-index:3; border:0!important; background:radial-gradient(ellipse at 
+    center,#292c31 0,#292c31 33%,#54565a 38%,#54565a 46%,#292c31 52%,#292c31 100%); background-size:20px 20px; background-position:50%; background-repeat:no-repeat
+}
+
+input, select{
+    /* width:66px; */
+    width:100%;
+	height:36px;
+	padding: 0 10px 0 10px;
+	font-size:12px;
+	line-height:26px;
+	font-family:Open Sans,sans-serif;
+	color:#999;
+	letter-spacing:1px;
+	transition:all .15s linear;
+	background:rgba(0,0,0,.1);
+	border:2px solid hsla(0,0%,100%,.1);
+	border-radius:2px;
+	-moz-appearance:textfield;
+}
+
+input[type=text],input[type=url]{
+	line-height:28px;
+	padding-left:6px!important;
+	margin:0!important
+}
+
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{
+	-webkit-appearance:none; margin:0;
+}
+input[type=time]{
+	width: 110px;
+}
+
+
+
+select option {
+  background: black;
+  color:white;
+}
+
+input[type=submit], input[type=button]{
+	/* background:#09c; */
+	color:white;
+	outline: none;
+    /* margin:10px; */
+    line-height: 0px;
+	padding:12px;
+    cursor: pointer;
+    background: black;
+    margin: 0px;
+    max-width: 100px;
+	min-width: 50px;
+    margin-top: 30px;
+}
+
+.save-message{
+	position:fixed;
+	bottom:20px;
+	right:20px;
+	display:none;
+	background: #09c;
+    color:white;
+    border-radius:50px;
+	padding:10px 20px 10px 20px;
+	font-size: 20px;
+}
+
+
+/* login and registration css */
+
+.login-form, .reg-form {
+    margin: 50px auto;
+    width: 300px;
+    padding: 30px 25px;
+    background-color: rgb(0, 0, 0);
+    border: 1px solid #09c;
+    border-radius:5px;
+}
+
+.login-form .login-title, .reg-form .login-title  {
+    color: #666;
+    margin: 0px auto 25px;
+    font-size: 25px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.login-form input, .reg-form input, .login-form input[type=submit] {
+    font-size: 15px;
+    margin-top: 20px !important;
+    width: 100%;
+    max-width: 100%;
+}
+
+.login-input:focus {
+    border-color:#6e8095;
+}
+
+.link {
+    color: #666;
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+a{
+    color: #666;
+}
+
+.menu-float-right{
+    float: right;    
+    margin-right: 10px;
+}
+
+.menu-float-right ul{
+    right: 0px !important;
+    left: unset !important;
+}
+
+table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    font-size:15px;
+}
+
+table.sep-rows tr:nth-child(odd) {
+    background:#191818;
+}
+
+table th {
+    padding:5px 10px 0px 5px;
+    background: black;
+    /* border-bottom:1px solid #09c */
+}
+
+td, th {
+   padding: 5px;
+}
+
+.rounded-block{
+    /* background-color: #171616;  */
+    border: 2px solid #09c; 
+    border-radius: 5px;
+    overflow:auto;
+    font-size:15px;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.jumbotron{
+    background: #272626;
+}
+
+.container{
+    width:100% !important;
+}
+
+.container .row{
+    margin-bottom: 30px;
+}
+
+.small-form{
+    max-width:800px;margin:auto
+}
+
+/*####################################*/
+/*### This is start of modal style ###*/
+/*#####################################*/
+
+.modal {
+    display: none;
+    background-color: rgba(0,0,0,0.8);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.modal-content {
+    padding:0 30px 30px 30px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow:auto; 
+    background-color: #fefefe;
+    border: 1px solid #09c;
+    border-radius:5px;
+    background-color: rgb(0, 0, 0);
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+/* width */
+.modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.modal-content::-webkit-scrollbar-track {
+background: black; 
+}
+
+/* Handle */
+.modal-content::-webkit-scrollbar-thumb {
+background: #888; 
+    border-radius:5px;
+}
+
+/* Handle on hover */
+.modal-content::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
+
+.modal-content::-webkit-scrollbar-corner {
+background-color: black;
+    border-radius:5px;
+}
+
+.modal-content h1 {
+    position: sticky;
+    top: 0px;     
+    height: 70px;
+    padding-top:20px;
+    background: black;
+    z-index: 1;
+}
+
+
+.modal-content table th {
+    background: black;
+    position: sticky;
+    top: 70px; 
+    padding:20px 5px 20px 5px;
+    z-index: 1;
+    /* border-top:2px solid #191818; */
+}
+
+/* .modal-content th:nth-child(1) {
+    border-left:1px solid #191818;
+} */
+
+/* .modal-content th {
+    border-right:1px solid #191818;
+} */
+
+.modal-content table td {
+    padding: 10px 5px 10px 5px;
+}
+
+.modal-content table tr:nth-child(odd) {
+    background:#191818;
+}
+
+.modal-content table input, .modal-content table select {
+    margin:0px !important;
+}
+
+.modal input, .modal select{
+    width: 110px;
+    height: 26px;
+    font-size: 12px;
+    /* line-height: 12px; */
+    font-family: Open Sans,sans-serif;
+    color: #999;
+    letter-spacing: 1px;
+    transition: all .15s linear;
+    background: rgba(0,0,0,.1);
+    border: 2px solid hsla(0,0%,100%,.1);
+    border-radius: 2px;
+    -moz-appearance: textfield;
+    width: 200px;
+    margin-top:10px;
+}
+
+
+.modal input[type="button"], .modal input[type="submit"]{
+    background:black;
+    margin:0px;
+    width: auto;
+    max-width: 150px;
+    margin-top:30px;
+    margin-left:10px;
+    float:right;
+}
+
+
+
+/*#########################################*/
+/*### This end of modal style ###*/
+/*#########################################*/
+
+
+/*#####*/
+/*smenu*/
+/*#####*/
+#smenu {
+    padding-left: 5px;
+    background-color: #1d1f22;
+    height: 32px
+}
+
+#smenu-section {
+    width: 220px;
+    margin-right: 16px;
+    min-width: 220px
+}
+
+#smenu-section .splitter {
+    margin-bottom: 10px
+}
+
+ol,
+ul {
+    list-style: none;
+    list-style-image: none
+}
+
+.smenu {
+    display: block;
+    z-index: 99
+}
+
+.smenu,
+.smenu li {
+    position: relative
+}
+
+.smenu li {
+    display: inline-block
+}
+
+.smenu a,
+.overflow-smenu a {
+    height: 32px;
+    line-height: 32px;
+    display: block;
+    cursor: pointer;
+    padding: 0 10px;
+    color: hsla(0, 0%, 100%, .8);
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+.smenu a.disabled,
+.overflow-smenu a.disabled {
+    cursor: auto !important;
+    color: hsla(0, 0%, 100%, .3) !important
+}
+
+.smenu a span,
+.overflow-smenu a span {
+    float: right;
+    font-size: 11px
+}
+
+.smenu>li:hover>a {
+    color: #fff;
+    background-color: rgba(0, 0, 0, .8)
+}
+
+.smenu.active li:hover>ul {
+    display: block
+}
+
+.smenu ul {
+    min-width: 240px;
+    top: 32px;
+    left: 0;
+    border: 1px solid #000;
+    background-color: rgba(0, 0, 0, .9);
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, .2);
+    padding-left: 0;
+}
+
+.smenu ul,
+.overflow-smenu-holder {
+    display: none;
+    position: absolute;
+    z-index: 99999
+}
+
+.overflow-smenu-holder {
+    width: 240px;
+    padding: 10px
+}
+
+.overflow-smenu {
+    width: 220px;
+    border: 1px solid #000;
+    background-color: rgba(0, 0, 0, .9);
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, .2)
+}
+
+.smenu .more:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    right: 10px;
+    bottom: 0;
+    margin: auto;
+    border-color: transparent transparent transparent #ccc;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    pointer-events: none
+}
+
+.smenu .more ul {
+    top: -8px;
+    left: auto;
+    right: -94%
+}
+
+.smenu ul li.split,
+.overflow-smenu li.split {
+    display: block;
+    background-color: hsla(0, 0%, 100%, .2);
+    height: 1px;
+    margin: 2px 10px
+}
+
+.smenu ul li,
+.overflow-smenu li {
+    display: block
+}
+
+.smenu ul a,
+.overflow-smenu li a {
+    white-space: nowrap;
+    line-height: 28px;
+    height: 28px
+}
+
+.overflow-smenu li a {
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.smenu ul a img,
+.overflow-smenu li a img {
+    width: 20px;
+    height: 20px;
+    opacity: .8;
+    margin-right: 8px;
+    vertical-align: middle
+}
+
+.smenu ul a:not(.disabled):hover,
+.overflow-smenu li a:not(.disabled):hover {
+    color: #fff;
+    background: linear-gradient(180deg, var(--accent-light-color), var(--accent-color))
+}
+
+/*#########*/
+/*end-smenu*/
+/*#########*/
+
+.pauid-info {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    font-size: 10px;
+    color: hsla(0,0%,100%,.5);
+    background-color: hsla(0, 0%, 100%, .2);
+    border-right: 1px solid rgba(0,0,0,.3);
+    text-align: center;
+}

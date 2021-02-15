@@ -4,9 +4,16 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Web Production Tracking{% endblock %}</title>
+    {% load static %}
+  <script src="{% static 'productionactual/jquery.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'productionactual/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'productionactual/style.css' %}">
+  <script src="{% static 'productionactual/bootstrap.min.js' %}"></script>
 </head>
 <body>
   <main>
+    {% block menu %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
   </main>

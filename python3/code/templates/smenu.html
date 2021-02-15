@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+{% block menu %}
+{% if user.is_authenticated %}
+
+<ul id="smenu" class="smenu active">
+  <li>
+      <a>File</a>
+      <ul>
+          <li>
+              <div><a href="{% url 'NewProductionActual' %}" id="">New Production Actual<span></span></a></div>
+          </li>
+          <li><a id="loadpauidmenuoption">Open Production Actual</a></li>
+          <li><a id="edit-preferences">Preferences..</a></li>
+          <li><a id="Reload">Reload (With out save)</a></li>
+          <li><a id="Write">Write (Save all data)</a></li>
+      </ul>
+  </li>
+  <li>
+      <a>Production</a>
+      <ul>
+          <li><a id="edit-run">Add/Edit Run<span></span></a></li>
+          <li><a id="edit-redo"> <span></span></a></li>
+          <li class="split"></li>
+          <li><a class="image" id="edit-stroke">Stroke..</a></li>
+          <li><a class="image" id="edit-fill">Fill..</a></li>
+          <li class="split"></li>
+      </ul>
+  </li>
+  <li>
+      <a>Downtime</a>
+      <ul>
+          <li><a id="downtimemenuoption">Add/Edit Downtime</a></li>
+          <li><a id="fcode-request">New Fcode request</a></li>
+          <li class="split"></li>
+          <li><a id=""></a></li>
+          <li><a id=""></a></li>
+      </ul>
+  </li>
+  <li>
+      <a>Defects</a>
+      <ul>
+          <li><a id="defectmenuoption">Add/Edit defect</a></li>
+          <li><a id="dcode-request">New Dcode request</a></li>
+          <li><a id=""></a></li>
+          <li><a id=""></a></li>
+          <li class="split"></li>
+      </ul>
+  <li>
+      <a>Charts</a>
+      <ul>
+          <li><a id="production-control">Production Control<span>PC</span></a></li>
+          <li><a id="quality-control">Quality Control <span>QC</span></a></li>
+          <li class="split"></li>
+          <li><a id="auto-total-chart">Chart Totals, End of month<span>Ctrl + 0</span></a></li>
+      </ul>
+  </li>
+  <li>
+      <a>Help</a>
+      <ul>
+          <li><a id="help-shortcuts">Keyboard shortcuts..</a></li>
+          <li class="split"></li>
+          <li><a id="help-email">Email</a></li>
+      </ul>
+  </li>
+
+  <!-- this is hidden when not administrator-->
+
+  <li class="menu-float-right">
+      <a>{{ user.username }}</a>
+      <ul>
+          <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
+          <li><a href="/admin" id="admin">admin</a></li>
+      </ul>
+  </li>
+
+</ul>
+
+<!-- ####################################### new new-pauid-modal starts here ####################################### -->
+<div id="new-pauid-modal" class="modal">
+  
+
+          <!-- <form action="" method="POST">
+              {% csrf_token %}
+              
+              
+              <input id="new-pauid-date" class="new-pauid-modal-content-input" name="date" required></input>
+              <br>
+
+              <select name='line'>
+                  <option></option>
+              </select>
+              <br>
+              <select name="shift">
+                  <option value="1">First Shift</option>
+                  <option value="2">Second Shift</option>
+              </select>
+              <br>
+              <input type="submit" name="newpauidokbutton" value="OK" id="newpauidokbutton">
+              <input type="button" class="close-modal" name="newpauidbackbutton" value="Close"
+                  id="newpauidclosebutton">
+          </form> -->
+      </div>
+  </div>
+</div>
+
+<script>
+
+  //set the date to be dafault today.
+
+  //document.getElementById('new-pauid-date').valueAsDate = new Date();
+  $('#new-pauid-date').val(getTodaysDate());
+
+  function getTodaysDate() {
+      var d = new Date(),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2)
+          month = '0' + month;
+      if (day.length < 2)
+          day = '0' + day;
+
+      return [month, day, year].join('/');
+  }
+
+</script>
+<!-- ##################################### new pauid modal ends here ##################################### -->
+<!-- downtimes-modal -->
+<div id="downtime-modal" class="modal">
+  <div class="modal-content">
+      <div>
+          <h1 class="modal-title">Downtime</h1>
+          <form id="downtime" action="" method="post">
+
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Run</th>
+                          <th>Machine</th>
+                          <th>Product Number</th>
+                          <th>Stop Time</th>
+                          <th>Start Time</th>
+                          <th>Totals</th>
+                          <th>Fcode</th>
+                          <th># of TM</th>
+                          <th>Han-Cho</th>
+                          <th>Shoku-Cho</th>
+                          <th>Maintenace</th>
+                          <th>Ko-Cho</th>
+                          <th>Explanation of Trouble</th>
+                          <th>P/U</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td> <input style="width:30px;" name="run" value="" type="number" placeholder="0"></td>
+                          <td>
+
+                              <!--         
+                
+                        <select style="width:45;" name="Machine">
+                                <option value="HM1">HM1</option>
+                                <option value="HM2">HM2</option>
+                                <option value="AS0003">AS0003</option>
+                                <option value="AS0004">AS0004</option>
+                                <option value="ASA">ASA</option>
+                                <option value="RA">RA</option>
+                                <option value="BP">BP</option>
+                                <option value="SI">SI</option>
+                                <option value="FPS">FPS</option>
+                                <option value="TF1">TF1</option>
+                                <option value="TF2">TF2</option>
+                                <option value="HT">HT</option>
+                                <option value="NT">NT</option>
+                                <option value="LE">LE</option>
+                        </select>
+         -->
+
+                              <!-- somehow this needs to refrence pauid to know what line to show machines from -->
+                              <?php
+                                        $query    = "SELECT * FROM `machines`";
+                                        $result = mysqli_query($con, $query) or die(mysql_error());
+                                        $rowCount = mysqli_num_rows($result);
+                                        
+                                        if($rowCount > 0){
+                                            echo "<label for='ddl_machine'></label>"; 
+                                            echo "<select name='machine' id='ddl_machine'>";
+                                            while( $row = $result->fetch_assoc()) {
+                                                echo "<option>".htmlspecialchars($row['machine-name'])."</option>";
+                                            }
+                                            echo "</select>";
+                                        }
+                                    ?>
+
+
+                          </td>
+                          <td> <input style="width: 111px;" name="product number" value="" type="number"
+                                  placeholder="482828-10210"></td>
+                          <td> <input style="width:120px;" name="stoptime" value="" type="time" placeholder="0">
+                          </td>
+                          <td> <input style="width:120px;" name="starttime" value="" type="time" placeholder="0">
+                          </td>
+                          <td> <input style="width:45px;" name="totals" value="" type="number" placeholder="0">
+                          </td>
+                          <td> <input style="width:45px;" name="fcode" value="" type="number" placeholder="0">
+                          </td>
+                          <td> <input style="width:45px;" name="tm" value="" type="number" placeholder="0"></td>
+                          <td> <input style="width:45px;" name="hancho" value="" type="number" placeholder="0">
+                          </td>
+                          <td> <input style="width:45px;" name="shoko" value="" type="number" placeholder="0">
+                          </td>
+                          <td> <input style="width:45px;" name="maintenance" value="" type="number"
+                                  placeholder="0"></td>
+                          <td> <input style="width:45px;" name="kocho" value="" type="number" placeholder="0">
+                          </td>
+                          <td> <input style="width:500px;" name="trouble" value="" type="text"
+                                  placeholder="Explanation of Trouble"></td>
+                          <td> <input style="width:45px;" name="pu" value="" type="number" placeholder="0"></td>
+                      </tr>
+                      <!-- temporary-php-to-see-what-look-lik -->
+                      <?php
+                                for ($i = 0; $i <= 20; $i++) {
+                                        echo '        <tr>
+                                        <td>    <input style="width:30px;" name="run" value="" type="number" placeholder="0"></td>
+                                        <td>    <select style="width:45;" name="Machine">
+                                                        <option value="HM1">HM1</option>
+                                                        <option value="HM2">HM2</option>
+                                                        <option value="AS0003">AS0003</option>
+                                                        <option value="AS0004">AS0004</option>
+                                                        <option value="ASA">ASA</option>
+                                                        <option value="RA">RA</option>
+                                                        <option value="BP">BP</option>
+                                                        <option value="SI">SI</option>
+                                                        <option value="FPS">FPS</option>
+                                                        <option value="TF1">TF1</option>
+                                                        <option value="TF2">TF2</option>
+                                                        <option value="HT">HT</option>
+                                                        <option value="NT">NT</option>
+                                                        <option value="LE">LE</option>
+                                                </select>
+                                        </td>
+                                        <td>    <input style="width: 111px;" name="product number" value="" type="number" placeholder="482828-10210"></td>
+                                        <td>    <input style="width:120px;" name="stoptime" value="" type="time" placeholder="0"></td>
+                                        <td>    <input style="width:120px;" name="starttime" value="" type="time" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="totals" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="fcode" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="tm" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="hancho" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="shoko" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="maintenance" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:45px;" name="kocho" value="" type="number" placeholder="0"></td>
+                                        <td>    <input style="width:500px;" name="trouble" value="" type="text" placeholder="Explanation of Trouble"></td>
+                                        <td>    <input style="width:45px;" name="pu" value="" type="number" placeholder="0"></td>        
+                                        </tr>';
+                                }
+                            ?>
+                  </tbody>
+
+
+
+
+              </table>
+              <input type="button" name="downtimeokbutton" value="OK" id="downtimeokbutton">
+              <input type="button" class="close-modal" name="downtimebackbutton" value="Close"
+                  id="downtimeclosebutton">
+
+          </form>
+      </div>
+  </div>
+</div>
+
+<!--   ################################## end of downtimes-modal ###################################  -->
+<!--   ################################## start of defect-modal ##################################### -->
+
+<div id="defect-modal" class="modal">
+  <div class="modal-content">
+      <div>
+          <span></span>
+          <h1 class="modal-title">Defects</h1>
+
+
+          <form id="defects-form" action="" method="post">
+              <table style="border:1px;">
+                  <tr>
+                      <th>Run</th>
+                      <th>4M</th>
+                      <th>Trash</th>
+                      <th>Repair</th>
+                      <th>Analysis</th>
+                      <th>Quarantine</th>
+                      <th>Cabbage Patch</th>
+                      <th>Machine</th>
+                      <th>Production Number</th>
+                      <th>Code</th>
+                      <th>Defect Details</th>
+                      <th>New Code UID</th>
+                  </tr>
+                  <tr>
+                      <td><input style="width:45px;" name="run" value="" size="" type="number" placeholder="0">
+                      </td>
+                      </td>
+                      <td><input style="width:45px;" name="4M" value="" size="" type="number" placeholder="0">
+                      </td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="t" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="" value="" size="" type="number" placeholder="0"></td>
+                      <td><input style="width:45px;" name="machine" value="" size="" type="number"
+                              placeholder="0"></td>
+                      <td><input style="width:45px;" name="pnumber" value="" size="" type="number"
+                              placeholder="0"></td>
+                      <td><input style="width:45px;" name="dcode" value="" size="" type="number" placeholder="0">
+                      </td>
+                      <td><input style="width:45px;" name="code-details" value="" size="" type="number"
+                              placeholder="0"></td>
+                      <td><input style="width:45px;" name="uid" value="" size="" type="number" placeholder="0">
+                      </td>
+                  </tr>
+              </table>
+
+              <input type="submit" name="defectokbutton" value="OK" id="defectokbutton">
+              <input type="button" class="close-modal" name="defectbackbutton" value="Close"
+                  id="defectclosebutton">
+
+          </form>
+      </div>
+  </div>
+</div>
+
+
+<!-- ########################## end of defect-modal #################################### -->
+
+
+
+<script>
+
+  //Get the button that opens the modal
+  var newPauidButton = document.getElementById("newpauidmenuoption");
+
+  //When the user clicks the button, open the modal 
+  newPauidButton.onclick = function () {
+      openModalWithId("new-pauid-modal");
+  }
+
+
+  //Get the button that opens the modal
+  var downtimeButton = document.getElementById("downtimemenuoption");
+
+  //When the user clicks the button, open the modal 
+  downtimeButton.onclick = function () {
+      openModalWithId("downtime-modal");
+  }
+
+  //Get the button that opens the modal
+  var defectButton = document.getElementById("defectmenuoption");
+
+  //When the user clicks the button, open the modal 
+  defectButton.onclick = function () {
+      openModalWithId("defect-modal");
+  }
+
+  //Get the button that opens the modal
+  var dcodeButton = document.getElementById("admindcodemenuoption");
+
+  //When the user clicks the button, open the modal 
+  dcodeButton.onclick = function () {
+      openModalWithId("admin-dcode-modal");
+  }
+
+  //Get the button that opens the modal
+  var fcodeButton = document.getElementById("adminfcodemenuoptition");
+
+  //When the user clicks the button, open the modal 
+  fcodeButton.onclick = function () {
+      openModalWithId("admin-fcode-modal");
+  }
+
+  //Get the button that opens the modal
+  var fcodeButton = document.getElementById("adminlinemenuoptition");
+
+  //When the user clicks the button, open the modal 
+  fcodeButton.onclick = function () {
+      openModalWithId("admin-lines-modal");
+  }
+
+  //Get the button that opens the modal
+  var fcodeButton = document.getElementById("adminproductmenuoptition");
+
+  //When the user clicks the button, open the modal 
+  fcodeButton.onclick = function () {
+      openModalWithId("admin-products-modal");
+  }
+</script>
+
+<!-- ########################### end of smenu #################################### -->
+
+{% else %}
+<!-- You are not logged in -->
+<div class='form'>
+    <div class="login-form">
+    
+    <a href="{% url 'login' %}"><input type="submit" class="login-button" value="login"></a>
+    <p class="link">You are not logged in</p>
+    
+    <a href="{% url 'login' %}"><input type="submit" class="login-button" value="register"></a>
+    <p class="link">Don't have an account? <br>
+    <a href="{% url 'password_reset' %}"><input type="submit" class="login-button" value="Reset Password"></a>
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p class="link">Forget password again? <br>
+
+
+
+{% endif %}
+
+{% endblock %}
+{% block content %}
+{% endblock %}
+
+
+
+
