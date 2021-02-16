@@ -6,13 +6,18 @@ from django.urls import reverse
 from .forms import *
 from .models import *
 
-def ProductionActual(request):
-    return render(request, "productionactual.html")
+def ProductionActualView(request):
+
+    return render(request, "productionactual.html", )
 
 def NewProductionActual(request):
     context ={}
     form = NewProductionActualForm(request.POST or None)
     if form.is_valid():
+        # not save until form.save()
+        form = form.save(commit=False)
+        # set user that is logged in to the form user
+        form.user = request.user    
         form.save()
 
     context['form']= form
