@@ -21,25 +21,25 @@
                     <tr>
                         <td width="150px">Line#</td>
                         <td>
-                            {{ pauid.userid_id }}
+                            {{ ProductionActual.assembly_line_number }}
                         </td>
                     </tr>
                     <tr>
                         <td>Date:</td>
                         <td>
-                            {{ pauid.pa_date }}
+                            {{ ProductionActual.pa_date }}
                         </td>
                     </tr>
                     <tr>
                         <td>Han-Cho:</td>
                         <td>
-                        {{ user.first_name }} {{ user.last_name }}
+                        {{ user.first_name }} {{ user.last_name }} {{ ProductionActual.first_name }} {{ ProductionActual.last_name }}
                         </td>
                     </tr>
                     <tr>
                         <td>Shift:</td>
                         <td>
-                            {{ pauid.shift }}
+                            {{ ProductionActual.shift }}
                         </td>
                     </tr>
                 </table>

@@ -3,14 +3,12 @@
 {% if user.is_authenticated %}
 
 <ul id="smenu" class="smenu active">
-  <li>
-      <a>File</a>
-      <ul>
-          <li>
-              <div><a href="{% url 'NewProductionActual' %}" id="">New Production Actual<span></span></a></div>
-          </li>
-          <li><a id="loadpauidmenuoption">Open Production Actual</a></li>
-          <li><a id="edit-preferences">Preferences..</a></li>
+<li>
+    <a>File</a>
+    <ul>
+        <li><div><a href="{% url 'NewProductionActual' %}" id="">New Production Actual<span></span></a></div></li>
+        <li><div><a href="{% url 'OpenProductionActual' %}" id="">Open Production Actual<span></span></a></div></li>
+        <li><a id="edit-preferences">Preferences..</a></li>
           <li><a id="Reload">Reload (With out save)</a></li>
           <li><a id="Write">Write (Save all data)</a></li>
       </ul>

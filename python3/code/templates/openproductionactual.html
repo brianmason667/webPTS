@@ -1,0 +1,21 @@
+{% extends 'smenu.html' %}
+{% block title %}Open Production Actual{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<div class="modal-content">
+    <div>
+        <span></span>
+        <h3 class="modal-title">Select Production Actual to open.</h3>
+        
+        {% for ProductionActual in latest_pa_list %}
+        <li><a href="{% url 'ProductionActual' ProductionActual.id %}"> Line: {{ ProductionActual.assembly_line_number }} date: {{ ProductionActual.pa_date }} id: {{ ProductionActual.id }}</a></li>
+    {% endfor %}
+        
+      
+    </div>
+</div>
+{% else %}
+{% endif %}
+{% endblock %}
