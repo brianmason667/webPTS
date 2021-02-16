@@ -3,8 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.ProductionActualView, name='ProductionActual'),
-    path('new/', views.NewProductionActual, name='NewProductionActual'),
+    path('', views.BlankProductionActualView, name='BlankProductionActual'),
+    path('new/', views.NewProductionActualView, name='NewProductionActual'),
+    path('<uuid:pk>/', views.ProductionActualView, name="ProductionActual")
 ]
 
 
