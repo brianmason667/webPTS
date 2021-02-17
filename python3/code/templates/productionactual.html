@@ -33,7 +33,7 @@
                     <tr>
                         <td>Han-Cho:</td>
                         <td>
-                        {{ user.first_name }} {{ user.last_name }} {{ ProductionActual.first_name }} {{ ProductionActual.last_name }}
+                        {{ ProductionActual.user.first_name }} {{ ProductionActual.user.last_name }}
                         </td>
                     </tr>
                     <tr>
@@ -71,13 +71,13 @@
                         </tr>
                         <tr>
                             <td>Pcs/Per/Hour</td>
-                            <td><input style="" name="hour1input" value="<?php echo $hour1;?>" type="number"
+                            <td><input style="" name="hour1input" value="{{ hourly.Hour1 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour2input" value="<?php echo $hour2;?>" type="number"
+                            <td><input style="" name="hour2input" value="{{ hourly.Hour2 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour3input" value="<?php echo $hour3;?>" type="number"
+                            <td><input style="" name="hour3input" value="{{ hourly.Hour3 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour4input" value="<?php echo $hour4;?>" type="number"
+                            <td><input style="" name="hour4input" value="{{ hourly.Hour4 }}" type="number"
                                     placeholder="0"></td>
                             <td><input style="" name="hour5input" value="<?php echo $hour5;?>" type="number"
                                     placeholder="0"></td>
@@ -210,15 +210,9 @@
         </div>
     </div>
 </div>
-Line: {{ ProductionActual.assembly_line_number }} date: {{ ProductionActual.pa_date }} id: {{ ProductionActual.id }}
-{{ ProductionActualView.id }} <br> 
-{{ user.username }} <br> 
-{{ ProductionActual.id  }}<br> 
-date {{ ProductionActual.pa_date  }}<br> 
- line {{ ProductionActual.assembly_line_number  }}<br> 
-shift {{ ProductionActual.shift  }}<br> 
- user {{ ProductionActual.user  }}<br> 
-last name {{ user.last_name  }}<br> 
+Line: {{ ProductionActual.assembly_line_number }} date: {{ ProductionActual.pa_date }} id: {{ ProductionActual.id }}<br>
+hour1
+{{ hourly.Hour1 }}
 
 
 
