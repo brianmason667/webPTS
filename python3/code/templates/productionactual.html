@@ -71,29 +71,29 @@
                         </tr>
                         <tr>
                             <td>Pcs/Per/Hour</td>
-                            <td><input style="" name="hour1input" value="{{ hourly.Hour1 }}" type="number"
+                            <td><input style="min-width: 60px;" name="hour1input" value="{{ hourly.hour1 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour2input" value="{{ hourly.Hour2 }}" type="number"
+                            <td><input style="" name="hour2input" value="{{ hourly.hour2 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour3input" value="{{ hourly.Hour3 }}" type="number"
+                            <td><input style="" name="hour3input" value="{{ hourly.hour3 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour4input" value="{{ hourly.Hour4 }}" type="number"
+                            <td><input style="" name="hour4input" value="{{ hourly.hour4 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour5input" value="<?php echo $hour5;?>" type="number"
+                            <td><input style="" name="hour5input" value="{{ hourly.hour5 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour6input" value="<?php echo $hour6;?>" type="number"
+                            <td><input style="" name="hour6input" value="{{ hourly.hour6 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour7input" value="<?php echo $hour7;?>" type="number"
+                            <td><input style="" name="hour7input" value="{{ hourly.hour7 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour8input" value="<?php echo $hour8;?>" type="number"
+                            <td><input style="" name="hour8input" value="{{ hourly.hour8 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour9input" value="<?php echo $hour9;?>" type="number"
+                            <td><input style="" name="hour9input" value="{{ hourly.hour9 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour10input" value="<?php echo $hour10;?>" type="number"
+                            <td><input style="" name="hour10input" value="{{ hourly.hour10 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour11input" value="<?php echo $hour11;?>" type="number"
+                            <td><input style="" name="hour11input" value="{{ hourly.hour11 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour12input" value="<?php echo $hour12;?>" type="number"
+                            <td><input style="" name="hour12input" value="{{ hourly.hour12 }}" type="number"
                                     placeholder="0"></td>
                         </tr>
                         <tr>
@@ -211,8 +211,8 @@
     </div>
 </div>
 Line: {{ ProductionActual.assembly_line_number }} date: {{ ProductionActual.pa_date }} id: {{ ProductionActual.id }}<br>
-hour1
-{{ hourly.Hour1 }}
+hour1 {{ hourly.hour1 }}<br>
+base "hourly" output: {{ hourly }}
 
 
 

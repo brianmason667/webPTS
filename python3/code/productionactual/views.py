@@ -1,5 +1,6 @@
 import datetime
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -56,7 +57,11 @@ class OpenProductionActualView(generic.ListView):
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/ ## ex: an opened production actual
 def ProductionActualView(request, pk):
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    # Hourly_Count = get_object_or_404(Hourly, ProductionActual=ProductionActual.pk)
+    # Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    # Hourly_Count = Hourly.objects.get_or_create(ProductionActual=pk)
     context = {
         'ProductionActual': Production_Actual,
+        # 'hourly': Hourly_Count,
     }
     return render(request, "productionactual.html", context)

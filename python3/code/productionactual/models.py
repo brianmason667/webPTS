@@ -54,6 +54,8 @@ class Hourly(models.Model):
     hour10 = models.IntegerField(default=0)
     hour11 = models.IntegerField(default=0)
     hour12 = models.IntegerField(default=0)
+    def __str__(self):
+        return '{0}'.format(self.ProductionActual)
 
 class Machine(models.Model):
     AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
