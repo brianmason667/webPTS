@@ -8,16 +8,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-6_disable"></div> -->
             <!-- start of block1 div-->
-            <div name=block1 class="rounded-block"
-                style="width:450px; flex-grow:1; font-size:10px; text-align:left; ">
-                <h1
-                    style="margin-top:0px; padding:5px 15px; font-size:25px; color:rgba(0,0,0,.75); background-color:#ccc">
-                    Prodcution Actual Record</h1>
+            <div name=block1 class="block1 rounded-block"
+                style="">
+                <h1>Prodcution Actual Record</h1>
                 <br>
-                <table
-                    style="letter-spacing:2px; display:block; padding:8px; font-size:15px; width:100%; border-top: 2px solid #09c;">
+                <table>
                     <tr>
                         <td width="150px">Line#</td>
                         <td>
@@ -44,10 +41,10 @@
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="col-sm-6">
+        <!-- </div> -->
+        <!-- <div style="float: right;" class="col-sm-6_disable"> -->
             <!-- include block 2 datatable -->
-            <div name="block2" id="block2" class="block2 rounded-block center-text" style="padding:10px;">
+            <div name="block2" class="block2 rounded-block center-text">
 
 
                 <form id="hourly" action="main.php" method="post">
@@ -71,29 +68,29 @@
                         </tr>
                         <tr>
                             <td>Pcs/Per/Hour</td>
-                            <td><input style="min-width: 60px;" name="hour1input" value="{{ ProductionActual.hour1 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour1input" value="{{ hourly.hour1 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour2input" value="{{ hourly.hour2 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour2input" value="{{ hourly.hour2 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour3input" value="{{ hourly.hour3 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour3input" value="{{ hourly.hour3 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour4input" value="{{ hourly.hour4 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour4input" value="{{ hourly.hour4 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour5input" value="{{ hourly.hour5 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour5input" value="{{ hourly.hour5 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour6input" value="{{ hourly.hour6 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour6input" value="{{ hourly.hour6 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour7input" value="{{ hourly.hour7 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour7input" value="{{ hourly.hour7 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour8input" value="{{ hourly.hour8 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour8input" value="{{ hourly.hour8 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour9input" value="{{ hourly.hour9 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour9input" value="{{ hourly.hour9 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour10input" value="{{ hourly.hour10 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour10input" value="{{ hourly.hour10 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour11input" value="{{ hourly.hour11 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour11input" value="{{ hourly.hour11 }}" type="number"
                                     placeholder="0"></td>
-                            <td><input style="" name="hour12input" value="{{ hourly.hour12 }}" type="number"
+                            <td><input style="min-width: 54px;" name="hour12input" value="{{ hourly.hour12 }}" type="number"
                                     placeholder="0"></td>
                         </tr>
                         <tr>
@@ -118,7 +115,7 @@
 
                 <!-- form end tag required -->
             </div>
-        </div>
+        <!-- </div> -->
 
     </div>
     <div class="row">
