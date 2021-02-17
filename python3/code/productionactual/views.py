@@ -57,6 +57,6 @@ class OpenProductionActualView(generic.ListView):
 def ProductionActualView(request, pk):
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
     context = {
-        'ProductionActual': ProductionActual,
+        'ProductionActual': Production_Actual,
     }
     return render(request, "productionactual.html", context)
