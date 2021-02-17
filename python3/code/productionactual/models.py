@@ -41,7 +41,7 @@ class ProductionActual(models.Model):
         return '{0} // ({1}) // {2} // {3} // {4}'.format(self.id, self.pa_date, self.assembly_line_number, self.shift, self.user)
 
 class Hourly(models.Model):
-    ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
+    ProductionActual = models.ForeignKey(ProductionActual, primary_key=True, on_delete=models.CASCADE)
     hour1 = models.IntegerField(default=0)
     hour2 = models.IntegerField(default=0)
     hour3 = models.IntegerField(default=0)

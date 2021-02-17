@@ -26,6 +26,8 @@ def NewProductionActualView(request):
             newuuid = form.id
             newuuidstr = str(newuuid)
             baseurl = "/ProductionActual/"
+            # need to create hourly
+            create_hourly =  Hourly.objects.create(pk=newuuid)
             return HttpResponseRedirect(baseurl+newuuidstr)
     else:
         context ={}
@@ -57,11 +59,13 @@ class OpenProductionActualView(generic.ListView):
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/ ## ex: an opened production actual
 def ProductionActualView(request, pk):
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    # create_hourly =  Hourly.objects.create(pk=pk)
+    #Hourly_count = get_object_or_404(ProductionActual_id=pk)
     # Hourly_Count = get_object_or_404(Hourly, ProductionActual=ProductionActual.pk)
-    # Hourly_Count = Hourly.objects.get(ProductionActual=pk)
-    # Hourly_Count = Hourly.objects.get_or_create(ProductionActual=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    #Hourly_Count = Hourly.objects.get_or_create(Hourly, pk=pk)
     context = {
         'ProductionActual': Production_Actual,
-        # 'hourly': Hourly_Count,
+        'hourly': Hourly_Count,
     }
     return render(request, "productionactual.html", context)
