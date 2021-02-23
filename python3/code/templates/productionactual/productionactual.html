@@ -98,8 +98,8 @@
                             <td><input id="calchour12" type="number" value="{{ hourcalc.hour12calc }}" disabled></td>
                         </tr>
                     </table>
-                    <!-- <input type="submit" name="hourlyokbutton" value="OK" id="hourlyokbutton"> -->
-                    <input type="submit" value="Submit">
+                    <!-- below is a hidden button, this is required to update the hourly -->
+                    <input type="submit" value="Submit" style="display: none;">
                 </form>
 
 
@@ -109,7 +109,7 @@
 
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <!-- <div class="col-sm-12"> -->
             <!-- include block 3 datatable -->
             <div name="block3" class="rounded-block center-text">
                 <form>
@@ -193,7 +193,7 @@
                         </tr>
                     </table>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 </div>
 
