@@ -15,6 +15,16 @@ class NewProductionActualForm(forms.ModelForm):
             "shift",
         ]
 
+class NewProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = [
+            "AssemblyLine_ID",
+            "PartNumber",
+            "TeamMember",
+            "CycleTime",
+        ]
+
 class HourlyForm(forms.ModelForm):
     class Meta:
         model = Hourly
