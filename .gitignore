@@ -1,2 +1,7 @@
 mysql/save/
 mysql/init/
+python3/code/db.sqlite3
+python3/code/productionactual/__pycache__/forms.cpython-39.pyc
+python3/code/productionactual/__pycache__/models.cpython-39.pyc
+python3/code/productionactual/__pycache__/urls.cpython-39.pyc
+python3/code/productionactual/__pycache__/views.cpython-39.pyc
