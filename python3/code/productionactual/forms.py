@@ -32,3 +32,22 @@ class HourlyForm(forms.ModelForm):
             "hour11",
             "hour12",
         ]
+
+
+
+
+
+# class HourlyForm(forms.Form):
+#     hour1 = forms.IntegerField()
+#     hour2 = forms.IntegerField()
+#     hour3 = forms.IntegerField()
+#     hour4 = forms.IntegerField()
+#     hour5 = forms.IntegerField()
+#     hour6 = forms.IntegerField()
+#     hour7 = forms.IntegerField()
+#     hour8 = forms.IntegerField()
+#     hour9 = forms.IntegerField()
+#     hour10 = forms.IntegerField()
+#     hour11 = forms.IntegerField()
+#     hour12 = forms.IntegerField()
+   

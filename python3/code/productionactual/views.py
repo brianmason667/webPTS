@@ -10,7 +10,7 @@ from .models import *
 
 ## /ProductionActual ##
 def BlankProductionActualView(request):
-    return render(request, "productionactual.html", )
+    return render(request, "productionactual/index.html", )
 
 ## /ProductionActual/new/ ##
 def NewProductionActualView(request):
@@ -22,13 +22,14 @@ def NewProductionActualView(request):
             # set user that is logged in, to the user in the created production actual
             form.user = request.user    
             form.save()
-            # get the id of created, to go to that id as a url
-            newuuid = form.id
-            newuuidstr = str(newuuid)
-            baseurl = "/ProductionActual/"
+            ## get the id of created, to go to that id as a url
+            # newuuid = form.id
+            # newuuidstr = str(newuuid)
+            # baseurl = "/ProductionActual/"
             # need to create hourly
-            create_hourly =  Hourly.objects.create(pk=newuuid)
-            return HttpResponseRedirect(baseurl+newuuidstr)
+            create_hourly =  Hourly.objects.create(pk=str(form.id))
+            #return HttpResponseRedirect(baseurl+newuuidstr)
+            return HttpResponseRedirect("/ProductionActual/"+str(form.id))
     else:
         context ={}
         form = NewProductionActualForm()
@@ -40,13 +41,13 @@ def NewProductionActualView(request):
             form.save()
 
         context['form']= form
-        return render(request, "newproductionactual.html", context)
+        return render(request, "productionactual/newproductionactual.html", context)
 
 ## /ProductionActual/open ##
 # def OpenProductionActualView(request):
 #     return render(request, "openproductionactual.html")
 class OpenProductionActualView(generic.ListView):
-    template_name = 'openproductionactual.html'
+    template_name = 'productionactual/openproductionactual.html'
     context_object_name = 'latest_pa_list'
 
     def get_queryset(self):
@@ -58,8 +59,12 @@ class OpenProductionActualView(generic.ListView):
 
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/ ## ex: an opened production actual
 def ProductionActualView(request, pk):
+    # dict for inital data with field names as keys
+    context ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    context["ProductionActual"] = Production_Actual
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
     ## make hourly
     h1=int(Hourly_Count.hour1)
     h2=int(Hourly_Count.hour2)
@@ -100,6 +105,7 @@ def ProductionActualView(request, pk):
         'hour11calc': h11c,
         'hour12calc' : h12c
     }
+    context["hourcalc"] = hourly_calc
     sethour={
         'hour1': h1,
         'hour2': h2,
@@ -114,24 +120,23 @@ def ProductionActualView(request, pk):
         'hour11': h11,
         'hour12': h12,
         }
-    
-    # hourly_form = HourlyForm(initial=sethour)
-    hourly_form = HourlyForm1(request.POST) # ,
+    context["sethour"] = sethour
+    ## this shows the hourly, but dosent update
+    #hourly_form = HourlyForm(initial=sethour)
+    ## this updates the hourly, but wont show it
+    #hourly_form = HourlyForm(request.POST)
+    ## i hope this works. update, got it to work
+    hourly_form = HourlyForm(request.POST or None, initial=sethour)
     if hourly_form.is_valid():
         # not save until form.save()
         hourly_form = hourly_form.save(commit=False)
         # link the hourly object to the correct productionactual uuid
         hourly_form.ProductionActual_id = pk
         hourly_form.save()
-        
+        return HttpResponseRedirect("/ProductionActual/"+str(pk))
+    context["hourlyform"] = hourly_form
+    
     ## debug ouput
-    debug_out = sethour
-    context = {
-        'ProductionActual': Production_Actual,
-        'hourly': Hourly_Count,
-        'hourlyform': hourly_form,
-        'hourcalc': hourly_calc,
-        'debug_out': debug_out
-        
-    }
-    return render(request, "productionactual.html", context)
+    debug_out = "debug: "+ str(context)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/productionactual.html", context)

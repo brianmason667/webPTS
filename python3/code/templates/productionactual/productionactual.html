@@ -6,6 +6,7 @@
 {% if user.is_authenticated %}
 
 
+
 <div class="container">
     <div class="row">
         <!-- <div class="col-sm-6_disable"></div> -->
@@ -47,7 +48,7 @@
             <div name="block2" class="block2 rounded-block center-text">
 
 
-                <form id="hourly" action="main.php" method="post">
+                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}"" enctype="multipart/form-data"> {% csrf_token %}
                     <table style="boarder:1px;">
                         <tr>
                             <td>
@@ -68,48 +69,37 @@
                         </tr>
                         <tr>
                             <td>Pcs/Per/Hour</td>
-                            <td><input style="min-width: 54px;" name="hour1input" value="{{ hourly.hour1 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour2input" value="{{ hourly.hour2 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour3input" value="{{ hourly.hour3 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour4input" value="{{ hourly.hour4 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour5input" value="{{ hourly.hour5 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour6input" value="{{ hourly.hour6 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour7input" value="{{ hourly.hour7 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour8input" value="{{ hourly.hour8 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour9input" value="{{ hourly.hour9 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour10input" value="{{ hourly.hour10 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour11input" value="{{ hourly.hour11 }}" type="number"
-                                    placeholder="0"></td>
-                            <td><input style="min-width: 54px;" name="hour12input" value="{{ hourly.hour12 }}" type="number"
-                                    placeholder="0"></td>
+                            <td>{{ hourlyform.hour1 }}</td>
+                            <td>{{ hourlyform.hour2 }}</td>
+                            <td>{{ hourlyform.hour3 }}</td>
+                            <td>{{ hourlyform.hour4 }}</td>
+                            <td>{{ hourlyform.hour5 }}</td>
+                            <td>{{ hourlyform.hour6 }}</td>
+                            <td>{{ hourlyform.hour7 }}</td>
+                            <td>{{ hourlyform.hour8 }}</td>
+                            <td>{{ hourlyform.hour9 }}</td>
+                            <td>{{ hourlyform.hour10 }}</td>
+                            <td>{{ hourlyform.hour11 }}</td>
+                            <td>{{ hourlyform.hour12 }}</td>
                         </tr>
                         <tr>
                             <td>Cumulative Pcs.</td>
-                            <td><input id="calchour1" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour2" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour3" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour4" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour5" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour6" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour7" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour8" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour9" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour10" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour11" style="" type="number" placeholder="0" disabled></td>
-                            <td><input id="calchour12" style="" type="number" placeholder="0" disabled></td>
+                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td><input id="calchour2" type="number" value="{{ hourcalc.hour2calc }}" disabled></td>
+                            <td><input id="calchour3" type="number" value="{{ hourcalc.hour3calc }}" disabled></td>
+                            <td><input id="calchour4" type="number" value="{{ hourcalc.hour4calc }}" disabled></td>
+                            <td><input id="calchour5" type="number" value="{{ hourcalc.hour5calc }}" disabled></td>
+                            <td><input id="calchour6" type="number" value="{{ hourcalc.hour6calc }}" disabled></td>
+                            <td><input id="calchour7" type="number" value="{{ hourcalc.hour7calc }}" disabled></td>
+                            <td><input id="calchour8" type="number" value="{{ hourcalc.hour8calc }}" disabled></td>
+                            <td><input id="calchour9" type="number" value="{{ hourcalc.hour9calc }}" disabled></td>
+                            <td><input id="calchour10" type="number" value="{{ hourcalc.hour10calc }}" disabled></td>
+                            <td><input id="calchour11" type="number" value="{{ hourcalc.hour11calc }}" disabled></td>
+                            <td><input id="calchour12" type="number" value="{{ hourcalc.hour12calc }}" disabled></td>
                         </tr>
                     </table>
                     <!-- <input type="submit" name="hourlyokbutton" value="OK" id="hourlyokbutton"> -->
+                    <input type="submit" value="Submit">
                 </form>
 
 
@@ -201,19 +191,14 @@
                             <td><input type="text" placeholder="0"></td>
                             <td><input type="number" placeholder="0"></td>
                         </tr>
-
                     </table>
             </div>
         </div>
     </div>
 </div>
 
-{{ hourlyform.hour1 }} <br>
 
-<!-- base "hourlyform" output: <br> -->
-
-
-
+{{ debug_out }}
 {% else %}
 {% endif %}
 {% endblock %}

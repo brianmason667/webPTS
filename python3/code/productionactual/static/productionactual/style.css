@@ -237,7 +237,7 @@ table th {
 }
 
 td, th {
-   padding: 5px;
+   padding: 3px;
 }
 
 .block1{
@@ -261,6 +261,18 @@ td, th {
     padding:10px;
     width: 900px;
 }
+
+/* #id_hour1{
+    min-width: 54px;
+}
+
+#id_hour2{
+    min-width: 54px;
+}
+
+#id_hour3{
+    min-width: 54px;
+} */
 
 .rounded-block{
     /* background-color: #171616;  */
