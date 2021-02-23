@@ -14,6 +14,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('', lambda r: HttpResponseRedirect('ProductionActual/')),
     path('ProductionActual/', include('productionactual.urls')),
+    path('Charts/', include('charts.urls')),
     path('admin/', admin.site.urls),
     path('acc/', include('django.contrib.auth.urls')),
     path('catalog/', include('catalog.urls')),
