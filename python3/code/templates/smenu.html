@@ -408,13 +408,8 @@
     <a href="{% url 'login' %}"><input type="submit" class="login-button" value="login"></a>
     <p class="link">You are not logged in</p>
     
-    <a href="{% url 'login' %}"><input type="submit" class="login-button" value="register"></a>
+    <a href="{% url 'register' %}"><input type="submit" class="login-button" value="register"></a>
     <p class="link">Don't have an account? <br>
-    <a href="{% url 'password_reset' %}"><input type="submit" class="login-button" value="Reset Password"></a>
-    {# Assumes you setup the password_reset view in your URLconf #}
-    <p class="link">Forget password again? <br>
-
-
 
 {% endif %}
 

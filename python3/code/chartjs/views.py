@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 # Create your views here.
 
-
 # from django.http import JsonResponse 
    
 from django.shortcuts import render 
@@ -13,7 +12,7 @@ from rest_framework.response import Response
    
 class HomeView(View): 
     def get(self, request, *args, **kwargs): 
-        return render(request, 'charts/index.html') 
+        return render(request, 'chartjs/index.html') 
    
    
 #################################################### 

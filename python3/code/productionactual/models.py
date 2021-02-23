@@ -102,7 +102,7 @@ class Defect(models.Model):
 
 class DefectInstance(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
-    production_run = models.ForeignKey(Run, on_delete=models.CASCADE)
+    production_run = models.ForeignKey(Run, default=1, on_delete=models.CASCADE)
     defect = models.ForeignKey(Defect, on_delete=models.CASCADE)
     defect_quanity = models.IntegerField(default=1)
 
@@ -119,7 +119,7 @@ class Downtime(models.Model):
 
 class DowntimeInstance(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
-    production_run = models.ForeignKey(Run, on_delete=models.CASCADE)
+    production_run = models.ForeignKey(Run,default=1, on_delete=models.CASCADE)
     downtime = models.ForeignKey(Downtime, on_delete=models.CASCADE)
     recovery_time = models.FloatField(max_length=7, help_text="how long of downtime")
     occurrence_multiplier = models.IntegerField(default=1, help_text="how many times did this happen")

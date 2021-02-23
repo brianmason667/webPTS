@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'charts',
+    'acc',
+    'chartjs',
     'rest_framework',
     'productionactual.apps.ProductionactualConfig',
     'catalog.apps.CatalogConfig',
