@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'charts',
+    'rest_framework',
     'productionactual.apps.ProductionactualConfig',
     'catalog.apps.CatalogConfig',
     'django.contrib.admin',
