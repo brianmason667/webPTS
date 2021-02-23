@@ -43,6 +43,37 @@ def NewProductionActualView(request):
         context['form']= form
         return render(request, "productionactual/newproductionactual.html", context)
 
+## /ProductionActual/newproduct/ ##
+def NewProductView(request):
+    if request.method == 'POST':
+        form = NewProductForm(request.POST)
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set user that is logged in, to the user in the created production actual
+            #form.user = request.user    
+            form.save()
+            ## get the id of created, to go to that id as a url
+            # newuuid = form.id
+            # newuuidstr = str(newuuid)
+            # baseurl = "/ProductionActual/"
+            # need to create hourly
+            #create_hourly =  Hourly.objects.create(pk=str(form.id))
+            #return HttpResponseRedirect(baseurl+newuuidstr)
+            return HttpResponseRedirect("/ProductionActual/")
+    else:
+        context ={}
+        form = NewProductForm()
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set user that is logged in to the form user
+            #form.user = request.user    
+            form.save()
+
+        context['form']= form
+        return render(request, "productionactual/newproduct.html", context)
+
 ## /ProductionActual/open ##
 # def OpenProductionActualView(request):
 #     return render(request, "openproductionactual.html")
