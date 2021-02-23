@@ -57,6 +57,32 @@ class Hourly(models.Model):
     def __str__(self):
         return '{0}'.format(self.ProductionActual)
 
+class Run(models.Model):
+    ProductionActual = models.ForeignKey(ProductionActual, primary_key=True, on_delete=models.CASCADE)
+    run_num = models.IntegerField(default=0)
+    partal_start = models.IntegerField(default=0)
+    partal_end = models.IntegerField(default=0)
+    finished_goods = models.IntegerField(default=0)
+    kanban_count = models.IntegerField(default=0)
+    product_number = models.ForeignKey(Product, on_delete=models.CASCADE)
+    start_time = models.IntegerField(default=0)
+    finish_time = models.IntegerField(default=0)
+    plan_down_time = models.IntegerField(default=0)
+    net_ope_time = models.IntegerField(default=0)
+    plan_quanity = models.IntegerField(default=0)
+    result_quanity = models.IntegerField(default=0)
+    scrap_quanity = models.IntegerField(default=0)
+    repair_quanity = models.IntegerField(default=0)
+    analysis_quanity = models.IntegerField(default=0)
+    quarantine_quanity = models.IntegerField(default=0)
+    cabbage_patch_quanity = models.IntegerField(default=0)
+    unplan_downtime = models.IntegerField(default=0)
+    standard_time = models.IntegerField(default=0)
+    oa = models.IntegerField(default=0)
+    oa_without_downtime = models.IntegerField(default=0)
+    def __str__(self):
+        return self.ProductionActual
+
 class Machine(models.Model):
     AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     machine_name = models.CharField(max_length=40)
@@ -76,6 +102,7 @@ class Defect(models.Model):
 
 class DefectInstance(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
+    production_run = models.ForeignKey(Run, on_delete=models.CASCADE)
     defect = models.ForeignKey(Defect, on_delete=models.CASCADE)
     defect_quanity = models.IntegerField(default=1)
 
@@ -92,6 +119,7 @@ class Downtime(models.Model):
 
 class DowntimeInstance(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
+    production_run = models.ForeignKey(Run, on_delete=models.CASCADE)
     downtime = models.ForeignKey(Downtime, on_delete=models.CASCADE)
     recovery_time = models.FloatField(max_length=7, help_text="how long of downtime")
     occurrence_multiplier = models.IntegerField(default=1, help_text="how many times did this happen")
