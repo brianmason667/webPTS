@@ -67,7 +67,13 @@
       <a>{{ user.username }}</a>
       <ul>
           <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
-          <li><a href="/admin" id="admin">admin</a></li>
+          {% if user.is_superuser %}
+          <li><a href="/admin" id="admin">django admin</a></li>
+          {% endif %}
+          {% if user.is_staff %}
+          <li><div><a href="{% url 'NewProduct' %}" id="">Add Product<span></span></a></div></li>
+          {% endif %}
+
       </ul>
   </li>
 
