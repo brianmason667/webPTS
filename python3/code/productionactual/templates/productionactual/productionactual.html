@@ -139,6 +139,7 @@
                             <th>OA</th>
                             <th>OA w/o Downtime</th>
                         </tr>
+                        {% if run1form.number %}
                         <tr>
                             <td>{{ run1form.number }}</td>
                             <td>{{ run1form.partal_start }}</td>
@@ -164,8 +165,9 @@
                             <td><input type="text" placeholder="0"></td>
                             <td><input type="number" placeholder="0"></td>
                         </tr>
-
-                        <tr>
+                        {% else %}{% endif %}
+                        {% if run2form.number %}
+                         <tr>
                             <td>{{ run2form.number }}</td>
                             <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
                             <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
@@ -190,7 +192,8 @@
                             <td><input type="text" placeholder="0"></td>
                             <td><input type="number" placeholder="0"></td>
                         </tr>
-
+                            {% else %}{% endif %}
+                            {% if run3form.number %}
                         <tr>
                             <td>{{ run3form.number }}</td>
                             <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
@@ -216,6 +219,7 @@
                             <td><input type="text" placeholder="0"></td>
                             <td><input type="number" placeholder="0"></td>
                         </tr>
+                            {% else %}{% endif %}
                     </table>
             </div>
         <!-- </div> -->
