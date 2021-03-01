@@ -16,7 +16,9 @@
   <li>
       <a>Production</a>
       <ul>
-          <li><a id="edit-run">Add/Edit Run<span></span></a></li>
+            {% if ProductionActual.id %}
+          <li><a href="{% url 'ProductionActual' ProductionActual.id %}" id="">View Production Actual<span></span></a></li>
+            {% else %}{% endif %}
           <li><a id="edit-redo"> <span></span></a></li>
           <li class="split"></li>
           <li><a class="image" id="edit-stroke">Stroke..</a></li>
@@ -27,7 +29,9 @@
   <li>
       <a>Downtime</a>
       <ul>
-          <li><a href="./LostTime" id="">View Lost Time</a></li>
+            {% if ProductionActual.id %}
+          <li><a href="{% url 'LostTime' ProductionActual.id %}" id="">View Lost Time</a></li>
+            {% else %}{% endif %}
           <li><a id="downtimemenuoption">Add/Edit Downtime</a></li>
           <li><a id="fcode-request">New Fcode request</a></li>
           <li class="split"></li>
