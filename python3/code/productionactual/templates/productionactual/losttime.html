@@ -1,0 +1,182 @@
+{% extends 'smenu.html' %}
+{% block title %}Open Production Actual{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<div class="modal-content">
+    <div>
+        <span></span>
+        <h3 class="modal-title">Lost time tracking</h3>
+
+
+        <table>
+            <tbody>
+                <thead>
+                    <td>Hour</td>
+                    <td>Quanity Produced</td>
+                    <td>Cycle Time</td>
+                    <td>Planned Down Time</td>
+                    <td>Unplanned Down Time</td>
+                    <td>Lost Time</td>
+                    <td>Standard Time</td>
+                    <td>OA</td>
+                    <td>100%</td>
+                    <td>85%</td>
+                </thead>
+                <tr>
+                    <td>1</td>
+                    <td>{{ sethour.hour1 }}</td>
+                    <td>{{ cycle_time.cycle_time1 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime1 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>{{ sethour.hour2 }}</td>
+                    <td>{{ cycle_time.cycle_time2 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime2 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>{{ sethour.hour3 }}</td>
+                    <td>{{ cycle_time.cycle_time3 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime3 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>{{ sethour.hour4 }}</td>
+                    <td>{{ cycle_time.cycle_time4 }}</td>                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime4 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>{{ sethour.hour5 }}</td>
+                    <td>{{ cycle_time.cycle_time5 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime5 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>{{ sethour.hour6 }}</td>
+                    <td>{{ cycle_time.cycle_time6 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime6 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>{{ sethour.hour7 }}</td>
+                    <td>{{ cycle_time.cycle_time7 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime7 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>{{ sethour.hour8 }}</td>
+                    <td>{{ cycle_time.cycle_time8 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime8 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>{{ sethour.hour9 }}</td>
+                    <td>{{ cycle_time.cycle_time9 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime9 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>{{ sethour.hour10 }}</td>
+                    <td>{{ cycle_time.cycle_time10 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime10 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>{{ sethour.hour11 }}</td>
+                    <td>{{ cycle_time.cycle_time11 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime11 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr><td>12</td>
+                    <td>{{ sethour.hour12 }}</td>
+                    <td>{{ cycle_time.cycle_time12 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ StandardTime.StandardTime12 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+      
+    </div>
+</div>
+
+{{ debug_out }}
+{% else %}
+{% endif %}
+{% endblock %}
