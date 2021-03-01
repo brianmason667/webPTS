@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.constraints import CheckConstraint
+from django.db.models.query_utils import Q
 from django.utils import timezone
 from django.contrib.auth.models import User
 import uuid  # Required for unique production actual instances
@@ -59,14 +61,14 @@ class Hourly(models.Model):
 
 class Run(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
-    run_num = models.IntegerField(default=0)
-    partal_start = models.IntegerField(default=0)
-    partal_end = models.IntegerField(default=0)
-    finished_goods = models.IntegerField(default=0)
-    kanban_count = models.IntegerField(default=0)
+    number = models.IntegerField(default=0, help_text="Run Number")
+    partal_start = models.IntegerField(default=0, help_text="Start Partal quanity")
+    partal_end = models.IntegerField(default=0, help_text="End Partal quanity")
+    finished_goods = models.IntegerField(default=0, help_text="How many totes completed")
+    kanban_count = models.IntegerField(default=0, help_text="How many Kanbans in post for current shift")
     product_number = models.ForeignKey(Product, on_delete=models.CASCADE)
-    start_time = models.IntegerField(default=0)
-    finish_time = models.IntegerField(default=0)
+    start_time = models.TimeField()
+    finish_time = models.TimeField()
     plan_down_time = models.IntegerField(default=0)
     net_ope_time = models.IntegerField(default=0)
     plan_quanity = models.IntegerField(default=0)
@@ -80,8 +82,26 @@ class Run(models.Model):
     standard_time = models.IntegerField(default=0)
     oa = models.IntegerField(default=0)
     oa_without_downtime = models.IntegerField(default=0)
+    class Meta:
+            constraints = [
+                models.UniqueConstraint(
+                    fields=['ProductionActual', 'number'], 
+                    name='unique number'
+                )
+            ]
+            
     def __str__(self):
-        return self.ProductionActual
+        return 'Run: {0} + {1} '.format(self.number, self.ProductionActual)
+        #return self.ProductionActual
+
+    ## origional run constraints
+    # class Meta:
+    #         constraints = [
+    #             models.UniqueConstraint(
+    #                 fields=['ProductionActual', 'number'], 
+    #                 name='unique number'
+    #             )
+    #         ]
 
 class Machine(models.Model):
     AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)

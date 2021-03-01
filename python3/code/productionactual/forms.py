@@ -43,21 +43,29 @@ class HourlyForm(forms.ModelForm):
             "hour12",
         ]
 
-
-
-
-
-# class HourlyForm(forms.Form):
-#     hour1 = forms.IntegerField()
-#     hour2 = forms.IntegerField()
-#     hour3 = forms.IntegerField()
-#     hour4 = forms.IntegerField()
-#     hour5 = forms.IntegerField()
-#     hour6 = forms.IntegerField()
-#     hour7 = forms.IntegerField()
-#     hour8 = forms.IntegerField()
-#     hour9 = forms.IntegerField()
-#     hour10 = forms.IntegerField()
-#     hour11 = forms.IntegerField()
-#     hour12 = forms.IntegerField()
-   
+class RunForm(forms.ModelForm):
+    class Meta:
+        model = Run
+        fields = [
+            "number",
+            "partal_start",
+            "partal_end",
+            "finished_goods",
+            "kanban_count",
+            "product_number",
+            "start_time",
+            "finish_time",
+            "plan_down_time",
+            "net_ope_time",
+            "plan_quanity",
+            "result_quanity",
+            "scrap_quanity",
+            "repair_quanity",
+            "analysis_quanity",
+            "quarantine_quanity",
+            "cabbage_patch_quanity",
+            "unplan_downtime",
+            "standard_time",
+            "oa",
+            "oa_without_downtime",
+        ]

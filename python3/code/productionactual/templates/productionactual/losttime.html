@@ -1,5 +1,5 @@
 {% extends 'smenu.html' %}
-{% block title %}Open Production Actual{% endblock %}
+{% block title %}Hourly Lost Time Tracking{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
 
@@ -7,7 +7,7 @@
 <div class="modal-content">
     <div>
         <span></span>
-        <h3 class="modal-title">Lost time tracking</h3>
+        <h3 class="modal-title">Hourly Lost time tracking</h3>
 
 
         <table>
@@ -28,145 +28,146 @@
                     <td>1</td>
                     <td>{{ sethour.hour1 }}</td>
                     <td>{{ cycle_time.cycle_time1 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime1 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime1 }}</td>
+                    <td>{{ LostTime.LostTime1 }}</td>
                     <td>{{ StandardTime.StandardTime1 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa1 }}</td>
+                    <td>{{ oneh.1 }}</td>
+                    <td>{{ eightyfive.1 }}</td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>{{ sethour.hour2 }}</td>
                     <td>{{ cycle_time.cycle_time2 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime2 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime2 }}</td>
+                    <td>{{ LostTime.LostTime2 }}</td>
                     <td>{{ StandardTime.StandardTime2 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa2 }}</td>
+                    <td>{{ oneh.2 }}</td>
+                    <td>{{ eightyfive.2 }}</td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>{{ sethour.hour3 }}</td>
                     <td>{{ cycle_time.cycle_time3 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime3 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime3 }}</td>
+                    <td>{{ LostTime.LostTime3 }}</td>
                     <td>{{ StandardTime.StandardTime3 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa3 }}</td>
+                    <td>{{ oneh.3 }}</td>
+                    <td>{{ eightyfive.3 }}</td>
                 </tr>
                 <tr>
                     <td>4</td>
                     <td>{{ sethour.hour4 }}</td>
                     <td>{{ cycle_time.cycle_time4 }}</td>                    
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime4 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime4 }}</td>
+                    <td>{{ LostTime.LostTime4 }}</td>
                     <td>{{ StandardTime.StandardTime4 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa4 }}</td>
+                    <td>{{ oneh.4 }}</td>
+                    <td>{{ eightyfive.4 }}</td>
 
                 </tr>
                 <tr>
                     <td>5</td>
                     <td>{{ sethour.hour5 }}</td>
                     <td>{{ cycle_time.cycle_time5 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime5 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime5 }}</td>
+                    <td>{{ LostTime.LostTime5 }}</td>
                     <td>{{ StandardTime.StandardTime5 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa5 }}</td>
+                    <td>{{ oneh.5 }}</td>
+                    <td>{{ eightyfive.5 }}</td>
                 </tr>
                 <tr>
                     <td>6</td>
                     <td>{{ sethour.hour6 }}</td>
                     <td>{{ cycle_time.cycle_time6 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime6 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime6 }}</td>
+                    <td>{{ LostTime.LostTime6 }}</td>
                     <td>{{ StandardTime.StandardTime6 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa6 }}</td>
+                    <td>{{ oneh.6 }}</td>
+                    <td>{{ eightyfive.6 }}</td>
                 </tr>
                 <tr>
                     <td>7</td>
                     <td>{{ sethour.hour7 }}</td>
                     <td>{{ cycle_time.cycle_time7 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime7 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime7 }}</td>
+                    <td>{{ LostTime.LostTime7 }}</td>
                     <td>{{ StandardTime.StandardTime7 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa7 }}</td>
+                    <td>{{ oneh.7 }}</td>
+                    <td>{{ eightyfive.7 }}</td>
                 </tr>
                 <tr>
                     <td>8</td>
                     <td>{{ sethour.hour8 }}</td>
                     <td>{{ cycle_time.cycle_time8 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime8 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime8 }}</td>
+                    <td>{{ LostTime.LostTime8 }}</td>
                     <td>{{ StandardTime.StandardTime8 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa8 }}</td>
+                    <td>{{ oneh.8 }}</td>
+                    <td>{{ eightyfive.8 }}</td>
                 </tr>
                 <tr>
                     <td>9</td>
                     <td>{{ sethour.hour9 }}</td>
                     <td>{{ cycle_time.cycle_time9 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime9 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime9 }}</td>
+                    <td>{{ LostTime.LostTime9 }}</td>
                     <td>{{ StandardTime.StandardTime9 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa9 }}</td>
+                    <td>{{ oneh.9 }}</td>
+                    <td>{{ eightyfive.9 }}</td>
                 </tr>
                 <tr>
                     <td>10</td>
                     <td>{{ sethour.hour10 }}</td>
                     <td>{{ cycle_time.cycle_time10 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime10 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime10 }}</td>
+                    <td>{{ LostTime.LostTime10 }}</td>
                     <td>{{ StandardTime.StandardTime10 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa10 }}</td>
+                    <td>{{ oneh.10 }}</td>
+                    <td>{{ eightyfive.10 }}</td>
                 </tr>
                 <tr>
                     <td>11</td>
                     <td>{{ sethour.hour11 }}</td>
                     <td>{{ cycle_time.cycle_time11 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime11 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime11 }}</td>
+                    <td>{{ LostTime.LostTime11 }}</td>
                     <td>{{ StandardTime.StandardTime11 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa11 }}</td>
+                    <td>{{ oneh.11 }}</td>
+                    <td>{{ eightyfive.11 }}</td>
                 </tr>
-                <tr><td>12</td>
+                <tr>
+                    <td>12</td>
                     <td>{{ sethour.hour12 }}</td>
                     <td>{{ cycle_time.cycle_time12 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ PlannedDowntime.PlannedDownTime12 }}</td>
+                    <td>{{ UnPlannedDowntime.UnPlannedDownTime12 }}</td>
+                    <td>{{ LostTime.LostTime12 }}</td>
                     <td>{{ StandardTime.StandardTime12 }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ oa.oa12 }}</td>
+                    <td>{{ oneh.12 }}</td>
+                    <td>{{ eightyfive.12 }}</td>
                 </tr>
             </tbody>
         </table>

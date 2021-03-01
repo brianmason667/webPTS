@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django.contrib import admin
 
-from .models import (AssemblyLine, ProductionActual, Product, Department, Hourly, Machine, Defect, Downtime, Shift, DefectInstance, DowntimeInstance)
+from .models import (AssemblyLine, ProductionActual, Product, Department, Hourly, Machine, Defect, Downtime, Shift, DefectInstance, DowntimeInstance, Run)
 
 
 class hourlyInline(admin.TabularInline):
@@ -19,3 +19,4 @@ admin.site.register(Product)
 admin.site.register(Shift)
 admin.site.register(DefectInstance)
 admin.site.register(DowntimeInstance)
+admin.site.register(Run)

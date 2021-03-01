@@ -1,5 +1,6 @@
 import datetime
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models.fields import CommaSeparatedIntegerField
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -92,10 +93,12 @@ class OpenProductionActualView(generic.ListView):
 def ProductionActualView(request, pk):
     # dict for inital data with field names as keys
     context ={}
+    dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
     context["ProductionActual"] = Production_Actual
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
     context["hourly"] = Hourly_Count
+
     ## make hourly
     h1=int(Hourly_Count.hour1)
     h2=int(Hourly_Count.hour2)
@@ -152,11 +155,7 @@ def ProductionActualView(request, pk):
         'hour12': h12,
         }
     context["sethour"] = sethour
-    ## this shows the hourly, but dosent update
-    #hourly_form = HourlyForm(initial=sethour)
-    ## this updates the hourly, but wont show it
-    #hourly_form = HourlyForm(request.POST)
-    ## i hope this works. update, got it to work
+
     hourly_form = HourlyForm(request.POST or None, initial=sethour)
     if hourly_form.is_valid():
         # not save until form.save()
@@ -166,11 +165,135 @@ def ProductionActualView(request, pk):
         hourly_form.save()
         return HttpResponseRedirect("/ProductionActual/"+str(pk))
     context["hourlyform"] = hourly_form
+
+    ## make runs
+    # get runs for single production actual
+    ProductionRunAll = Run.objects.filter(ProductionActual=pk)
     
-    ## debug ouput
-    debug_out = "debug: "+ str(context)
+    # split by run number
+    # run 1
+    RunFilter = ProductionRunAll.filter(number=1)
+    Run1filter = RunFilter[0]
+    # example of how done before
+    #h1=int(Hourly_Count.hour1)
+    Run1_number=int(Run1filter.number)
+    Run1_partal_start = int(Run1filter.partal_start)
+    Run1_partal_end = int(Run1filter.partal_end)
+    Run1_finnished_goods = int(Run1filter.finished_goods)
+    Run1_kanban_count = int(Run1filter.kanban_count)
+    # this dont work
+    Run1_product_number = str(Run1filter.product_number)
+
+    setrun1={
+        'number': Run1_number,
+        'partal_start': Run1_partal_start,
+        'partal_end': Run1_partal_end,
+        'finished_goods': Run1_finnished_goods,
+        'kanban_count': Run1_kanban_count,
+        'product_number': Run1_product_number,
+        'hour7': h7,
+        'hour8': h8,
+        'hour9': h9,
+        'hour10': h10,
+        'hour11': h11,
+        'hour12': h12,
+        }
+
+    # run 2
+    RunFilter = ProductionRunAll.filter(number=2)
+    Run2filter = RunFilter[0]
+    # example of how done before
+    #h1=int(Hourly_Count.hour1)
+    Run2_number=int(Run2filter.number)
+
+
+    setrun2={
+        'number': Run2_number,
+        'partal_start': h2,
+        'hour3': h3,
+        'hour4': h4,
+        'hour5': h5,
+        'hour6': h6,
+        'hour7': h7,
+        'hour8': h8,
+        'hour9': h9,
+        'hour10': h10,
+        'hour11': h11,
+        'hour12': h12,
+        }
+
+    # run 3
+    RunFilter = ProductionRunAll.filter(number=3)
+    Run3filter = RunFilter[0]
+    # example of how done before
+    #h1=int(Hourly_Count.hour1)
+    Run3_number=int(Run3filter.number)
+
+
+    setrun3={
+        'number': Run3_number,
+        'partal_start': h2,
+        'hour3': h3,
+        'hour4': h4,
+        'hour5': h5,
+        'hour6': h6,
+        'hour7': h7,
+        'hour8': h8,
+        'hour9': h9,
+        'hour10': h10,
+        'hour11': h11,
+        'hour12': h12,
+        }
+
+    run1_form = RunForm(request.POST or None, initial=setrun1)
+    if run1_form.is_valid():
+        # not save until form.save()
+        run1_form = run1_form.save(commit=False)
+        # link the run object to the correct productionactual uuid
+        run1_form.ProductionActual_id = pk
+        run1_form.save()
+        return HttpResponseRedirect("/ProductionActual/"+str(pk))
+    context["run1form"] = run1_form
+
+    run2_form = RunForm(request.POST or None, initial=setrun2)
+    if run2_form.is_valid():
+        # not save until form.save()
+        run2_form = run2_form.save(commit=False)
+        # link the run object to the correct productionactual uuid
+        run2_form.ProductionActual_id = pk
+        run2_form.save()
+        return HttpResponseRedirect("/ProductionActual/"+str(pk))
+    context["run2form"] = run2_form
+
+    run3_form = RunForm(request.POST or None, initial=setrun3)
+    if run3_form.is_valid():
+        # not save until form.save()
+        run3_form = run3_form.save(commit=False)
+        # link the run object to the correct productionactual uuid
+        run3_form.ProductionActual_id = pk
+        run3_form.save()
+        return HttpResponseRedirect("/ProductionActual/"+str(pk))
+    context["run3form"] = run3_form
+
+    ## add things to debug ouput
+    dbgcontext["query_set"] = type(RunFilter)
+    dbgcontext["run"] = type(Run1_number)
+    dbgcontext["hourly_count"] = type(Hourly_Count)
+    
+    # everything that goes to context goes into debug
+    #dbgcontext = context
+
+    debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/productionactual.html", context)
+
+##################################################
+
+##################################################
+
+##################################################
+
+##################################################
 
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/LostTime ## ex: lost time for an opened production actual
 def LostTimeView(request, pk):
@@ -241,7 +364,7 @@ def LostTimeView(request, pk):
     ct1 = 5
     ct2 = 5
     ct3 = 5
-    ct4 = 4.5
+    ct4 = 5
     ct5 = 5
     ct6 = 5
     ct7 = 5
@@ -298,15 +421,206 @@ def LostTimeView(request, pk):
     }
     context["StandardTime"] = StandardTime
 
+    # define vars for planned downtime
+
+    pdt1 = 8
+    pdt2 = 0
+    pdt3 = 18
+    pdt4 = 0
+    pdt5 = 33
+    pdt6 = 0
+    pdt7 = 18
+    pdt8 = 0
+    pdt9 = 18
+    pdt10 = 8
+    pdt11 = 0
+    pdt12 = 0
+
+    PlannedDownTime ={
+        'PlannedDownTime1': pdt1,
+        'PlannedDownTime2': pdt2,
+        'PlannedDownTime3': pdt3,
+        'PlannedDownTime4': pdt4,
+        'PlannedDownTime5': pdt5,
+        'PlannedDownTime6': pdt6,
+        'PlannedDownTime7': pdt7,
+        'PlannedDownTime8': pdt8,
+        'PlannedDownTime9': pdt9,
+        'PlannedDownTime10': pdt10,
+        'PlannedDownTime11': pdt11,
+        'PlannedDownTime12': pdt12,
+    }
+    context["PlannedDowntime"] = PlannedDownTime
+
+    # define vars for unplanned downtime
+
+    updt1 = 8
+    updt2 = 3
+    updt3 = 4
+    updt4 = 5
+    updt5 = 6
+    updt6 = 7
+    updt7 = 10
+    updt8 = 3
+    updt9 = 4
+    updt10 = 8
+    updt11 = 0
+    updt12 = 0
+
+    UnPlannedDownTime ={
+        'UnPlannedDownTime1': updt1,
+        'UnPlannedDownTime2': updt2,
+        'UnPlannedDownTime3': updt3,
+        'UnPlannedDownTime4': updt4,
+        'UnPlannedDownTime5': updt5,
+        'UnPlannedDownTime6': updt6,
+        'UnPlannedDownTime7': updt7,
+        'UnPlannedDownTime8': updt8,
+        'UnPlannedDownTime9': updt9,
+        'UnPlannedDownTime10': pdt10,
+        'UnPlannedDownTime11': pdt11,
+        'UnPlannedDownTime12': pdt12,
+    }
+    context["UnPlannedDowntime"] = UnPlannedDownTime
+
     ## Lost time is Planned Down Time + UnPlanned Down Time + Standard time ) minus the time (60minutes)
+
+    lt1 = pdt1 + updt1 + st1 - 60
+    lt2 = pdt2 + updt2 + st2 - 60
+    lt3 = pdt3 + updt3 + st3 - 60
+    lt4 = pdt4 + updt4 + st4 - 60
+    lt5 = pdt5 + updt5 + st5 - 60
+    lt6 = pdt6 + updt6 + st6 - 60
+    lt7 = pdt7 + updt7 + st7 - 60
+    lt8 = pdt8 + updt8 + st8 - 60
+    lt9 = pdt9 + updt9 + st9 - 60
+    lt10 = pdt10 + updt10 + st10 - 60
+    lt11 = pdt11 + updt11 + st11 - 60
+    lt12 = pdt12 + updt12 + st12 - 60
+
+    LostTime ={
+            'LostTime1': lt1,
+            'LostTime2': lt2,
+            'LostTime3': lt3,
+            'LostTime4': lt4,
+            'LostTime5': lt5,
+            'LostTime6': lt6,
+            'LostTime7': lt7,
+            'LostTime8': lt8,
+            'LostTime9': lt9,
+            'LostTime10': lt10,
+            'LostTime11': lt11,
+            'LostTime12': lt12,
+        }
+    context["LostTime"] = LostTime
 
     ## net operation is the hour minutes minus any planned Downtime, this is needed to calculate OA,100% and 85%
 
+    netop1 = 60 - pdt1
+    netop2 = 60 - pdt2
+    netop3 = 60 - pdt3
+    netop4 = 60 - pdt4
+    netop5 = 60 - pdt5
+    netop6 = 60 - pdt6
+    netop7 = 60 - pdt7
+    netop8 = 60 - pdt8
+    netop9 = 60 - pdt9
+    netop10 = 60 - pdt10
+    netop11 = 60 - pdt11
+    netop12 = 60 - pdt12
+
     ## OA is standard time divided by the net operation
+
+    oa1 = str("{:.3g}".format(st1 / netop1 * 100)) + "%"
+    oa2 = str("{:.3g}".format(st2 / netop2 * 100)) + "%"
+    oa3 = str("{:.3g}".format(st3 / netop3 * 100)) + "%"
+    oa4 = str("{:.3g}".format(st4 / netop4 * 100)) + "%"
+    oa5 = str("{:.3g}".format(st5 / netop5 * 100)) + "%"
+    oa6 = str("{:.3g}".format(st6 / netop6 * 100)) + "%"
+    oa7 = str("{:.3g}".format(st7 / netop7 * 100)) + "%"
+    oa8 = str("{:.3g}".format(st8 / netop8 * 100)) + "%"
+    oa9 = str("{:.3g}".format(st9 / netop9 * 100)) + "%"
+    oa10 = str("{:.3g}".format(st10 /netop10 * 100)) + "%"
+    oa11 = str("{:.3g}".format(st11 / netop11 * 100)) + "%"
+    oa12 = str("{:.3g}".format(st12 / netop12 * 100)) + "%"
+
+    oa ={
+            'oa1': oa1,
+            'oa2': oa2,
+            'oa3': oa3,
+            'oa4': oa4,
+            'oa5': oa5,
+            'oa6': oa6,
+            'oa7': oa7,
+            'oa8': oa8,
+            'oa9': oa9,
+            'oa10': oa10,
+            'oa11': oa11,
+            'oa12': oa12,
+        }
+    context["oa"] = oa
 
     ## 100% is time60 / cycletime) times ( net operation )
 
+    oneh1 = round(60 / ct1 * netop1)
+    oneh2 = round(60 / ct2 * netop2)
+    oneh3 = round(60 / ct3 * netop3)
+    oneh4 = round(60 / ct4 * netop4)
+    oneh5 = round(60 / ct5 * netop5)
+    oneh6 = round(60 / ct5 * netop6)
+    oneh7 = round(60 / ct7 * netop7)
+    oneh8 = round(60 / ct8 * netop8)
+    oneh9 = round(60 / ct9 * netop9)
+    oneh10 = round(60 / ct10 * netop10)
+    oneh11 = round(60 / ct11 * netop11)
+    oneh12 = round(60 / ct12 * netop12)
+
+    oneh ={
+            '1': oneh1,
+            '2': oneh2,
+            '3': oneh3,
+            '4': oneh4,
+            '5': oneh5,
+            '6': oneh6,
+            '7': oneh7,
+            '8': oneh8,
+            '9': oneh9,
+            '10': oneh10,
+            '11': oneh11,
+            '12': oneh12,
+        }
+    context["oneh"] = oneh
+
     ## 85% is 100*0.85
+
+    eightyfive1 = round(oneh1 * 0.85)
+    eightyfive2 = round(oneh2 * 0.85)
+    eightyfive3 = round(oneh3 * 0.85)
+    eightyfive4 = round(oneh4 * 0.85)
+    eightyfive5 = round(oneh5 * 0.85)
+    eightyfive6 = round(oneh6 * 0.85)
+    eightyfive7 = round(oneh7 * 0.85)
+    eightyfive8 = round(oneh8 * 0.85)
+    eightyfive9 = round(oneh9 * 0.85)
+    eightyfive10 = round(oneh10 * 0.85)
+    eightyfive11 = round(oneh11 * 0.85)
+    eightyfive12 = round(oneh12 * 0.85)
+
+    eightyfive ={
+            '1': eightyfive1,
+            '2': eightyfive2,
+            '3': eightyfive3,
+            '4': eightyfive4,
+            '5': eightyfive5,
+            '6': eightyfive6,
+            '7': eightyfive7,
+            '8': eightyfive8,
+            '9': eightyfive9,
+            '10': eightyfive10,
+            '11': eightyfive11,
+            '12': eightyfive12,
+        }
+    context["eightyfive"] = eightyfive
 
     ## debug ouput
     debug_out = "debug: "
