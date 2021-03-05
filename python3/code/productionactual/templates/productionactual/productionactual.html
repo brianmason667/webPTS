@@ -112,7 +112,8 @@
         <!-- <div class="col-sm-12"> -->
             <!-- include block 3 datatable -->
             <div name="block3" class="rounded-block center-text">
-                <form>
+                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}"" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <table id="block3" class="block3 sep-rows">
                         <tr>
                             <th>Run#</th>
@@ -120,10 +121,10 @@
                             <th>Partal End</th>
                             <th>Finished Goods</th>
                             <th>Kanban Count</th>
-                            <th>Product Number</th>
+                            <th class="product_number">Product Number</th>
                             <th>Team Members</th>
-                            <th>Start Time</th>
-                            <th>Finish Time</th>
+                            <th class="run_time">Start Time</th>
+                            <th class="run_time">Finish Time</th>
                             <th>Plan Down Time</th>
                             <th>Net Operation</th>
                             <th>Plan Qty</th>
@@ -139,88 +140,128 @@
                             <th>OA</th>
                             <th>OA w/o Downtime</th>
                         </tr>
-                        {% if run1form.number %}
+                        
+                        {% if RunsExist %}
+                        
+                        
+                        {% if runform1.number %}
                         <tr>
-                            <td>{{ run1form.number }}</td>
-                            <td>{{ run1form.partal_start }}</td>
-                            <td>{{ run1form.partal_end }}</td>
-                            <td>{{ run1form.finished_goods }}</td>
-                            <td>{{ run1form.kanban_count }}</td>
-                            <td>{{ run1form.product_number }}</td>
-                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
-                            <td><input type="time"></td>
-                            <td><input type="time"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="text" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
+                            <td>{{ runform1.number }}</td>
+                            <td>{{ runform1.partal_start }}</td>
+                            <td>{{ runform1.partal_end }}</td>
+                            <td>{{ runform1.finished_goods }}</td>
+                            <td>{{ runform1.kanban_count }}</td>
+                            <td>{{ runform1.product_number }}</td>
+                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td>{{ runform1.start_time }}</td>
+                            <td>{{ runform1.finish_time }}</td>
+                            <td>{{ runform1.plan_down_time }}</td>
+                            <td>{{ runform1.net_ope_time }}</td>
+                            <td>{{ runform1.plan_down_time }}</td>
+                            <td>{{ runform1.plan_quanity }}</td>
+                            <td>{{ runform1.result_quanity }}</td>
+                            <td>{{ runform1.scrap_quanity }}</td>
+                            <td>{{ runform1.repair_quanity }}</td>
+                            <td>{{ runform1.analysis_quanity }}</td>
+                            <td>{{ runform1.quarantine_quanity }}</td>
+                            <td>{{ runform1.cabbage_patch_quanity }}</td>
+                            <td>{{ runform1.unplan_downtime }}</td>
+                            <td>{{ runform1.standard_time }}</td>
+                            <td>{{ runform1.oa }}</td>
+                            <td>{{ runform1.oa_without_downtime }}</td>
                         </tr>
                         {% else %}{% endif %}
-                        {% if run2form.number %}
-                         <tr>
-                            <td>{{ run2form.number }}</td>
-                            <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" placeholder="0"></td>
-                            <td><input style="min-width:120px;" maxlength="12" placeholder="000000-00000"></td>
-                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
-                            <td><input type="time"></td>
-                            <td><input type="time"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="text" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                        </tr>
-                            {% else %}{% endif %}
-                            {% if run3form.number %}
+
+                        {% if runform2.number %}
                         <tr>
-                            <td>{{ run3form.number }}</td>
-                            <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" placeholder="0"></td>
-                            <td><input style="min-width:120px;" maxlength="12" placeholder="000000-00000"></td>
-                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
-                            <td><input type="time"></td>
-                            <td><input type="time"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="text" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
+                            <td>{{ runform2.number }}</td>
+                            <td>{{ runform2.partal_start }}</td>
+                            <td>{{ runform2.partal_end }}</td>
+                            <td>{{ runform2.finished_goods }}</td>
+                            <td>{{ runform2.kanban_count }}</td>
+                            <td>{{ runform2.product_number }}</td>
+                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td>{{ runform2.start_time }}</td>
+                            <td>{{ runform2.finish_time }}</td>
+                            <td>{{ runform2.plan_down_time }}</td>
+                            <td>{{ runform2.net_ope_time }}</td>
+                            <td>{{ runform2.plan_down_time }}</td>
+                            <td>{{ runform2.plan_quanity }}</td>
+                            <td>{{ runform2.result_quanity }}</td>
+                            <td>{{ runform2.scrap_quanity }}</td>
+                            <td>{{ runform2.repair_quanity }}</td>
+                            <td>{{ runform2.analysis_quanity }}</td>
+                            <td>{{ runform2.quarantine_quanity }}</td>
+                            <td>{{ runform2.cabbage_patch_quanity }}</td>
+                            <td>{{ runform2.unplan_downtime }}</td>
+                            <td>{{ runform2.standard_time }}</td>
+                            <td>{{ runform2.oa }}</td>
+                            <td>{{ runform2.oa_without_downtime }}</td>
                         </tr>
-                            {% else %}{% endif %}
+                        {% else %}{% endif %}
+
+                        {% if runform3.number %}
+                        <tr>
+                            <td>{{ runform3.number }}</td>
+                            <td>{{ runform3.partal_start }}</td>
+                            <td>{{ runform3.partal_end }}</td>
+                            <td>{{ runform3.finished_goods }}</td>
+                            <td>{{ runform3.kanban_count }}</td>
+                            <td>{{ runform3.product_number }}</td>
+                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td>{{ runform3.start_time }}</td>
+                            <td>{{ runform3.finish_time }}</td>
+                            <td>{{ runform3.plan_down_time }}</td>
+                            <td>{{ runform3.net_ope_time }}</td>
+                            <td>{{ runform3.plan_down_time }}</td>
+                            <td>{{ runform3.plan_quanity }}</td>
+                            <td>{{ runform3.result_quanity }}</td>
+                            <td>{{ runform3.scrap_quanity }}</td>
+                            <td>{{ runform3.repair_quanity }}</td>
+                            <td>{{ runform3.analysis_quanity }}</td>
+                            <td>{{ runform3.quarantine_quanity }}</td>
+                            <td>{{ runform3.cabbage_patch_quanity }}</td>
+                            <td>{{ runform3.unplan_downtime }}</td>
+                            <td>{{ runform3.standard_time }}</td>
+                            <td>{{ runform3.oa }}</td>
+                            <td>{{ runform3.oa_without_downtime }}</td>
+                        </tr>
+                        {% else %}{% endif %}
+
+                        {% if runform1.number %}
+                        <tr>
+                            <td>{{ runform4.number }}</td>
+                            <td>{{ runform4.partal_start }}</td>
+                            <td>{{ runform4.partal_end }}</td>
+                            <td>{{ runform4.finished_goods }}</td>
+                            <td>{{ runform4.kanban_count }}</td>
+                            <td>{{ runform4.product_number }}</td>
+                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td>{{ runform4.start_time }}</td>
+                            <td>{{ runform4.finish_time }}</td>
+                            <td>{{ runform4.plan_down_time }}</td>
+                            <td>{{ runform4.net_ope_time }}</td>
+                            <td>{{ runform4.plan_down_time }}</td>
+                            <td>{{ runform4.plan_quanity }}</td>
+                            <td>{{ runform4.result_quanity }}</td>
+                            <td>{{ runform4.scrap_quanity }}</td>
+                            <td>{{ runform4.repair_quanity }}</td>
+                            <td>{{ runform4.analysis_quanity }}</td>
+                            <td>{{ runform4.quarantine_quanity }}</td>
+                            <td>{{ runform4.cabbage_patch_quanity }}</td>
+                            <td>{{ runform4.unplan_downtime }}</td>
+                            <td>{{ runform4.standard_time }}</td>
+                            <td>{{ runform4.oa }}</td>
+                            <td>{{ runform4.oa_without_downtime }}</td>
+                        </tr>
+                        {% else %}{% endif %}
+                        
+                        {% else %}cant find runs{% endif %}
+
                     </table>
+                    <!-- below is a hidden button, this is required to update the runs -->
+                    <input type="submit" value="Submit" style="display: none;">
+                </form>
             </div>
         <!-- </div> -->
     </div>
