@@ -1,4 +1,5 @@
-import datetime
+
+from datetime import datetime
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models.fields import CommaSeparatedIntegerField
 from django.db.models.query import QuerySet
@@ -168,118 +169,110 @@ def ProductionActualView(request, pk):
 
     ## make runs
     # get runs for single production actual
-    ProductionRunAll = Run.objects.filter(ProductionActual=pk)
-    
-    # split by run number
-    # run 1
-    RunFilter = ProductionRunAll.filter(number=1)
-    Run1filter = RunFilter[0]
-    # example of how done before
-    #h1=int(Hourly_Count.hour1)
-    Run1_number=int(Run1filter.number)
-    Run1_partal_start = int(Run1filter.partal_start)
-    Run1_partal_end = int(Run1filter.partal_end)
-    Run1_finnished_goods = int(Run1filter.finished_goods)
-    Run1_kanban_count = int(Run1filter.kanban_count)
-    # this dont work
-    Run1_product_number = str(Run1filter.product_number)
+    def MakeRuns(*args):
+        RunFilter = Run.objects.filter(ProductionActual=pk)
+        for rn in args:
+            RunFilter = RunFilter.filter(number=rn)
+            Runs = RunFilter.get()
 
-    setrun1={
-        'number': Run1_number,
-        'partal_start': Run1_partal_start,
-        'partal_end': Run1_partal_end,
-        'finished_goods': Run1_finnished_goods,
-        'kanban_count': Run1_kanban_count,
-        'product_number': Run1_product_number,
-        'hour7': h7,
-        'hour8': h8,
-        'hour9': h9,
-        'hour10': h10,
-        'hour11': h11,
-        'hour12': h12,
-        }
+            Runs_number = Runs.number
+            Runs_partal_start = Runs.partal_start
+            Runs_partal_end = Runs.partal_end
+            Runs_finnished_goods = Runs.finished_goods
+            Runs_kanban_count = Runs.kanban_count
+            # this dont work
+            Runs_product_number = Runs.product_number
+            Runs_start_time = Runs.start_time
+            Runs_finish_time = Runs.finish_time
+            Runs_plan_down_time = Runs.plan_down_time
+            Runs_net_ope_time = Runs.net_ope_time
+            Runs_plan_quanity = Runs.plan_quanity
+            Runs_result_quanity = Runs.result_quanity
+            Runs_scrap_quanity = Runs.scrap_quanity
+            Runs_repair_quanity = Runs.repair_quanity
+            Runs_analysis_quanity = Runs.analysis_quanity
+            Runs_quarantine_quanity = Runs.quarantine_quanity
+            Runs_cabbage_patch_quanity = Runs.cabbage_patch_quanity
+            Runs_unplan_downtime = Runs.unplan_downtime
+            Runs_standard_time = Runs.standard_time
+            Runs_oa = Runs.oa
+            Runs_oa_without_downtime = Runs.oa_without_downtime
 
-    # run 2
-    RunFilter = ProductionRunAll.filter(number=2)
-    Run2filter = RunFilter[0]
-    # example of how done before
-    #h1=int(Hourly_Count.hour1)
-    Run2_number=int(Run2filter.number)
+            # overrides for testing
+            tote=90
+            Runs_plan_quanity = Runs_kanban_count * tote
 
-
-    setrun2={
-        'number': Run2_number,
-        'partal_start': h2,
-        'hour3': h3,
-        'hour4': h4,
-        'hour5': h5,
-        'hour6': h6,
-        'hour7': h7,
-        'hour8': h8,
-        'hour9': h9,
-        'hour10': h10,
-        'hour11': h11,
-        'hour12': h12,
-        }
-
-    # run 3
-    RunFilter = ProductionRunAll.filter(number=3)
-    Run3filter = RunFilter[0]
-    # example of how done before
-    #h1=int(Hourly_Count.hour1)
-    Run3_number=int(Run3filter.number)
+            #timediff = Runs_finish_time - Runs_start_time
+            # total_seconds=time_delta.total_seconds()
+            # Runs_net_ope_time = round(total_seconds/60)
 
 
-    setrun3={
-        'number': Run3_number,
-        'partal_start': h2,
-        'hour3': h3,
-        'hour4': h4,
-        'hour5': h5,
-        'hour6': h6,
-        'hour7': h7,
-        'hour8': h8,
-        'hour9': h9,
-        'hour10': h10,
-        'hour11': h11,
-        'hour12': h12,
-        }
+            dbgcontext["starttimes"] = Runs_start_time
+            dbgcontext["finishtimes"] = Runs_finish_time
+            dbgcontext["timedelta"] = type(time_delta)
+            setrun={
+                'number': Runs_number,
+                'partal_start': Runs_partal_start,
+                'partal_end': Runs_partal_end,
+                'finished_goods': Runs_finnished_goods,
+                'kanban_count': Runs_kanban_count,
+                'product_number': Runs_product_number,
+                'start_time': Runs_start_time,
+                'finish_time': Runs_finish_time,
+                'plan_down_time': Runs_plan_down_time,
+                'net_ope_time': Runs_net_ope_time,
+                'plan_quanity': Runs_plan_quanity,
+                'result_quanity': Runs_result_quanity,
+                'scrap_quanity': Runs_scrap_quanity,
+                'repair_quanity': Runs_repair_quanity,
+                'analysis_quanity': Runs_analysis_quanity,
+                'quarantine_quanity': Runs_quarantine_quanity,
+                'cabbage_patch_quanity': Runs_cabbage_patch_quanity,
+                'unplan_downtime': Runs_unplan_downtime,
+                'standard_time': Runs_standard_time,
+                'oa': Runs_oa,
+                'oa_without_downtime': Runs_oa_without_downtime,
+                }
 
-    run1_form = RunForm(request.POST or None, initial=setrun1)
-    if run1_form.is_valid():
-        # not save until form.save()
-        run1_form = run1_form.save(commit=False)
-        # link the run object to the correct productionactual uuid
-        run1_form.ProductionActual_id = pk
-        run1_form.save()
-        return HttpResponseRedirect("/ProductionActual/"+str(pk))
-    context["run1form"] = run1_form
+            run_form = RunForm(request.POST or None, initial=setrun)
+            if run_form.is_valid():
+                # not save until form.save()
+                run_form = run_form.save(commit=False)
+                # link the run object to the correct productionactual uuid
+                run_form.ProductionActual_id = pk
+                run_form.save()
+                return HttpResponseRedirect("/ProductionActual/"+str(pk))
+            rns=str(rn) 
+            context["runform"+rns] = run_form
 
-    run2_form = RunForm(request.POST or None, initial=setrun2)
-    if run2_form.is_valid():
-        # not save until form.save()
-        run2_form = run2_form.save(commit=False)
-        # link the run object to the correct productionactual uuid
-        run2_form.ProductionActual_id = pk
-        run2_form.save()
-        return HttpResponseRedirect("/ProductionActual/"+str(pk))
-    context["run2form"] = run2_form
+    RunsExist=True
+    try:
+        
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        try:
+            
+            MakeRuns(3)
+            MakeRuns(2)
+            MakeRuns(1)
+        except:
+            try:
+                
+                MakeRuns(2)
+                MakeRuns(1)
+            except:
+                try:
+                    
+                    MakeRuns(1)
+                except:
+                    RunsExist=False
 
-    run3_form = RunForm(request.POST or None, initial=setrun3)
-    if run3_form.is_valid():
-        # not save until form.save()
-        run3_form = run3_form.save(commit=False)
-        # link the run object to the correct productionactual uuid
-        run3_form.ProductionActual_id = pk
-        run3_form.save()
-        return HttpResponseRedirect("/ProductionActual/"+str(pk))
-    context["run3form"] = run3_form
+    context["RunsExist"] = RunsExist
 
-    ## add things to debug ouput
-    dbgcontext["query_set"] = type(RunFilter)
-    dbgcontext["run"] = type(Run1_number)
-    dbgcontext["hourly_count"] = type(Hourly_Count)
-    
+    #dbgcontext["c"] = context
     # everything that goes to context goes into debug
     #dbgcontext = context
 
