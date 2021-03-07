@@ -181,7 +181,17 @@ def OpenDepartmentView(request, year, month):
 
 def OpenLineView(request, year, month, department):
     queryset = AssemblyLine.objects.all()
-    linelist = queryset.filter()
+    # hard coded assignment of department ids for filtering, i know this is bad but cant figure out how else to do this
+    if(department == 'Sensor'):
+        did = 1
+    if(department == 'Assembly'):
+        did = 2
+    if(department == 'Mounting'):
+        did = 3
+    if(department == 'EWP'):
+        did = 4
+    
+    linelist = queryset.filter(department=did)
     
 
     # removeing duplicates from list
