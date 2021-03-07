@@ -781,3 +781,11 @@ def LostTimeView(request, pk):
     debug_out = "debug: "
     context["debug_out"] = debug_out
     return render(request, "productionactual/losttime.html", context)
+
+##/Record/ProductionControlChart ##
+def ProductionControlChartView(request):
+    return render(request, "productionactual/pcchart.html", )
+
+## /Record/QualityControlChart ##
+def QualityControlChartView(request):
+    return render(request, "productionactual/qcchart.html", )

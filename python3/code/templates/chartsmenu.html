@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'chartbase.html' %}
 {% block menu %}
 {% if user.is_authenticated %}
 
@@ -52,8 +52,8 @@
   <li>
       <a>Charts</a>
       <ul>
-          <li><a href="{% url 'ProductionControlChart' %}" id="production-control">Production Control<span>PC</span></a></li>
-          <li><a href="{% url 'QualityControlChart' %}"id="quality-control">Quality Control <span>QC</span></a></li>
+        <li><a href="{% url 'ProductionControlChart' %}" id="production-control">Production Control<span>PC</span></a></li>
+        <li><a href="{% url 'QualityControlChart' %}"id="quality-control">Quality Control <span>QC</span></a></li>
           <li class="split"></li>
           <li><a id="auto-total-chart">Chart Totals, End of month<span>Ctrl + 0</span></a></li>
       </ul>

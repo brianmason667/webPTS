@@ -33,10 +33,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'acc',
-    'chartjs',
     'rest_framework',
     'productionactual.apps.ProductionactualConfig',
-    'catalog.apps.CatalogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
