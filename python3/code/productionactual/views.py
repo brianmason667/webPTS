@@ -1,8 +1,11 @@
 
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import query
 from django.db.models.fields import CommaSeparatedIntegerField
+from django.db.models.functions.datetime import ExtractMonth
 from django.db.models.query import QuerySet
+from django.db.models.functions import ExtractYear
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -76,11 +79,11 @@ def NewProductView(request):
         context['form']= form
         return render(request, "productionactual/newproduct.html", context)
 
-## /ProductionActual/open ##
+## /ProductionActual/OpenRecent ##
 # def OpenProductionActualView(request):
 #     return render(request, "openproductionactual.html")
-class OpenProductionActualView(generic.ListView):
-    template_name = 'productionactual/openproductionactual.html'
+class OpenRecentProductionActualView(generic.ListView):
+    template_name = 'productionactual/openrecentproductionactual.html'
     context_object_name = 'latest_pa_list'
 
     def get_queryset(self):
@@ -89,6 +92,155 @@ class OpenProductionActualView(generic.ListView):
         created in the future).
         """
         return ProductionActual.objects.filter(pa_date__lte=timezone.now()).order_by('-pa_date')[:50]
+
+def OpenYearView(request):
+    queryset = ProductionActual.objects.values_list('pa_date', flat=True)
+    #yearlist = queryset.filter(pa_date__year='2021')
+    yearlist = queryset.filter().annotate(year=ExtractYear('pa_date')).values('year')
+    context = {}
+    dbgcontext ={}
+    
+    # this removes any duplicate item from list
+    res = [] 
+    for i in yearlist: 
+        if i not in res: 
+            res.append(i)
+    yearlist = res
+
+    context["yearlist"] = yearlist
+    dbgcontext["yearlist"] = yearlist
+
+
+
+
+    #dbgcontext["c"] = context
+    # everything that goes to context goes into debug
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+
+    return render(request, "productionactual/openyear.html", context)
+
+
+def OpenMonthView(request, year):
+    queryset = ProductionActual.objects.values_list('pa_date', flat=True)
+    monthlist = queryset.filter(pa_date__year=year)
+    x = monthlist.filter().annotate(month=ExtractMonth('pa_date')).values('month')
+
+    # removeing duplicates from list
+    res = [] 
+    for i in x: 
+        if i not in res: 
+            res.append(i)
+    monthlist = res
+
+    context = {}
+    dbgcontext ={}
+    
+    #dbgcontext["x"] = x
+    context["year"] = year
+    context["monthlist"] = monthlist
+    dbgcontext["monthlist"] = monthlist
+
+    #dbgcontext["c"] = context
+    # everything that goes to context goes into debug
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+
+    return render(request, "productionactual/openmonth.html", context)
+
+def OpenDepartmentView(request, year, month):
+    queryset = Department.objects.all()
+    deplist = queryset.filter()
+    
+
+    # removeing duplicates from list
+    res = [] 
+    for i in deplist: 
+        if i not in res: 
+            res.append(i)
+    deplist = res
+
+    context = {}
+    dbgcontext ={}
+    
+    #dbgcontext["x"] = x
+    context["year"] = year
+    context["month"] = month
+    context["deplist"] = deplist
+    dbgcontext["deplist"] = deplist
+
+    #dbgcontext["c"] = context
+    # everything that goes to context goes into debug
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+
+    return render(request, "productionactual/opendepartment.html", context)
+
+def OpenLineView(request, year, month, department):
+    queryset = AssemblyLine.objects.all()
+    linelist = queryset.filter()
+    
+
+    # removeing duplicates from list
+    res = [] 
+    for i in linelist: 
+        if i not in res: 
+            res.append(i)
+    linelist = res
+
+    context = {}
+    dbgcontext ={}
+    
+    #dbgcontext["x"] = x
+    context["year"] = year
+    context["month"] = month
+    context["department"] = department
+    context["linelist"] = linelist
+    
+    dbgcontext["context_debug"] = context
+
+    #dbgcontext["c"] = context
+    # everything that goes to context goes into debug
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+
+    return render(request, "productionactual/openline.html", context)
+
+def OpenProductionActualView(request, year, month, department, line):
+    queryset = ProductionActual.objects.all()
+    querysetyear = queryset.filter(pa_date__year=year)
+    querysetmonth = querysetyear.filter(pa_date__month=month)
+    palist = querysetmonth.filter(assembly_line_number__line_name=line)
+
+    #palist = querysetmonth
+    ## this is how we did it last time
+
+    # queryset = ProductionActual.objects.values_list('pa_date', flat=True)
+    # monthlist = queryset.filter(pa_date__year=year)
+    # x = monthlist.filter().annotate(month=ExtractMonth('pa_date')).values('month')
+
+    context = {}
+    dbgcontext ={}
+    
+    #dbgcontext["x"] = x
+    context["year"] = year
+    context["month"] = month
+    context["department"] = department
+    context["line"] = line
+    context["palist"] = palist
+    dbgcontext["palist"] = palist
+
+    #dbgcontext["c"] = context
+    # everything that goes to context goes into debug
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+
+    return render(request, "productionactual/openproductionactual.html", context)
 
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/ ## ex: an opened production actual
 def ProductionActualView(request, pk):

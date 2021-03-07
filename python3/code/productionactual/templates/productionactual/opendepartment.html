@@ -1,0 +1,26 @@
+{% extends 'smenu.html' %}
+{% block title %}Open Production Actual{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<div class="modal-content">
+    <div>
+        <span></span>
+        <h3 class="modal-title">Select Department</h3> 
+        <span>Year: {{ year }} Month: {{ month }} </span>
+        
+        {% for Department in deplist %}
+        <li><a href="./{{ month }}/{{ Department }}"> {{ Department }}</a></li>
+    {% endfor %}
+        
+      
+    </div>
+</div>
+
+
+
+{{ debug_out }}
+{% else %}
+{% endif %}
+{% endblock %}
