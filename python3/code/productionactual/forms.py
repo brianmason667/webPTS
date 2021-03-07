@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import *
 
 class NewProductionActualForm(forms.ModelForm):
+    pa_date = forms.DateField(widget=forms.DateInput)
     class Meta:
         model = ProductionActual
         fields = [
