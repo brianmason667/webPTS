@@ -20,7 +20,7 @@
             {% if ProductionActual.id %}
           <li><a href="{% url 'ProductionActual' ProductionActual.id %}" id="">View Production Actual<span></span></a></li>
             {% else %}{% endif %}
-          <li><a id="edit-redo"> <span></span></a></li>
+          <li><a href="" id="edit-redo">View This Month<span></span></a></li>
           <li class="split"></li>
           <li><a class="image" id="edit-stroke">Stroke..</a></li>
           <li><a class="image" id="edit-fill">Fill..</a></li>
@@ -52,9 +52,11 @@
   <li>
       <a>Charts</a>
       <ul>
-        <li><a href="{% url 'ProductionControlChart' %}" id="production-control">Production Control<span>PC</span></a></li>
-        <li><a href="{% url 'QualityControlChart' %}"id="quality-control">Quality Control <span>QC</span></a></li>
-          <li class="split"></li>
+        {% if month %}
+        <li><a href="{% url 'BlankProductionActual' %}{{ year }}/{{ month }}/{{ line }}/ProductionControlChart" id="production-control">Production Control<span>PC</span></a></li>
+        <li><a href="{% url 'BlankProductionActual' %}{{ year }}/{{ month }}/{{ line }}/QualityControlChart"id="quality-control">Quality Control <span>QC</span></a></li>
+        {% else %}{% endif %}
+        <li class="split"></li>
           <li><a id="auto-total-chart">Chart Totals, End of month<span>Ctrl + 0</span></a></li>
       </ul>
   </li>

@@ -258,9 +258,22 @@ def ProductionActualView(request, pk):
     context ={}
     dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
-    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    # how to get department var for loading chart urls?
+    
+
+
+    
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
     context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
 
     ## make hourly
     h1=int(Hourly_Count.hour1)
@@ -783,9 +796,31 @@ def LostTimeView(request, pk):
     return render(request, "productionactual/losttime.html", context)
 
 ##/Record/ProductionControlChart ##
-def ProductionControlChartView(request):
-    return render(request, "productionactual/pcchart.html", )
+def ProductionControlChartView(request, year, month, line):
+    # dict for inital data with field names as keys
+    context ={}
+    dbgcontext ={}
+
+    # pass along YML
+    context["year"] = year
+    context["month"] = month
+    context["line"] = line
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/pcchart.html", context)
 
 ## /Record/QualityControlChart ##
-def QualityControlChartView(request):
-    return render(request, "productionactual/qcchart.html", )
+def QualityControlChartView(request, year, month, line):
+    # dict for inital data with field names as keys
+    context ={}
+    dbgcontext ={}
+
+    # pass along YML
+    context["year"] = year
+    context["month"] = month
+    context["line"] = line
+
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/qcchart.html", context)

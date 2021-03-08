@@ -14,8 +14,8 @@ urlpatterns = [
     path('<uuid:pk>/', views.ProductionActualView, name="ProductionActual"),
     path('<uuid:pk>/LostTime', views.LostTimeView, name="LostTime"),
     path('NewProduct/', views.NewProductView, name='NewProduct'),
-    path('QualityControlChart/', views.QualityControlChartView, name='QualityControlChart'),
-    path('ProductionControlChart/', views.ProductionControlChartView , name='ProductionControlChart'),
+    path('<int:year>/<int:month>/<str:line>/QualityControlChart/', views.QualityControlChartView, name='QualityControlChart'),
+    path('<int:year>/<int:month>/<str:line>/ProductionControlChart/', views.ProductionControlChartView , name='ProductionControlChart'),
 ]
 
 
