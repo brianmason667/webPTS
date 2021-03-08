@@ -339,7 +339,7 @@ def ProductionActualView(request, pk):
         # link the hourly object to the correct productionactual uuid
         hourly_form.ProductionActual_id = pk
         hourly_form.save()
-        return HttpResponseRedirect("/ProductionActual/"+str(pk))
+        return HttpResponseRedirect("/Records/"+str(pk))
     context["hourlyform"] = hourly_form
 
     ## make runs
@@ -384,7 +384,7 @@ def ProductionActualView(request, pk):
 
             dbgcontext["starttimes"] = Runs_start_time
             dbgcontext["finishtimes"] = Runs_finish_time
-            dbgcontext["timedelta"] = type(time_delta)
+            #dbgcontext["timedelta"] = type(time_delta)
             setrun={
                 'number': Runs_number,
                 'partal_start': Runs_partal_start,
@@ -416,7 +416,7 @@ def ProductionActualView(request, pk):
                 # link the run object to the correct productionactual uuid
                 run_form.ProductionActual_id = pk
                 run_form.save()
-                return HttpResponseRedirect("/ProductionActual/"+str(pk))
+                return HttpResponseRedirect("/Records/"+str(pk))
             rns=str(rn) 
             context["runform"+rns] = run_form
 
@@ -459,6 +459,57 @@ def ProductionActualView(request, pk):
 
 ##################################################
 
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime ## ex: lost time for an opened production actual
+def EditDowntimeView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    # how to get department var for loading chart urls?
+    
+
+
+    
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/editdowntimes.html", context)
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defects ## ex: lost time for an opened production actual
+def EditDefectView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/editdefects.html", context)
+
 ##################################################
 
 ##################################################
@@ -467,6 +518,7 @@ def ProductionActualView(request, pk):
 def LostTimeView(request, pk):
     # dict for inital data with field names as keys
     context ={}
+    dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
     context["ProductionActual"] = Production_Actual
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
