@@ -48,7 +48,7 @@
             <div name="block2" class="block2 rounded-block center-text">
 
 
-                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}"" enctype="multipart/form-data"> {% csrf_token %}
+                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data"> {% csrf_token %}
                     <table style="boarder:1px;">
                         <tr>
                             <td>
@@ -106,13 +106,14 @@
                 <!-- form end tag required -->
             </div>
         <!-- </div> -->
-
     </div>
+
     <div class="row">
         <!-- <div class="col-sm-12"> -->
             <!-- include block 3 datatable -->
+            {%if RunsExist %}
             <div name="block3" class="rounded-block center-text">
-                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}"" enctype="multipart/form-data">
+                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <table id="block3" class="block3 sep-rows">
                         <tr>
@@ -141,10 +142,7 @@
                             <th>OA w/o Downtime</th>
                         </tr>
                         
-                        {% if RunsExist %}
-                        
-                        
-                        {% if runform1.number %}
+                    {% if runform1.number %}
                         <tr>
                             <td>{{ runform1.number }}</td>
                             <td>{{ runform1.partal_start }}</td>
@@ -170,8 +168,8 @@
                             <td>{{ runform1.oa }}</td>
                             <td>{{ runform1.oa_without_downtime }}</td>
                         </tr>
-                        {% else %}{% endif %}
-
+                        {% else %}
+                        {% endif %}
                         {% if runform2.number %}
                         <tr>
                             <td>{{ runform2.number }}</td>
@@ -198,8 +196,8 @@
                             <td>{{ runform2.oa }}</td>
                             <td>{{ runform2.oa_without_downtime }}</td>
                         </tr>
-                        {% else %}{% endif %}
-
+                        {% else %}
+                        {% endif %}
                         {% if runform3.number %}
                         <tr>
                             <td>{{ runform3.number }}</td>
@@ -226,9 +224,9 @@
                             <td>{{ runform3.oa }}</td>
                             <td>{{ runform3.oa_without_downtime }}</td>
                         </tr>
-                        {% else %}{% endif %}
-
-                        {% if runform1.number %}
+                        {% else %}
+                        {% endif %}
+                        {% if runform4.number %}
                         <tr>
                             <td>{{ runform4.number }}</td>
                             <td>{{ runform4.partal_start }}</td>
@@ -236,7 +234,7 @@
                             <td>{{ runform4.finished_goods }}</td>
                             <td>{{ runform4.kanban_count }}</td>
                             <td>{{ runform4.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                            <td><input id="calchour1" type="number" value="{{ run4tms }}" disabled></td>
                             <td>{{ runform4.start_time }}</td>
                             <td>{{ runform4.finish_time }}</td>
                             <td>{{ runform4.plan_down_time }}</td>
@@ -254,114 +252,29 @@
                             <td>{{ runform4.oa }}</td>
                             <td>{{ runform4.oa_without_downtime }}</td>
                         </tr>
-                        {% else %}{% endif %}
-                        
-                        {% else %}cant find runs{% endif %}
-
+                        {% else %}
+                        {% endif %}
+                    
+                    
+                    
                     </table>
+
+
+                    
                     <!-- below is a hidden button, this is required to update the runs -->
                     <input type="submit" value="Submit" style="display: none;">
                 </form>
             </div>
-        <!-- </div> -->
+        
     </div>
     
-    <!-- above copy is testing, below is backup refrence for what it should look like -->
-
-    <!-- above copy is testing, below is backup refrence for what it should look like -->
-
-    <!-- above copy is testing, below is backup refrence for what it should look like -->
-
-    <!-- above copy is testing, below is backup refrence for what it should look like -->
-    <div class="row">
-        <!-- <div class="col-sm-12"> -->
-            <!-- include block 3 datatable -->
-            <div name="block3" class="rounded-block center-text">
-                <form>
-                    <table id="block3" class="block3 sep-rows">
-                        <tr>
-                            <th>Run#</th>
-                            <th>Partal Start</th>
-                            <th>Partal End</th>
-                            <th>Finished Goods</th>
-                            <th>Kanban Count</th>
-                            <th>Product Number</th>
-                            <th>Team Members</th>
-                            <th>Start Time</th>
-                            <th>Finish Time</th>
-                            <th>Plan Down Time</th>
-                            <th>Net Operation</th>
-                            <th>Plan Qty</th>
-                            <th>Result Qty</th>
-                            <th>Scrap</th>
-                            <th>Repair</th>
-                            <th>Analysis</th>
-                            <th>Quarantine</th>
-                            <th>Cabbage Patch</th>
-                            <th>Unplan Downtime</th>
-                            <th>Cycle Time</th>
-                            <th>Standard Time</th>
-                            <th>OA</th>
-                            <th>OA w/o Downtime</th>
-                        </tr>
-                        <tr>
-                            <td><input style="min-width:30px;" type="number" maxlength="2" placeholder="0"></td>
-                            <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" placeholder="0"></td>
-                            <td><input style="min-width:120px;" id="pnumber" maxlength="12"
-                                    placeholder="000000-00000"></td>
-                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
-                            <td><input type="time"></td>
-                            <td><input type="time"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="text" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                        </tr>
-
-                        <tr>
-                            <td><input style="min-width:30px;" type="number" maxlength="2" placeholder="0"></td>
-                            <td><input style="min-width:40px;" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" maxlength="3" placeholder="0"></td>
-                            <td><input style="min-width:47px" type="number" placeholder="0"></td>
-                            <td><input style="min-width:120px;" maxlength="12" placeholder="000000-00000"></td>
-                            <td><input style="min-width: 35px;" type="number" maxlength="1" placeholder="0"></td>
-                            <td><input type="time"></td>
-                            <td><input type="time"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                            <td><input type="text" placeholder="0"></td>
-                            <td><input type="number" placeholder="0"></td>
-                        </tr>
-                    </table>
-            </div>
-        <!-- </div> -->
+<div>
+    {% else %}
+    <div name="block3" class="rounded-block center-text">
+    No Runs Found For Production Actual
     </div>
+    {% endif %}
 </div>
-
 
 {{ debug_out }}
 {% else %}

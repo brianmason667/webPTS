@@ -1,5 +1,10 @@
-{% extends 'chartsmenu.html' %}
+{% extends 'smenu.html' %}
 {% block title %}ProductionControlChart{% endblock %}
+{% load static %}
+{% block head %}
+<script src="{% static 'productionactual/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'productionactual/Chart.bundle.js' %}"></script>
+{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
 <canvas id="myChart" width="400" height="400"></canvas>

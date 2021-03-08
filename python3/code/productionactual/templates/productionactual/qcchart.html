@@ -1,5 +1,10 @@
-{% extends 'chartsmenu.html' %}
+{% extends 'smenu.html' %}
 {% block title %}Open Production Actual{% endblock %}
+{% load static %}
+{% block head %}
+<script src="{% static 'productionactual/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'productionactual/Chart.bundle.js' %}"></script>
+{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
 <div>
@@ -9,7 +14,9 @@
 var ctx = document.getElementById('myChart');
 </script>
 
-<div style="height: 50%;">
+
+<div class="container">
+    <div class="row rounded-block">
 <canvas style="height: 50%;" id="myChart">
 <script>
 var ctx = document.getElementById('myChart');
@@ -118,8 +125,41 @@ var myChart = new Chart(ctx, {
 });
 </script></canvas>
     </div>
-    sdfasdf
-    <div>
+
+    <div class="row rounded-block">
+        <table class="sep-rows" style="width:100%">
+            <tr>
+            <th>Day</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
+            <td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+            <td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
+            </tr>
+            <tr>
+            <th>Defects</th><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            </tr>
+            <tr>
+            <th>Rework</th><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            </tr>
+            <tr>
+            <th>Analysis</th><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            </tr>
+            <tr>
+            <th>Total pcs</th><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            <td>4</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td>
+            </tr>
+            <tr>
+            <th>Ratio</th><td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td><td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td><td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td>
+            <td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td><td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td><td>.004</td><td>.005</td><td>.005</td><td>.005</td><td>.005</td>
+            </tr>
+          </table> 
+    </div>
+</div>
 {% else %}
 {% endif %}
 {% endblock %}
