@@ -372,18 +372,27 @@ def ProductionActualView(request, pk):
             Runs_standard_time = Runs.standard_time
             Runs_oa = Runs.oa
             Runs_oa_without_downtime = Runs.oa_without_downtime
+            
+            # for automatic number of tm in runs
+            numoftm = Runs_product_number.TeamMember
+            #run number as string, combined with number of tms passed to context
+            rns=str(rn)
+            context["numoftm"+rns] = numoftm
+            dbgcontext["numoftm"+rns] = numoftm
+            
 
             # overrides for testing
             tote=90
-            Runs_plan_quanity = Runs_kanban_count * tote
+            Runs_plan_quanity = (Runs_kanban_count * tote)
+            Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
 
             #timediff = Runs_finish_time - Runs_start_time
             # total_seconds=time_delta.total_seconds()
             # Runs_net_ope_time = round(total_seconds/60)
 
-
-            dbgcontext["starttimes"] = Runs_start_time
-            dbgcontext["finishtimes"] = Runs_finish_time
+        ### attempt at time delta diff
+            # dbgcontext["starttimes"] = Runs_start_time
+            # dbgcontext["finishtimes"] = Runs_finish_time
             #dbgcontext["timedelta"] = type(time_delta)
             setrun={
                 'number': Runs_number,
@@ -417,7 +426,6 @@ def ProductionActualView(request, pk):
                 run_form.ProductionActual_id = pk
                 run_form.save()
                 return HttpResponseRedirect("/Records/"+str(pk))
-            rns=str(rn) 
             context["runform"+rns] = run_form
 
     RunsExist=True
