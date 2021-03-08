@@ -15,7 +15,6 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('', lambda r: HttpResponseRedirect('Records/')),
     path('Records/', include('productionactual.urls')),
-    # path('Charts/', include('chartjs.urls')),
     path('admin/', admin.site.urls),
     path('auth/', include('django.contrib.auth.urls')),
     path('acc/', include('acc.urls')),
