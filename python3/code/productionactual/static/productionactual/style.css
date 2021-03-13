@@ -282,6 +282,14 @@ td, th {
     min-width: 95px;
 }
 
+#id_plan_quanity, #id_result_quanity{
+    min-width: 60px;
+}
+
+#id_net_ope_time{
+    min-width: 66px;
+}
+
 .rounded-block{
     /* background-color: #171616;  */
     border: 2px solid #09c; 
