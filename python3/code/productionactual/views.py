@@ -1,5 +1,5 @@
 
-import datetime as _datetime_
+import datetime
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import query
 from django.db.models.fields import CommaSeparatedIntegerField
@@ -392,13 +392,16 @@ def ProductionActualView(request, pk):
             Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
 
             
-
+            # make time object into datetime object with date to figure out netoperation
             date = datetime.date(1, 1, 1)
             rst = datetime.datetime.combine(date, Runs_start_time)
             rft = datetime.datetime.combine(date, Runs_finish_time)
             seconds_elapsed = rft - rst
             Runs_net_ope_time = (seconds_elapsed.seconds / 60) - Runs_plan_down_time
+
+            # Standard Time is quanity produced muliplied by the Cycle time divied by amount of time (60minutes)
             
+            #Runs_standard_time = Runs_result_quanity * run_cycletime / Runs_net_ope_time + Runs_plan_down_time
 
             setrun={
                 'number': Runs_number,
@@ -904,6 +907,8 @@ def QualityControlChartView(request, year, month, line):
     # dict for inital data with field names as keys
     context ={}
     dbgcontext ={}
+
+    
 
     # pass along YML
     context["year"] = year
