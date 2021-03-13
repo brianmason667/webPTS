@@ -1,5 +1,5 @@
 
-from datetime import datetime
+import datetime as _datetime_
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import query
 from django.db.models.fields import CommaSeparatedIntegerField
@@ -262,15 +262,14 @@ def ProductionActualView(request, pk):
     year = date.year
     month = date.month
     line = Production_Actual.assembly_line_number
-    # how to get department var for loading chart urls?
-    
+    # how to get department var
+    lineobject = get_object_or_404(AssemblyLine, line_name=line)
+    department = lineobject.department
 
-
-    
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
     context["hourly"] = Hourly_Count
     context["ProductionActual"] = Production_Actual
-
+    context["department"] = department
     context["line"] = line
     context["year"] = year
     context["month"] = month
@@ -355,7 +354,6 @@ def ProductionActualView(request, pk):
             Runs_partal_end = Runs.partal_end
             Runs_finnished_goods = Runs.finished_goods
             Runs_kanban_count = Runs.kanban_count
-            # this dont work
             Runs_product_number = Runs.product_number
             Runs_start_time = Runs.start_time
             Runs_finish_time = Runs.finish_time
@@ -373,27 +371,35 @@ def ProductionActualView(request, pk):
             Runs_oa = Runs.oa
             Runs_oa_without_downtime = Runs.oa_without_downtime
             
-            # for automatic number of tm in runs
-            numoftm = Runs_product_number.TeamMember
-            #run number as string, combined with number of tms passed to context
-            rns=str(rn)
-            context["numoftm"+rns] = numoftm
-            dbgcontext["numoftm"+rns] = numoftm
             
+            # run number as string
+            rns=str(rn)   
+            # for automatic number of tm in runs        
+            numoftm = Runs_product_number.TeamMember
+            # number of tms with run number as a string passed to context
+            context["numoftm"+rns] = numoftm
 
-            # overrides for testing
-            tote=90
+            # for automatic cycletime for product in runs
+            run_cycletime = Runs_product_number.CycleTime
+            # passed to context with run number as a string
+            context["cycletime"+rns] = run_cycletime
+
+            # for automatic tote quanity
+            tote = Runs_product_number.ToteQuantity
+
+            # math plan and result quanity from tote quanity and start/end partals
             Runs_plan_quanity = (Runs_kanban_count * tote)
             Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
 
-            #timediff = Runs_finish_time - Runs_start_time
-            # total_seconds=time_delta.total_seconds()
-            # Runs_net_ope_time = round(total_seconds/60)
+            
 
-        ### attempt at time delta diff
-            # dbgcontext["starttimes"] = Runs_start_time
-            # dbgcontext["finishtimes"] = Runs_finish_time
-            #dbgcontext["timedelta"] = type(time_delta)
+            date = datetime.date(1, 1, 1)
+            rst = datetime.datetime.combine(date, Runs_start_time)
+            rft = datetime.datetime.combine(date, Runs_finish_time)
+            seconds_elapsed = rft - rst
+            Runs_net_ope_time = (seconds_elapsed.seconds / 60) - Runs_plan_down_time
+            
+
             setrun={
                 'number': Runs_number,
                 'partal_start': Runs_partal_start,
@@ -455,7 +461,30 @@ def ProductionActualView(request, pk):
 
     context["RunsExist"] = RunsExist
 
-    #dbgcontext["c"] = context
+    #trying to get time delta to work
+    RunFilterget = Run.objects.filter(ProductionActual=pk)
+    RunFilter = RunFilterget.filter(number=1)
+    Runs = RunFilter.get()
+
+    Runs_start_time = Runs.start_time
+    Runs_finish_time = Runs.finish_time
+
+    date = datetime.date(1, 1, 1)
+    rst = datetime.datetime.combine(date, Runs_start_time)
+    rft = datetime.datetime.combine(date, Runs_finish_time)
+    seconds_elapsed = rft - rst
+    Runs_net_ope_time = seconds_elapsed.seconds / 60
+    
+
+
+    
+        #_datetime_.datetime(date.min, Runs_finish_time) - datetime.combine(date.min, Runs_start_time)
+
+
+
+    dbgcontext["Runs_net_ope_time"] = Runs_net_ope_time
+
+
     # everything that goes to context goes into debug
     #dbgcontext = context
 
