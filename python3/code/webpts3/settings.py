@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'acc',
-    'rest_framework',
+    #'rest_framework',   this quit working, but seems not needed
     'productionactual.apps.ProductionactualConfig',
     'django.contrib.admin',
     'django.contrib.auth',
