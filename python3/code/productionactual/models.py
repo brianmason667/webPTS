@@ -28,6 +28,7 @@ class Product(models.Model):
     PartNumber = models.CharField(max_length=15)
     TeamMember = models.CharField(max_length=2)
     CycleTime = models.CharField(max_length=4)
+    ToteQuantity = models.IntegerField(default=0)
     class Meta:
         ordering = ['AssemblyLine_ID', 'PartNumber', 'TeamMember', 'CycleTime']
     def __str__(self):
