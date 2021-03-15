@@ -34,7 +34,7 @@ def NewProductionActualView(request):
             # need to create hourly
             create_hourly =  Hourly.objects.create(pk=str(form.id))
             #return HttpResponseRedirect(baseurl+newuuidstr)
-            return HttpResponseRedirect("/ProductionActual/"+str(form.id))
+            return HttpResponseRedirect("/Records/"+str(form.id))
     else:
         context ={}
         form = NewProductionActualForm()
@@ -436,8 +436,256 @@ def ProductionActualView(request, pk):
                 run_form.save()
                 return HttpResponseRedirect("/Records/"+str(pk))
             context["runform"+rns] = run_form
-
+        return context
     RunsExist=True
+    try:
+        MakeRuns(20)
+        MakeRuns(19)
+        MakeRuns(18)
+        MakeRuns(17)
+        MakeRuns(16)
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan17 = True
+    try:
+        MakeRuns(19)
+        MakeRuns(18)
+        MakeRuns(17)
+        MakeRuns(16)
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan17 = True
+    try:
+        MakeRuns(18)
+        MakeRuns(17)
+        MakeRuns(16)
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan17 = True
+    try:
+        MakeRuns(17)
+        MakeRuns(16)
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan17 = True
+    try:
+        MakeRuns(16)
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan16 = True
+    try:
+        MakeRuns(15)
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan15 = True
+    try:                           
+        MakeRuns(14)
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan14 = True
+    try:
+        MakeRuns(13)
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan13 = True
+    try:
+        MakeRuns(12)
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan12 = True
+    try:
+        MakeRuns(11)
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        lessthan11 = True
+    try:
+        MakeRuns(10)
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        MakeRuns(9)
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        MakeRuns(8)
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        MakeRuns(7)
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        MakeRuns(6)
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        MakeRuns(5)
+        MakeRuns(4)
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
     try:
         
         MakeRuns(4)
@@ -445,52 +693,30 @@ def ProductionActualView(request, pk):
         MakeRuns(2)
         MakeRuns(1)
     except:
-        try:
-            
-            MakeRuns(3)
-            MakeRuns(2)
-            MakeRuns(1)
-        except:
-            try:
-                
-                MakeRuns(2)
-                MakeRuns(1)
-            except:
-                try:
-                    
-                    MakeRuns(1)
-                except:
-                    RunsExist=False
+        knowswhatdoing=False
+    try:
+        
+        MakeRuns(3)
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        
+        MakeRuns(2)
+        MakeRuns(1)
+    except:
+        knowswhatdoing=False
+    try:
+        
+        MakeRuns(1)
+    except:
+        RunsExist=False
 
     context["RunsExist"] = RunsExist
 
-    #trying to get time delta to work
-    RunFilterget = Run.objects.filter(ProductionActual=pk)
-    RunFilter = RunFilterget.filter(number=1)
-    Runs = RunFilter.get()
-
-    Runs_start_time = Runs.start_time
-    Runs_finish_time = Runs.finish_time
-
-    date = datetime.date(1, 1, 1)
-    rst = datetime.datetime.combine(date, Runs_start_time)
-    rft = datetime.datetime.combine(date, Runs_finish_time)
-    seconds_elapsed = rft - rst
-    Runs_net_ope_time = seconds_elapsed.seconds / 60
-    
-
-
-    
-        #_datetime_.datetime(date.min, Runs_finish_time) - datetime.combine(date.min, Runs_start_time)
-
-
-
-    dbgcontext["Runs_net_ope_time"] = Runs_net_ope_time
-
-
     # everything that goes to context goes into debug
-    #dbgcontext = context
-
+    dbgcontext = context
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/productionactual.html", context)
@@ -549,6 +775,137 @@ def EditDefectView(request, pk):
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdefects.html", context)
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/RemoveRun ## ex: remove run for an opened production actual
+def RemoveRunView(request, pk):
+    context ={}
+    dbgcontext ={}
+    title = "Remove Run"
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    run_count = Run.objects.filter(ProductionActual=pk).count()
+    pa_runs = Run.objects.filter(ProductionActual=pk)
+    if request.method == 'POST':
+        form = RemoveRunForm(request.POST)
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            # set times to now
+            pa_runs.filter(number=run_count).delete()
+            # start_time=datetime.datetime.now()
+            # finish_time=datetime.datetime.now()
+            # form.number=new_run_number
+            # form.start_time=start_time
+            # form.finish_time=finish_time
+            # form.save()
+            return HttpResponseRedirect("/Records/"+str(pk))
+    else:
+        form = RemoveRunForm()
+        if form.is_valid():
+            runnum= "2"
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            # set times to now
+            start_time=datetime.datetime.now()
+            finish_time=datetime.datetime.now()
+            form.number=runnum
+            form.start_time=start_time
+            form.finish_time=finish_time   
+            form.save()
+    context['form']= form
+
+
+    context["run_count"] = run_count
+
+    dbgcontext["title"] = title    
+    context["title"] = title
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/removerun.html", context)
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/AddRun ## ex: add run for an opened production actual
+def AddRunView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    run_count = Run.objects.filter(ProductionActual=pk).count()
+    new_run_number = run_count +1
+
+    if request.method == 'POST':
+        form = AddRunForm(request.POST)
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            # set times to now
+            start_time=datetime.datetime.now()
+            finish_time=datetime.datetime.now()
+            form.number=new_run_number
+            form.start_time=start_time
+            form.finish_time=finish_time
+            form.save()
+            return HttpResponseRedirect("/Records/"+str(pk))
+    else:
+        form = AddRunForm()
+        if form.is_valid():
+            runnum= "2"
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            # set times to now
+            start_time=datetime.datetime.now()
+            finish_time=datetime.datetime.now()
+            form.number=runnum
+            form.start_time=start_time
+            form.finish_time=finish_time   
+            form.save()
+    context['form']= form
+       
+
+    # def AddRun(*args):
+    #     create_Run =  Run.objects.create(ProductionActual=Production_Actual, start_time=datetime.datetime.now(), finish_time=datetime.datetime.now(), product_number_id=args)
+
+    # AddRun(1)
+    title = "Add Run"
+
+       
+    context["title"] = title
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    #dbgcontext["context"] = context 
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    # return HttpResponseRedirect("/Records/"+str(pk))
+    return render(request, "productionactual/addrun.html", context)
 
 ##################################################
 
@@ -908,12 +1265,17 @@ def QualityControlChartView(request, year, month, line):
     context ={}
     dbgcontext ={}
 
-    
+    labels= ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+            '11', '12', '13', '4', '5', '6', '7', '8', '9', '20',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '30'],
 
     # pass along YML
     context["year"] = year
     context["month"] = month
     context["line"] = line
+
+    dbgcontext["labels"] = labels
+    context["labels"] = labels
 
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out

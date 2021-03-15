@@ -1,0 +1,33 @@
+{% extends 'smenu.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="modal-content">
+        <div>
+            <h1 class="modal-title">{{ title }}</h1>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <form method="POST" action="{% url 'AddRun' ProductionActual.id %}" enctype="multipart/form-data"> 
+      
+              <!-- Security token -->
+              {% csrf_token %} 
+            
+              <!-- Using the formset -->
+              {{ form.as_p }} 
+                <input type="submit" name="runaddbutton" value="OK" id="downtimeokbutton">
+                <a href="{% url 'ProductionActual' ProductionActual.id %}" >
+                <input type="button" class="close-modal" name="runsbackbutton" value="Close"
+                    id="runsclosebutton"></a>
+  
+            </form>
+        </div>
+    </div>
+  
+  
+ 
+
+    {{ debug_out }}
+{% else %}
+{% endif %}
+{% endblock %}
