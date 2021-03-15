@@ -20,9 +20,10 @@
       <a>Production</a>
       <ul>
             
-          <li><a href="{% url 'ProductionActual' ProductionActual.id %}" id="">View Production Actual<span></span></a></li>
+          <li><a href="{% url 'ProductionActual' ProductionActual.id %}" id="viewproductionactual">View Production Actual<span></span></a></li>
             
-          <li><a id="edit-redo"> <span></span></a></li>
+          <li><a href="{% url 'AddRun' ProductionActual.id %}" id="addrun"> <span></span>Add Run</a></li>
+          <li><a href="{% url 'RemoveRun' ProductionActual.id %}" id="addrun"> <span></span>Remove Run</a></li>
           <li class="split"></li>
           <li><a class="image" id="edit-stroke">Stroke..</a></li>
           <li><a class="image" id="edit-fill">Fill..</a></li>

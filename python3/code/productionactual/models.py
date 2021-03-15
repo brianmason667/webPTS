@@ -62,7 +62,7 @@ class Hourly(models.Model):
 
 class Run(models.Model):
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
-    number = models.IntegerField(default=0, help_text="Run Number")
+    number = models.IntegerField(default=1, help_text="Run Number")
     partal_start = models.IntegerField(default=0, help_text="Start Partal quanity")
     partal_end = models.IntegerField(default=0, help_text="End Partal quanity")
     finished_goods = models.IntegerField(default=0, help_text="How many totes completed")

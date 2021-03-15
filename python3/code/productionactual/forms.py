@@ -70,3 +70,17 @@ class RunForm(forms.ModelForm):
             "oa",
             "oa_without_downtime",
         ]
+
+class AddRunForm(forms.ModelForm):
+    class Meta:
+        model = Run
+        fields = [
+            "product_number",
+        ]
+
+class RemoveRunForm(forms.ModelForm):
+    class Meta:
+        model = Run
+        fields = [
+            
+        ]
