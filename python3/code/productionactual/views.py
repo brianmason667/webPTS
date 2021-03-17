@@ -30,7 +30,7 @@ def NewProductionActualView(request):
             ## get the id of created, to go to that id as a url
             # newuuid = form.id
             # newuuidstr = str(newuuid)
-            # baseurl = "/ProductionActual/"
+            # baseurl = "/Records/"
             # need to create hourly
             create_hourly =  Hourly.objects.create(pk=str(form.id))
             #return HttpResponseRedirect(baseurl+newuuidstr)
@@ -61,11 +61,11 @@ def NewProductView(request):
             ## get the id of created, to go to that id as a url
             # newuuid = form.id
             # newuuidstr = str(newuuid)
-            # baseurl = "/ProductionActual/"
+            # baseurl = "/Records/"
             # need to create hourly
             #create_hourly =  Hourly.objects.create(pk=str(form.id))
             #return HttpResponseRedirect(baseurl+newuuidstr)
-            return HttpResponseRedirect("/ProductionActual/")
+            return HttpResponseRedirect("/Records/")
     else:
         context ={}
         form = NewProductForm()
@@ -428,6 +428,8 @@ def ProductionActualView(request, pk):
                 }
 
             run_form = RunForm(request.POST or None, initial=setrun)
+            # i dont know why this dose not work, it should keep user from selecting products not for a line
+            #form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
             if run_form.is_valid():
                 # not save until form.save()
                 run_form = run_form.save(commit=False)
@@ -711,7 +713,7 @@ def ProductionActualView(request, pk):
         
         MakeRuns(1)
     except:
-        RunsExist=False
+        RunsExist=True
 
     context["RunsExist"] = RunsExist
 
@@ -857,6 +859,7 @@ def AddRunView(request, pk):
 
     if request.method == 'POST':
         form = AddRunForm(request.POST)
+        # form.product_number.queryset = Product.objects.filter(assembly_line_number=line)
         if form.is_valid():
             # not save until form.save()
             form = form.save(commit=False)
@@ -872,6 +875,8 @@ def AddRunView(request, pk):
             return HttpResponseRedirect("/Records/"+str(pk))
     else:
         form = AddRunForm()
+        form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
+        #form.product_number.queryset = 
         if form.is_valid():
             runnum= "2"
             # not save until form.save()
@@ -906,6 +911,68 @@ def AddRunView(request, pk):
     context["debug_out"] = debug_out
     # return HttpResponseRedirect("/Records/"+str(pk))
     return render(request, "productionactual/addrun.html", context)
+
+
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/AddRun ## ex: add run for an opened production actual
+def AddRunV2View(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    run_count = Run.objects.filter(ProductionActual=pk).count()
+    new_run_number = run_count +1
+
+    if request.method == 'POST':
+        form = NewRunForm(request.POST)
+        # form.product_number.queryset = Product.objects.filter(assembly_line_number=line)
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            # set times to now
+            form.number=new_run_number
+            form.save()
+            return HttpResponseRedirect("/Records/"+str(pk))
+    else:
+        form = NewRunForm()
+        form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
+        #form.product_number.queryset = 
+        if form.is_valid():
+            # not save until form.save()
+            form = form.save(commit=False)
+            # set Productionacutal to that is open from url
+            form.ProductionActual=Production_Actual
+            form.save()
+    context['form'] = form
+       
+
+    # def AddRun(*args):
+    #     create_Run =  Run.objects.create(ProductionActual=Production_Actual, start_time=datetime.datetime.now(), finish_time=datetime.datetime.now(), product_number_id=args)
+
+    # AddRun(1)
+    title = "Add Run V2"
+
+       
+    context["title"] = title
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    dbgcontext["context"] = context 
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    # return HttpResponseRedirect("/Records/"+str(pk))
+    return render(request, "productionactual/newrun.html", context)
 
 ##################################################
 

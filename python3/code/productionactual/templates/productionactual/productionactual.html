@@ -107,12 +107,11 @@
             </div>
         <!-- </div> -->
     </div>
-
     <div class="row">
         <!-- <div class="col-sm-12"> -->
             <!-- include block 3 datatable -->
-            {%if RunsExist %}
-            <div name="block3" class="rounded-block center-text">
+            
+            <div name="block3" class="rounded-block center-text">{%if RunsExist %}
                     <table id="block3" class="block3 sep-rows">
                         <tr>
                             <th>Run#</th>
@@ -139,597 +138,54 @@
                             <th>OA</th>
                             <th>OA w/o Downtime</th>
                         </tr>
-                        
-                    {% if runform1.number %}
-                    <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data">
-                        {% csrf_token %}
+                        {% for run in run_list %}
                         <tr>
-                            <td>{{ runform1.number }}</td>
-                            <td>{{ runform1.partal_start }}</td>
-                            <td>{{ runform1.partal_end }}</td>
-                            <td>{{ runform1.finished_goods }}</td>
-                            <td>{{ runform1.kanban_count }}</td>
-                            <td>{{ runform1.product_number }}</td>
-                            <td><input type="number" value="{{ numoftm1 }}" disabled></td>
-                            <td>{{ runform1.start_time }}</td>
-                            <td>{{ runform1.finish_time }}</td>
-                            <td>{{ runform1.plan_down_time }}</td>
-                            <td>{{ runform1.net_ope_time }}</td>
-                            <td>{{ runform1.plan_quanity }}</td>
-                            <td>{{ runform1.result_quanity }}</td>
-                            <td>{{ runform1.scrap_quanity }}</td>
-                            <td>{{ runform1.repair_quanity }}</td>
-                            <td>{{ runform1.analysis_quanity }}</td>
-                            <td>{{ runform1.quarantine_quanity }}</td>
-                            <td>{{ runform1.cabbage_patch_quanity }}</td>
-                            <td>{{ runform1.unplan_downtime }}</td>
-                            <td><input type="number" value="{{ cycletime1 }}" disabled></td>
-                            <td>{{ runform1.standard_time }}</td>
-                            <td>{{ runform1.oa }}</td>
-                            <td>{{ runform1.oa_without_downtime }}</td>
+                            <td>{{ number }}</td>
+                            <td>{{ partal_start }}</td>
+                            <td>{{ partal_end }}</td>
+                            <td>{{ finished_goods }}</td>
+                            <td>{{ kanban_count }}</td>
+                            <td>{{ product_number }}</td>
+                            <td>{{ numoftm }}</td>
+                            <td>{{ start_time }}</td>
+                            <td>{{ finish_time }}</td>
+                            <td>{{ plan_down_time }}</td>
+                            <td>{{ net_ope_time }}</td>
+                            <td>{{ plan_quanity }}</td>
+                            <td>{{ result_quanity }}</td>
+                            <td>{{ scrap_quanity }}</td>
+                            <td>{{ repair_quanity }}</td>
+                            <td>{{ analysis_quanity }}</td>
+                            <td>{{ quarantine_quanity }}</td>
+                            <td>{{ cabbage_patch_quanity }}</td>
+                            <td>{{ unplan_downtime }}</td>
+                            <td>{{ cycletime }}</td>
+                            <td>{{ standard_time }}</td>
+                            <td>{{ oa }}</td>
+                            <td>{{ oa_without_downtime }}</td>
                         </tr>
-                        <input type="submit" value="Submit" style="display: none;">
-                    </form>
-                        {% else %}
-                        {% endif %}
-                        {% if runform2.number %}
-                        <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                        <tr>
-                            <td>{{ runform2.number }}</td>
-                            <td>{{ runform2.partal_start }}</td>
-                            <td>{{ runform2.partal_end }}</td>
-                            <td>{{ runform2.finished_goods }}</td>
-                            <td>{{ runform2.kanban_count }}</td>
-                            <td>{{ runform2.product_number }}</td>
-                            <td><input type="number" value="{{ numoftm2 }}" disabled></td>
-                            <td>{{ runform2.start_time }}</td>
-                            <td>{{ runform2.finish_time }}</td>
-                            <td>{{ runform2.plan_down_time }}</td>
-                            <td>{{ runform2.net_ope_time }}</td>
-                            <td>{{ runform2.plan_quanity }}</td>
-                            <td>{{ runform2.result_quanity }}</td>
-                            <td>{{ runform2.scrap_quanity }}</td>
-                            <td>{{ runform2.repair_quanity }}</td>
-                            <td>{{ runform2.analysis_quanity }}</td>
-                            <td>{{ runform2.quarantine_quanity }}</td>
-                            <td>{{ runform2.cabbage_patch_quanity }}</td>
-                            <td>{{ runform2.unplan_downtime }}</td>
-                            <td><input type="number" value="{{ cycletime2 }}" disabled></td>
-                            <td>{{ runform2.standard_time }}</td>
-                            <td>{{ runform2.oa }}</td>
-                            <td>{{ runform2.oa_without_downtime }}</td>
-                        </tr>
-                        <input type="submit" value="Submit" style="display: none;">
-                    </form>
-                        {% else %}
-                        {% endif %}
-                        {% if runform3.number %}
-                        <tr>
-                            <td>{{ runform3.number }}</td>
-                            <td>{{ runform3.partal_start }}</td>
-                            <td>{{ runform3.partal_end }}</td>
-                            <td>{{ runform3.finished_goods }}</td>
-                            <td>{{ runform3.kanban_count }}</td>
-                            <td>{{ runform3.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm3 }}" disabled></td>
-                            <td>{{ runform3.start_time }}</td>
-                            <td>{{ runform3.finish_time }}</td>
-                            <td>{{ runform3.plan_down_time }}</td>
-                            <td>{{ runform3.net_ope_time }}</td>
-                            <td>{{ runform3.plan_quanity }}</td>
-                            <td>{{ runform3.result_quanity }}</td>
-                            <td>{{ runform3.scrap_quanity }}</td>
-                            <td>{{ runform3.repair_quanity }}</td>
-                            <td>{{ runform3.analysis_quanity }}</td>
-                            <td>{{ runform3.quarantine_quanity }}</td>
-                            <td>{{ runform3.cabbage_patch_quanity }}</td>
-                            <td>{{ runform3.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime3 }}" disabled></td>
-                            <td>{{ runform3.standard_time }}</td>
-                            <td>{{ runform3.oa }}</td>
-                            <td>{{ runform3.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform4.number %}
-                        <tr>
-                            <td>{{ runform4.number }}</td>
-                            <td>{{ runform4.partal_start }}</td>
-                            <td>{{ runform4.partal_end }}</td>
-                            <td>{{ runform4.finished_goods }}</td>
-                            <td>{{ runform4.kanban_count }}</td>
-                            <td>{{ runform4.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm4 }}" disabled></td>
-                            <td>{{ runform4.start_time }}</td>
-                            <td>{{ runform4.finish_time }}</td>
-                            <td>{{ runform4.plan_down_time }}</td>
-                            <td>{{ runform4.net_ope_time }}</td>
-                            <td>{{ runform4.plan_quanity }}</td>
-                            <td>{{ runform4.result_quanity }}</td>
-                            <td>{{ runform4.scrap_quanity }}</td>
-                            <td>{{ runform4.repair_quanity }}</td>
-                            <td>{{ runform4.analysis_quanity }}</td>
-                            <td>{{ runform4.quarantine_quanity }}</td>
-                            <td>{{ runform4.cabbage_patch_quanity }}</td>
-                            <td>{{ runform4.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime4 }}" disabled></td>
-                            <td>{{ runform4.standard_time }}</td>
-                            <td>{{ runform4.oa }}</td>
-                            <td>{{ runform4.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform5.number %}
-                        <tr>
-                            <td>{{ runform5.number }}</td>
-                            <td>{{ runform5.partal_start }}</td>
-                            <td>{{ runform5.partal_end }}</td>
-                            <td>{{ runform5.finished_goods }}</td>
-                            <td>{{ runform5.kanban_count }}</td>
-                            <td>{{ runform5.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm5 }}" disabled></td>
-                            <td>{{ runform5.start_time }}</td>
-                            <td>{{ runform5.finish_time }}</td>
-                            <td>{{ runform5.plan_down_time }}</td>
-                            <td>{{ runform5.net_ope_time }}</td>
-                            <td>{{ runform5.plan_quanity }}</td>
-                            <td>{{ runform5.result_quanity }}</td>
-                            <td>{{ runform5.scrap_quanity }}</td>
-                            <td>{{ runform5.repair_quanity }}</td>
-                            <td>{{ runform5.analysis_quanity }}</td>
-                            <td>{{ runform5.quarantine_quanity }}</td>
-                            <td>{{ runform5.cabbage_patch_quanity }}</td>
-                            <td>{{ runform5.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime5 }}" disabled></td>
-                            <td>{{ runform5.standard_time }}</td>
-                            <td>{{ runform5.oa }}</td>
-                            <td>{{ runform5.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform6.number %}
-                        <tr>
-                            <td>{{ runform6.number }}</td>
-                            <td>{{ runform6.partal_start }}</td>
-                            <td>{{ runform6.partal_end }}</td>
-                            <td>{{ runform6.finished_goods }}</td>
-                            <td>{{ runform6.kanban_count }}</td>
-                            <td>{{ runform6.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm6 }}" disabled></td>
-                            <td>{{ runform6.start_time }}</td>
-                            <td>{{ runform6.finish_time }}</td>
-                            <td>{{ runform6.plan_down_time }}</td>
-                            <td>{{ runform6.net_ope_time }}</td>
-                            <td>{{ runform6.plan_quanity }}</td>
-                            <td>{{ runform6.result_quanity }}</td>
-                            <td>{{ runform6.scrap_quanity }}</td>
-                            <td>{{ runform6.repair_quanity }}</td>
-                            <td>{{ runform6.analysis_quanity }}</td>
-                            <td>{{ runform6.quarantine_quanity }}</td>
-                            <td>{{ runform6.cabbage_patch_quanity }}</td>
-                            <td>{{ runform6.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime6 }}" disabled></td>
-                            <td>{{ runform6.standard_time }}</td>
-                            <td>{{ runform6.oa }}</td>
-                            <td>{{ runform6.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform7.number %}
-                        <tr>
-                            <td>{{ runform7.number }}</td>
-                            <td>{{ runform7.partal_start }}</td>
-                            <td>{{ runform7.partal_end }}</td>
-                            <td>{{ runform7.finished_goods }}</td>
-                            <td>{{ runform7.kanban_count }}</td>
-                            <td>{{ runform7.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm7 }}" disabled></td>
-                            <td>{{ runform7.start_time }}</td>
-                            <td>{{ runform7.finish_time }}</td>
-                            <td>{{ runform7.plan_down_time }}</td>
-                            <td>{{ runform7.net_ope_time }}</td>
-                            <td>{{ runform7.plan_quanity }}</td>
-                            <td>{{ runform7.result_quanity }}</td>
-                            <td>{{ runform7.scrap_quanity }}</td>
-                            <td>{{ runform7.repair_quanity }}</td>
-                            <td>{{ runform7.analysis_quanity }}</td>
-                            <td>{{ runform7.quarantine_quanity }}</td>
-                            <td>{{ runform7.cabbage_patch_quanity }}</td>
-                            <td>{{ runform7.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime7 }}" disabled></td>
-                            <td>{{ runform7.standard_time }}</td>
-                            <td>{{ runform7.oa }}</td>
-                            <td>{{ runform7.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform8.number %}
-                        <tr>
-                            <td>{{ runform8.number }}</td>
-                            <td>{{ runform8.partal_start }}</td>
-                            <td>{{ runform8.partal_end }}</td>
-                            <td>{{ runform8.finished_goods }}</td>
-                            <td>{{ runform8.kanban_count }}</td>
-                            <td>{{ runform8.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm8 }}" disabled></td>
-                            <td>{{ runform8.start_time }}</td>
-                            <td>{{ runform8.finish_time }}</td>
-                            <td>{{ runform8.plan_down_time }}</td>
-                            <td>{{ runform8.net_ope_time }}</td>
-                            <td>{{ runform8.plan_quanity }}</td>
-                            <td>{{ runform8.result_quanity }}</td>
-                            <td>{{ runform8.scrap_quanity }}</td>
-                            <td>{{ runform8.repair_quanity }}</td>
-                            <td>{{ runform8.analysis_quanity }}</td>
-                            <td>{{ runform8.quarantine_quanity }}</td>
-                            <td>{{ runform8.cabbage_patch_quanity }}</td>
-                            <td>{{ runform8.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime8 }}" disabled></td>
-                            <td>{{ runform8.standard_time }}</td>
-                            <td>{{ runform8.oa }}</td>
-                            <td>{{ runform8.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform9.number %}
-                        <tr>
-                            <td>{{ runform9.number }}</td>
-                            <td>{{ runform9.partal_start }}</td>
-                            <td>{{ runform9.partal_end }}</td>
-                            <td>{{ runform9.finished_goods }}</td>
-                            <td>{{ runform9.kanban_count }}</td>
-                            <td>{{ runform9.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm9 }}" disabled></td>
-                            <td>{{ runform9.start_time }}</td>
-                            <td>{{ runform9.finish_time }}</td>
-                            <td>{{ runform9.plan_down_time }}</td>
-                            <td>{{ runform9.net_ope_time }}</td>
-                            <td>{{ runform9.plan_quanity }}</td>
-                            <td>{{ runform9.result_quanity }}</td>
-                            <td>{{ runform9.scrap_quanity }}</td>
-                            <td>{{ runform9.repair_quanity }}</td>
-                            <td>{{ runform9.analysis_quanity }}</td>
-                            <td>{{ runform9.quarantine_quanity }}</td>
-                            <td>{{ runform9.cabbage_patch_quanity }}</td>
-                            <td>{{ runform9.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime9 }}" disabled></td>
-                            <td>{{ runform9.standard_time }}</td>
-                            <td>{{ runform9.oa }}</td>
-                            <td>{{ runform9.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform10.number %}
-                        <tr>
-                            <td>{{ runform10.number }}</td>
-                            <td>{{ runform10.partal_start }}</td>
-                            <td>{{ runform10.partal_end }}</td>
-                            <td>{{ runform10.finished_goods }}</td>
-                            <td>{{ runform10.kanban_count }}</td>
-                            <td>{{ runform10.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm10 }}" disabled></td>
-                            <td>{{ runform10.start_time }}</td>
-                            <td>{{ runform10.finish_time }}</td>
-                            <td>{{ runform10.plan_down_time }}</td>
-                            <td>{{ runform10.net_ope_time }}</td>
-                            <td>{{ runform10.plan_quanity }}</td>
-                            <td>{{ runform10.result_quanity }}</td>
-                            <td>{{ runform10.scrap_quanity }}</td>
-                            <td>{{ runform10.repair_quanity }}</td>
-                            <td>{{ runform10.analysis_quanity }}</td>
-                            <td>{{ runform10.quarantine_quanity }}</td>
-                            <td>{{ runform10.cabbage_patch_quanity }}</td>
-                            <td>{{ runform10.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime10 }}" disabled></td>
-                            <td>{{ runform10.standard_time }}</td>
-                            <td>{{ runform10.oa }}</td>
-                            <td>{{ runform10.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform11.number %}
-                        <tr>
-                            <td>{{ runform11.number }}</td>
-                            <td>{{ runform11.partal_start }}</td>
-                            <td>{{ runform11.partal_end }}</td>
-                            <td>{{ runform11.finished_goods }}</td>
-                            <td>{{ runform11.kanban_count }}</td>
-                            <td>{{ runform11.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm11 }}" disabled></td>
-                            <td>{{ runform11.start_time }}</td>
-                            <td>{{ runform11.finish_time }}</td>
-                            <td>{{ runform11.plan_down_time }}</td>
-                            <td>{{ runform11.net_ope_time }}</td>
-                            <td>{{ runform11.plan_quanity }}</td>
-                            <td>{{ runform11.result_quanity }}</td>
-                            <td>{{ runform11.scrap_quanity }}</td>
-                            <td>{{ runform11.repair_quanity }}</td>
-                            <td>{{ runform11.analysis_quanity }}</td>
-                            <td>{{ runform11.quarantine_quanity }}</td>
-                            <td>{{ runform11.cabbage_patch_quanity }}</td>
-                            <td>{{ runform11.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime11 }}" disabled></td>
-                            <td>{{ runform11.standard_time }}</td>
-                            <td>{{ runform11.oa }}</td>
-                            <td>{{ runform11.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform12.number %}
-                        <tr>
-                            <td>{{ runform12.number }}</td>
-                            <td>{{ runform12.partal_start }}</td>
-                            <td>{{ runform12.partal_end }}</td>
-                            <td>{{ runform12.finished_goods }}</td>
-                            <td>{{ runform12.kanban_count }}</td>
-                            <td>{{ runform12.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm12 }}" disabled></td>
-                            <td>{{ runform12.start_time }}</td>
-                            <td>{{ runform12.finish_time }}</td>
-                            <td>{{ runform12.plan_down_time }}</td>
-                            <td>{{ runform12.net_ope_time }}</td>
-                            <td>{{ runform12.plan_quanity }}</td>
-                            <td>{{ runform12.result_quanity }}</td>
-                            <td>{{ runform12.scrap_quanity }}</td>
-                            <td>{{ runform12.repair_quanity }}</td>
-                            <td>{{ runform12.analysis_quanity }}</td>
-                            <td>{{ runform12.quarantine_quanity }}</td>
-                            <td>{{ runform12.cabbage_patch_quanity }}</td>
-                            <td>{{ runform12.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime12 }}" disabled></td>
-                            <td>{{ runform12.standard_time }}</td>
-                            <td>{{ runform12.oa }}</td>
-                            <td>{{ runform12.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform13.number %}
-                        <tr>
-                            <td>{{ runform13.number }}</td>
-                            <td>{{ runform13.partal_start }}</td>
-                            <td>{{ runform13.partal_end }}</td>
-                            <td>{{ runform13.finished_goods }}</td>
-                            <td>{{ runform13.kanban_count }}</td>
-                            <td>{{ runform13.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm13 }}" disabled></td>
-                            <td>{{ runform13.start_time }}</td>
-                            <td>{{ runform13.finish_time }}</td>
-                            <td>{{ runform13.plan_down_time }}</td>
-                            <td>{{ runform13.net_ope_time }}</td>
-                            <td>{{ runform13.plan_quanity }}</td>
-                            <td>{{ runform13.result_quanity }}</td>
-                            <td>{{ runform13.scrap_quanity }}</td>
-                            <td>{{ runform13.repair_quanity }}</td>
-                            <td>{{ runform13.analysis_quanity }}</td>
-                            <td>{{ runform13.quarantine_quanity }}</td>
-                            <td>{{ runform13.cabbage_patch_quanity }}</td>
-                            <td>{{ runform13.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime13 }}" disabled></td>
-                            <td>{{ runform13.standard_time }}</td>
-                            <td>{{ runform13.oa }}</td>
-                            <td>{{ runform13.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform14.number %}
-                        <tr>
-                            <td>{{ runform14.number }}</td>
-                            <td>{{ runform14.partal_start }}</td>
-                            <td>{{ runform14.partal_end }}</td>
-                            <td>{{ runform14.finished_goods }}</td>
-                            <td>{{ runform14.kanban_count }}</td>
-                            <td>{{ runform14.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm14 }}" disabled></td>
-                            <td>{{ runform14.start_time }}</td>
-                            <td>{{ runform14.finish_time }}</td>
-                            <td>{{ runform14.plan_down_time }}</td>
-                            <td>{{ runform14.net_ope_time }}</td>
-                            <td>{{ runform14.plan_quanity }}</td>
-                            <td>{{ runform14.result_quanity }}</td>
-                            <td>{{ runform14.scrap_quanity }}</td>
-                            <td>{{ runform14.repair_quanity }}</td>
-                            <td>{{ runform14.analysis_quanity }}</td>
-                            <td>{{ runform14.quarantine_quanity }}</td>
-                            <td>{{ runform14.cabbage_patch_quanity }}</td>
-                            <td>{{ runform14.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime14 }}" disabled></td>
-                            <td>{{ runform14.standard_time }}</td>
-                            <td>{{ runform14.oa }}</td>
-                            <td>{{ runform14.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform15.number %}
-                        <tr>
-                            <td>{{ runform15.number }}</td>
-                            <td>{{ runform15.partal_start }}</td>
-                            <td>{{ runform15.partal_end }}</td>
-                            <td>{{ runform15.finished_goods }}</td>
-                            <td>{{ runform15.kanban_count }}</td>
-                            <td>{{ runform15.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm15 }}" disabled></td>
-                            <td>{{ runform15.start_time }}</td>
-                            <td>{{ runform15.finish_time }}</td>
-                            <td>{{ runform15.plan_down_time }}</td>
-                            <td>{{ runform15.net_ope_time }}</td>
-                            <td>{{ runform15.plan_quanity }}</td>
-                            <td>{{ runform15.result_quanity }}</td>
-                            <td>{{ runform15.scrap_quanity }}</td>
-                            <td>{{ runform15.repair_quanity }}</td>
-                            <td>{{ runform15.analysis_quanity }}</td>
-                            <td>{{ runform15.quarantine_quanity }}</td>
-                            <td>{{ runform15.cabbage_patch_quanity }}</td>
-                            <td>{{ runform15.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime15 }}" disabled></td>
-                            <td>{{ runform15.standard_time }}</td>
-                            <td>{{ runform15.oa }}</td>
-                            <td>{{ runform15.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform16.number %}
-                        <tr>
-                            <td>{{ runform16.number }}</td>
-                            <td>{{ runform16.partal_start }}</td>
-                            <td>{{ runform16.partal_end }}</td>
-                            <td>{{ runform16.finished_goods }}</td>
-                            <td>{{ runform16.kanban_count }}</td>
-                            <td>{{ runform16.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm16 }}" disabled></td>
-                            <td>{{ runform16.start_time }}</td>
-                            <td>{{ runform16.finish_time }}</td>
-                            <td>{{ runform16.plan_down_time }}</td>
-                            <td>{{ runform16.net_ope_time }}</td>
-                            <td>{{ runform16.plan_quanity }}</td>
-                            <td>{{ runform16.result_quanity }}</td>
-                            <td>{{ runform16.scrap_quanity }}</td>
-                            <td>{{ runform16.repair_quanity }}</td>
-                            <td>{{ runform16.analysis_quanity }}</td>
-                            <td>{{ runform16.quarantine_quanity }}</td>
-                            <td>{{ runform16.cabbage_patch_quanity }}</td>
-                            <td>{{ runform16.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime16 }}" disabled></td>
-                            <td>{{ runform16.standard_time }}</td>
-                            <td>{{ runform16.oa }}</td>
-                            <td>{{ runform16.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform17.number %}
-                        <tr>
-                            <td>{{ runform17.number }}</td>
-                            <td>{{ runform17.partal_start }}</td>
-                            <td>{{ runform17.partal_end }}</td>
-                            <td>{{ runform17.finished_goods }}</td>
-                            <td>{{ runform17.kanban_count }}</td>
-                            <td>{{ runform17.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm17 }}" disabled></td>
-                            <td>{{ runform17.start_time }}</td>
-                            <td>{{ runform17.finish_time }}</td>
-                            <td>{{ runform17.plan_down_time }}</td>
-                            <td>{{ runform17.net_ope_time }}</td>
-                            <td>{{ runform17.plan_quanity }}</td>
-                            <td>{{ runform17.result_quanity }}</td>
-                            <td>{{ runform17.scrap_quanity }}</td>
-                            <td>{{ runform17.repair_quanity }}</td>
-                            <td>{{ runform17.analysis_quanity }}</td>
-                            <td>{{ runform17.quarantine_quanity }}</td>
-                            <td>{{ runform17.cabbage_patch_quanity }}</td>
-                            <td>{{ runform17.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime17 }}" disabled></td>
-                            <td>{{ runform17.standard_time }}</td>
-                            <td>{{ runform17.oa }}</td>
-                            <td>{{ runform17.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform18.number %}
-                        <tr>
-                            <td>{{ runform18.number }}</td>
-                            <td>{{ runform18.partal_start }}</td>
-                            <td>{{ runform18.partal_end }}</td>
-                            <td>{{ runform18.finished_goods }}</td>
-                            <td>{{ runform18.kanban_count }}</td>
-                            <td>{{ runform18.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm18 }}" disabled></td>
-                            <td>{{ runform18.start_time }}</td>
-                            <td>{{ runform18.finish_time }}</td>
-                            <td>{{ runform18.plan_down_time }}</td>
-                            <td>{{ runform18.net_ope_time }}</td>
-                            <td>{{ runform18.plan_quanity }}</td>
-                            <td>{{ runform18.result_quanity }}</td>
-                            <td>{{ runform18.scrap_quanity }}</td>
-                            <td>{{ runform18.repair_quanity }}</td>
-                            <td>{{ runform18.analysis_quanity }}</td>
-                            <td>{{ runform18.quarantine_quanity }}</td>
-                            <td>{{ runform18.cabbage_patch_quanity }}</td>
-                            <td>{{ runform18.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime18 }}" disabled></td>
-                            <td>{{ runform18.standard_time }}</td>
-                            <td>{{ runform18.oa }}</td>
-                            <td>{{ runform18.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform19.number %}
-                        <tr>
-                            <td>{{ runform19.number }}</td>
-                            <td>{{ runform19.partal_start }}</td>
-                            <td>{{ runform19.partal_end }}</td>
-                            <td>{{ runform19.finished_goods }}</td>
-                            <td>{{ runform19.kanban_count }}</td>
-                            <td>{{ runform19.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm19 }}" disabled></td>
-                            <td>{{ runform19.start_time }}</td>
-                            <td>{{ runform19.finish_time }}</td>
-                            <td>{{ runform19.plan_down_time }}</td>
-                            <td>{{ runform19.net_ope_time }}</td>
-                            <td>{{ runform19.plan_quanity }}</td>
-                            <td>{{ runform19.result_quanity }}</td>
-                            <td>{{ runform19.scrap_quanity }}</td>
-                            <td>{{ runform19.repair_quanity }}</td>
-                            <td>{{ runform19.analysis_quanity }}</td>
-                            <td>{{ runform19.quarantine_quanity }}</td>
-                            <td>{{ runform19.cabbage_patch_quanity }}</td>
-                            <td>{{ runform19.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime19 }}" disabled></td>
-                            <td>{{ runform19.standard_time }}</td>
-                            <td>{{ runform19.oa }}</td>
-                            <td>{{ runform19.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
-                        {% if runform20.number %}
-                        <tr>
-                            <td>{{ runform20.number }}</td>
-                            <td>{{ runform20.partal_start }}</td>
-                            <td>{{ runform20.partal_end }}</td>
-                            <td>{{ runform20.finished_goods }}</td>
-                            <td>{{ runform20.kanban_count }}</td>
-                            <td>{{ runform20.product_number }}</td>
-                            <td><input id="calchour1" type="number" value="{{ numoftm20 }}" disabled></td>
-                            <td>{{ runform20.start_time }}</td>
-                            <td>{{ runform20.finish_time }}</td>
-                            <td>{{ runform20.plan_down_time }}</td>
-                            <td>{{ runform20.net_ope_time }}</td>
-                            <td>{{ runform20.plan_quanity }}</td>
-                            <td>{{ runform20.result_quanity }}</td>
-                            <td>{{ runform20.scrap_quanity }}</td>
-                            <td>{{ runform20.repair_quanity }}</td>
-                            <td>{{ runform20.analysis_quanity }}</td>
-                            <td>{{ runform20.quarantine_quanity }}</td>
-                            <td>{{ runform20.cabbage_patch_quanity }}</td>
-                            <td>{{ runform20.unplan_downtime }}</td>
-                            <td><input id="calchour1" type="number" value="{{ cycletime20 }}" disabled></td>
-                            <td>{{ runform20.standard_time }}</td>
-                            <td>{{ runform20.oa }}</td>
-                            <td>{{ runform20.oa_without_downtime }}</td>
-                        </tr>
-                        {% else %}
-                        {% endif %}
+                        {% endfor %}
                     </table>
+                </div>
 
 
+
+    
+    
+                <div>
+                    {% else %}
                     
-                    <!-- below is a hidden button, this is required to update the runs -->
-                    <input type="submit" value="Submit" style="display: none;">
-                </form>
-            </div>
-        
-    </div>
-    
-<div>
-    {% else %}
-    <div name="block3" class="rounded-block center-text">
-    No Runs Found For Production Actual<br>
-    
-    {% endif %}
+                    No Runs Found For Production Actual<br>
+                    
+                    {% endif %}
+
+ 
     {% load static %}
     <!-- <img src="{% static 'productionactual/icons/greenadd.svg' %}" alt="addbuttonicon" width="20" height="20"> Add Run
     <img src="{% static 'productionactual/icons/delicon.webp' %}" alt="deletebuttonicon" width="20" height="20"> Remove Last Run -->
 
 </div>
+</div></div>
 </div>
 
 {{ debug_out }}

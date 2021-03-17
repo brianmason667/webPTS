@@ -20,7 +20,7 @@ class NewProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            "AssemblyLine_ID",
+            "assembly_line",
             "PartNumber",
             "TeamMember",
             "CycleTime",
@@ -69,6 +69,19 @@ class RunForm(forms.ModelForm):
             "standard_time",
             "oa",
             "oa_without_downtime",
+        ]
+
+class NewRunForm(forms.ModelForm):
+    class Meta:
+        model = Run
+        fields = [
+            "partal_start",
+            "partal_end",
+            "finished_goods",
+            "kanban_count",
+            "product_number",
+            "start_time",
+            "finish_time",
         ]
 
 class AddRunForm(forms.ModelForm):
