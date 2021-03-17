@@ -24,15 +24,15 @@ class AssemblyLine(models.Model):
         return self.line_name
 
 class Product(models.Model):
-    AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
+    assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     PartNumber = models.CharField(max_length=15)
     TeamMember = models.CharField(max_length=2)
     CycleTime = models.CharField(max_length=4)
     ToteQuantity = models.IntegerField(default=0)
     class Meta:
-        ordering = ['AssemblyLine_ID', 'PartNumber', 'TeamMember', 'CycleTime']
+        ordering = ['assembly_line', 'PartNumber', 'TeamMember', 'CycleTime']
     def __str__(self):
-        return '{1}({2})'.format(self.AssemblyLine_ID, self.PartNumber, self.TeamMember, self.CycleTime)
+        return '{0}{1}({2}){3}'.format(self.assembly_line, self.PartNumber, self.TeamMember, self.CycleTime)
 
 class ProductionActual(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular ProductionActual")
@@ -68,8 +68,8 @@ class Run(models.Model):
     finished_goods = models.IntegerField(default=0, help_text="How many totes completed")
     kanban_count = models.IntegerField(default=0, help_text="How many Kanbans in post for current shift")
     product_number = models.ForeignKey(Product, on_delete=models.CASCADE)
-    start_time = models.TimeField()
-    finish_time = models.TimeField()
+    start_time = models.TimeField(blank=True, null=True)
+    finish_time = models.TimeField(blank=True, null=True)
     plan_down_time = models.IntegerField(default=0)
     net_ope_time = models.IntegerField(default=0)
     plan_quanity = models.IntegerField(default=0)
@@ -105,7 +105,7 @@ class Run(models.Model):
     #         ]
 
 class Machine(models.Model):
-    AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
+    assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     machine_name = models.CharField(max_length=40)
     machine_name_short = models.CharField(max_length=5)
     machine_name_actual = models.CharField(max_length=7)
@@ -113,7 +113,7 @@ class Machine(models.Model):
         return self.machine_name_short
 
 class Defect(models.Model):
-    AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
+    assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     FourM =  models.CharField(max_length=7)
     Machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     defect_code = models.CharField(max_length=10)
@@ -128,7 +128,7 @@ class DefectInstance(models.Model):
     defect_quanity = models.IntegerField(default=1)
 
 class Downtime(models.Model):
-    AssemblyLine_ID = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
+    assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     Machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     FourM =  models.CharField(max_length=7)
     downtime_code = models.CharField(max_length=5)
