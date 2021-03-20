@@ -110,8 +110,8 @@
     <div class="row">
         <!-- <div class="col-sm-12"> -->
             <!-- include block 3 datatable -->
-            
-            <div name="block3" class="rounded-block center-text">{%if RunsExist %}
+            {%if RunsExist %}
+            <div name="block3" class="rounded-block center-text">
                     <table id="block3" class="block3 sep-rows">
                         <tr>
                             <th>Run#</th>
@@ -164,21 +164,52 @@
                             <td>{{ run.oa }}</td>
                             <td>{{ run.oa_without_downtime }}</td>
                         </tr>
-                        </a>
                         {% endfor %}
-                    </table>
+                        <!-- a blank row in the table -->
+                        <tr>
+                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ runtotal.finish_time }}</td>
+                            <td>{{ runtotal.plan_down_time }}</td>
+                            <td>{{ runtotal.net_ope_time }}</td>
+                            <td>{{ runtotal.plan_quanity }}</td>
+                            <td>{{ runtotal.result_quanity }}</td>
+                            <td>{{ runtotal.scrap_quanity }}</td>
+                            <td>{{ runtotal.repair_quanity }}</td>
+                            <td>{{ runtotal.analysis_quanity }}</td>
+                            <td>{{ runtotal.quarantine_quanity }}</td>
+                            <td>{{ runtotal.cabbage_patch_quanity }}</td>
+                            <td>{{ runtotal.unplan_downtime }}</td>
+                            <td>{{ runtotal.cycletime }}</td>
+                            <td>{{ runtotal.standard_time }}</td>
+                            <td>{{ runtotal.oa }}</td>
+                            <td>{{ runtotal.oa_without_downtime }}</td>
+                        </tr>
+                        </table>
                 </div>
-
+    </div>
     
-    
-                <div>
+                
                     {% else %}
-                    
+                    <div name="block3" class="rounded-block center-text">
                     No Runs Found For Production Actual<br>
-                    
+                    </div>
                     {% endif %}
 
- 
+ <div>
     {% load static %}
     <!-- <img src="{% static 'productionactual/icons/greenadd.svg' %}" alt="addbuttonicon" width="20" height="20"> Add Run
     <img src="{% static 'productionactual/icons/delicon.webp' %}" alt="deletebuttonicon" width="20" height="20"> Remove Last Run -->

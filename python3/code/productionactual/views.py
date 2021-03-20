@@ -559,8 +559,16 @@ def ProductionActualView(request, pk):
     ]
     RunsExist = any(ExistsAll)
 
+    runtotal = {
+        'finished_goods': 5,
+        'kanban_count': 6,
+        'finish_time': "Total",
+    }
+
+    context["runtotal"] = runtotal
     context["run_list"] = run_list
     context["RunsExist"] = RunsExist
+    context["ExistsAll"] = ExistsAll
 
 
 
@@ -688,58 +696,123 @@ def RemoveRunView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/removerun.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/EditRun/3 ## ex: add run for an opened production actual
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/EditRun/3 ## ex: edit existing run for a production actual
 def EditRunView(request, pk, number):
     context ={}
     dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
     Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+
+    # get runs for single production actual
+    RunFilter = Run.objects.filter(ProductionActual=pk)
+
+    # remove if not need
     context["hourly"] = Hourly_Count
     context["ProductionActual"] = Production_Actual
     date = Production_Actual.pa_date
     year = date.year
     month = date.month
     line = Production_Actual.assembly_line_number
-    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
-    run_count = Run.objects.filter(ProductionActual=pk).count()
+
+    # get run number from url
     run_number = number
 
-    if request.method == 'POST':
-        form = EditRunForm(request.POST)
-        # form.product_number.queryset = Product.objects.filter(assembly_line_number=line)
-        if form.is_valid():
-            # not save until form.save()
-            form = form.save(commit=False)
-            # set Productionacutal to that is open from url
-            form.ProductionActual=Production_Actual
-            # set times to now
+    # filter runs by run number
+    RunFilter = RunFilter.filter(number=run_number)
+    Runs = RunFilter.get()
 
-            form.number=run_number
+    # vars for the run
+    Runs_partal_start = Runs.partal_start
+    Runs_partal_end = Runs.partal_end
+    Runs_finnished_goods = Runs.finished_goods
+    Runs_kanban_count = Runs.kanban_count
+    Runs_product_number = Runs.product_number
+    Runs_start_time = Runs.start_time
+    Runs_finish_time = Runs.finish_time
+    Runs_plan_down_time = Runs.plan_down_time
+    Runs_net_ope_time = Runs.net_ope_time
+    Runs_plan_quanity = Runs.plan_quanity
+    Runs_result_quanity = Runs.result_quanity
+    Runs_scrap_quanity = Runs.scrap_quanity
+    Runs_repair_quanity = Runs.repair_quanity
+    Runs_analysis_quanity = Runs.analysis_quanity
+    Runs_quarantine_quanity = Runs.quarantine_quanity
+    Runs_cabbage_patch_quanity = Runs.cabbage_patch_quanity
+    Runs_unplan_downtime = Runs.unplan_downtime
+    Runs_standard_time = Runs.standard_time
+    Runs_oa = Runs.oa
+    Runs_oa_without_downtime = Runs.oa_without_downtime
+    
+    # run number as string
+    rns=str(run_number)   
+    # for automatic number of tm in runs        
+    numoftm = Runs_product_number.TeamMember
+    # number of tms with run number as a string passed to context
+    context["numoftm"] = numoftm
 
-            form.save()
-            return HttpResponseRedirect("/Records/"+str(pk))
-    else:
-        form = EditRunForm()
-        form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
-        #form.product_number.queryset = 
-        if form.is_valid():
-            # not save until form.save()
-            form = form.save(commit=False)
-            # set Productionacutal to that is open from url
-            form.ProductionActual=Production_Actual
-            # set times to now
+    # for automatic cycletime for product in runs
+    run_cycletime = Runs_product_number.CycleTime
+    # passed to context with run number as a string
+    context["cycletime"] = run_cycletime
 
-            form.number=run_number
-  
-            form.save()
-    context['form']= form
-       
+    # for automatic tote quanity
+    tote = Runs_product_number.ToteQuantity
 
-    # def AddRun(*args):
-    #     create_Run =  Run.objects.create(ProductionActual=Production_Actual, start_time=datetime.datetime.now(), finish_time=datetime.datetime.now(), product_number_id=args)
+    # math plan and result quanity from tote quanity and start/end partals
+    Runs_plan_quanity = (Runs_kanban_count * tote)
+    Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
 
-    # AddRun(1)
-    title = "Add Run"
+    
+    # make time object into datetime object with date to figure out net operation time
+    date = datetime.date(1, 1, 1)
+    rst = datetime.datetime.combine(date, Runs_start_time)
+    rft = datetime.datetime.combine(date, Runs_finish_time)
+    seconds_elapsed = rft - rst
+    Runs_net_ope_time = (seconds_elapsed.seconds / 60) - Runs_plan_down_time
+
+    # dict for form initial values
+    setrun={
+        'id': Runs.id,
+        'number': run_number,
+        'partal_start': Runs_partal_start,
+        'partal_end': Runs_partal_end,
+        'finished_goods': Runs_finnished_goods,
+        'kanban_count': Runs_kanban_count,
+        'product_number': Runs_product_number,
+        'start_time': Runs_start_time,
+        'finish_time': Runs_finish_time,
+        'plan_down_time': Runs_plan_down_time,
+        'net_ope_time': Runs_net_ope_time,
+        'plan_quanity': Runs_plan_quanity,
+        'result_quanity': Runs_result_quanity,
+        'scrap_quanity': Runs_scrap_quanity,
+        'repair_quanity': Runs_repair_quanity,
+        'analysis_quanity': Runs_analysis_quanity,
+        'quarantine_quanity': Runs_quarantine_quanity,
+        'cabbage_patch_quanity': Runs_cabbage_patch_quanity,
+        'unplan_downtime': Runs_unplan_downtime,
+        'standard_time': Runs_standard_time,
+        'oa': Runs_oa,
+        'oa_without_downtime': Runs_oa_without_downtime,
+        }
+
+    run_form = EditRunForm(request.POST or None, initial=setrun)
+    # i dont know why this dose not work, it should keep user from selecting products not for a line
+    #form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
+    if run_form.is_valid():
+        # not save until form.save()
+        run_form = run_form.save(commit=False)
+        # link the run object to the correct productionactual uuid
+        run_form.ProductionActual_id = pk
+        run_form.number=run_number
+        run_form.id=Runs.id
+        run_form.save()
+        return HttpResponseRedirect("/Records/"+str(pk))
+    context["form"] = run_form
+
+    dbgcontext["setrun"] = Runs.id
+
+    title = "Edit Run "+rns
 
        
     context["title"] = title
@@ -748,11 +821,12 @@ def EditRunView(request, pk, number):
     context["line"] = line
     context["year"] = year
     context["month"] = month
+    context["run_number"] = run_number
     #dbgcontext["context"] = context 
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     # return HttpResponseRedirect("/Records/"+str(pk))
-    return render(request, "productionactual/addrun.html", context)
+    return render(request, "productionactual/editrun.html", context)
 
 
 
@@ -801,7 +875,7 @@ def AddRunView(request, pk):
     #     create_Run =  Run.objects.create(ProductionActual=Production_Actual, start_time=datetime.datetime.now(), finish_time=datetime.datetime.now(), product_number_id=args)
 
     # AddRun(1)
-    title = "Add Run V2"
+    title = "Add New Run"
 
        
     context["title"] = title

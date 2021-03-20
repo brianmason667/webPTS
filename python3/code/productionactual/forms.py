@@ -88,7 +88,6 @@ class EditRunForm(forms.ModelForm):
     class Meta:
         model = Run
         fields = [
-            "number",
             "partal_start",
             "partal_end",
             "finished_goods",
