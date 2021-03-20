@@ -617,3 +617,404 @@ hopefully dont have to move below back ither
 
 
 
+ ## make runs
+ # get runs for single production actual
+ def MakeRuns(*args):
+     RunFilter = Run.objects.filter(ProductionActual=pk)
+     for rn in args:
+         RunFilter = RunFilter.filter(number=rn)
+         Runs = RunFilter.get()
+
+         Runs_number = Runs.number
+         Runs_partal_start = Runs.partal_start
+         Runs_partal_end = Runs.partal_end
+         Runs_finnished_goods = Runs.finished_goods
+         Runs_kanban_count = Runs.kanban_count
+         Runs_product_number = Runs.product_number
+         Runs_start_time = Runs.start_time
+         Runs_finish_time = Runs.finish_time
+         Runs_plan_down_time = Runs.plan_down_time
+         Runs_net_ope_time = Runs.net_ope_time
+         Runs_plan_quanity = Runs.plan_quanity
+         Runs_result_quanity = Runs.result_quanity
+         Runs_scrap_quanity = Runs.scrap_quanity
+         Runs_repair_quanity = Runs.repair_quanity
+         Runs_analysis_quanity = Runs.analysis_quanity
+         Runs_quarantine_quanity = Runs.quarantine_quanity
+         Runs_cabbage_patch_quanity = Runs.cabbage_patch_quanity
+         Runs_unplan_downtime = Runs.unplan_downtime
+         Runs_standard_time = Runs.standard_time
+         Runs_oa = Runs.oa
+         Runs_oa_without_downtime = Runs.oa_without_downtime
+         
+         
+         # run number as string
+         rns=str(rn)   
+         # for automatic number of tm in runs        
+         numoftm = Runs_product_number.TeamMember
+         # number of tms with run number as a string passed to context
+         context["numoftm"+rns] = numoftm
+
+         # for automatic cycletime for product in runs
+         run_cycletime = Runs_product_number.CycleTime
+         # passed to context with run number as a string
+         context["cycletime"+rns] = run_cycletime
+
+         # for automatic tote quanity
+         tote = Runs_product_number.ToteQuantity
+
+         # math plan and result quanity from tote quanity and start/end partals
+         Runs_plan_quanity = (Runs_kanban_count * tote)
+         Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
+
+         
+         # make time object into datetime object with date to figure out netoperation
+         date = datetime.date(1, 1, 1)
+         rst = datetime.datetime.combine(date, Runs_start_time)
+         rft = datetime.datetime.combine(date, Runs_finish_time)
+         seconds_elapsed = rft - rst
+         Runs_net_ope_time = (seconds_elapsed.seconds / 60) - Runs_plan_down_time
+
+         # Standard Time is quanity produced muliplied by the Cycle time divied by amount of time (60minutes)
+         
+         #Runs_standard_time = Runs_result_quanity * run_cycletime / Runs_net_ope_time + Runs_plan_down_time
+
+         setrun={
+             'number': Runs_number,
+             'partal_start': Runs_partal_start,
+             'partal_end': Runs_partal_end,
+             'finished_goods': Runs_finnished_goods,
+             'kanban_count': Runs_kanban_count,
+             'product_number': Runs_product_number,
+             'start_time': Runs_start_time,
+             'finish_time': Runs_finish_time,
+             'plan_down_time': Runs_plan_down_time,
+             'net_ope_time': Runs_net_ope_time,
+             'plan_quanity': Runs_plan_quanity,
+             'result_quanity': Runs_result_quanity,
+             'scrap_quanity': Runs_scrap_quanity,
+             'repair_quanity': Runs_repair_quanity,
+             'analysis_quanity': Runs_analysis_quanity,
+             'quarantine_quanity': Runs_quarantine_quanity,
+             'cabbage_patch_quanity': Runs_cabbage_patch_quanity,
+             'unplan_downtime': Runs_unplan_downtime,
+             'standard_time': Runs_standard_time,
+             'oa': Runs_oa,
+             'oa_without_downtime': Runs_oa_without_downtime,
+             }
+
+         run_form = RunForm(request.POST or None, initial=setrun)
+         # i dont know why this dose not work, it should keep user from selecting products not for a line
+         #form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
+         if run_form.is_valid():
+             # not save until form.save()
+             run_form = run_form.save(commit=False)
+             # link the run object to the correct productionactual uuid
+             run_form.ProductionActual_id = pk
+             run_form.save()
+             return HttpResponseRedirect("/Records/"+str(pk))
+         context["runform"+rns] = run_form
+     return context
+ RunsExist=True
+ try:
+     MakeRuns(20)
+     MakeRuns(19)
+     MakeRuns(18)
+     MakeRuns(17)
+     MakeRuns(16)
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan17 = True
+ try:
+     MakeRuns(19)
+     MakeRuns(18)
+     MakeRuns(17)
+     MakeRuns(16)
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan17 = True
+ try:
+     MakeRuns(18)
+     MakeRuns(17)
+     MakeRuns(16)
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan17 = True
+ try:
+     MakeRuns(17)
+     MakeRuns(16)
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan17 = True
+ try:
+     MakeRuns(16)
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan16 = True
+ try:
+     MakeRuns(15)
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan15 = True
+ try:                           
+     MakeRuns(14)
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan14 = True
+ try:
+     MakeRuns(13)
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan13 = True
+ try:
+     MakeRuns(12)
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan12 = True
+ try:
+     MakeRuns(11)
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     lessthan11 = True
+ try:
+     MakeRuns(10)
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     MakeRuns(9)
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     MakeRuns(8)
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     MakeRuns(7)
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     MakeRuns(6)
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     MakeRuns(5)
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     
+     MakeRuns(4)
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     
+     MakeRuns(3)
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     
+     MakeRuns(2)
+     MakeRuns(1)
+ except:
+     knowswhatdoing=False
+ try:
+     
+     MakeRuns(1)
+ except:
+
+
+
+
+
+
+ run = {}
+ run['number']= pa_runs.number
+ run['partal_start']=1
+ run['partal_end']=1
+ run['finished_goods']=1
+ run['kanban_count']=1
+ run['product_number']=1
+ run['start_time']=1
+ run['finish_time']=1
+ run['plan_down_time']=1
+ run['net_ope_time']=1
+ run['plan_quanity']=1
+ run['result_quanity']=1
+ run['scrap_quanity']=1
+ run['repair_quanity']=1
+ run['analysis_quanity']=1
+ run['quarantine_quanity']=1
+ run['cabbage_patch_quanity']=1
+ run['unplan_downtime']=1
+ run['cycletime']=1
+ run['standard_time']=1
+ run['oa']=1
+ run['oa_without_downtime']=1
