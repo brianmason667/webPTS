@@ -84,11 +84,18 @@ class NewRunForm(forms.ModelForm):
             "finish_time",
         ]
 
-class AddRunForm(forms.ModelForm):
+class EditRunForm(forms.ModelForm):
     class Meta:
         model = Run
         fields = [
+            "number",
+            "partal_start",
+            "partal_end",
+            "finished_goods",
+            "kanban_count",
             "product_number",
+            "start_time",
+            "finish_time",
         ]
 
 class RemoveRunForm(forms.ModelForm):

@@ -32,7 +32,8 @@ class Product(models.Model):
     class Meta:
         ordering = ['assembly_line', 'PartNumber', 'TeamMember', 'CycleTime']
     def __str__(self):
-        return '{0}{1}({2}){3}'.format(self.assembly_line, self.PartNumber, self.TeamMember, self.CycleTime)
+        #return '{0}{1}({2}){3}'.format(self.assembly_line, self.PartNumber, self.TeamMember, self.CycleTime)
+        return '{1}'.format(self.assembly_line, self.PartNumber, self.TeamMember, self.CycleTime)
 
 class ProductionActual(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular ProductionActual")

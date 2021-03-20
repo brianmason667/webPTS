@@ -140,35 +140,34 @@
                         </tr>
                         {% for run in run_list %}
                         <tr>
-                            <td>{{ number }}</td>
-                            <td>{{ partal_start }}</td>
-                            <td>{{ partal_end }}</td>
-                            <td>{{ finished_goods }}</td>
-                            <td>{{ kanban_count }}</td>
-                            <td>{{ product_number }}</td>
-                            <td>{{ numoftm }}</td>
-                            <td>{{ start_time }}</td>
-                            <td>{{ finish_time }}</td>
-                            <td>{{ plan_down_time }}</td>
-                            <td>{{ net_ope_time }}</td>
-                            <td>{{ plan_quanity }}</td>
-                            <td>{{ result_quanity }}</td>
-                            <td>{{ scrap_quanity }}</td>
-                            <td>{{ repair_quanity }}</td>
-                            <td>{{ analysis_quanity }}</td>
-                            <td>{{ quarantine_quanity }}</td>
-                            <td>{{ cabbage_patch_quanity }}</td>
-                            <td>{{ unplan_downtime }}</td>
-                            <td>{{ cycletime }}</td>
-                            <td>{{ standard_time }}</td>
-                            <td>{{ oa }}</td>
-                            <td>{{ oa_without_downtime }}</td>
+                            <td><a href="{% url 'EditRun' ProductionActual.id run.number %}">{{ run.number }}</a></td>
+                            <td>{{ run.partal_start }}</td>
+                            <td>{{ run.partal_end }}</td>
+                            <td>{{ run.finished_goods }}</td>
+                            <td>{{ run.kanban_count }}</td>
+                            <td>{{ run.product_number }}</td>
+                            <td>{{ run.numoftm }}</td>
+                            <td>{{ run.start_time }}</td>
+                            <td>{{ run.finish_time }}</td>
+                            <td>{{ run.plan_down_time }}</td>
+                            <td>{{ run.net_ope_time }}</td>
+                            <td>{{ run.plan_quanity }}</td>
+                            <td>{{ run.result_quanity }}</td>
+                            <td>{{ run.scrap_quanity }}</td>
+                            <td>{{ run.repair_quanity }}</td>
+                            <td>{{ run.analysis_quanity }}</td>
+                            <td>{{ run.quarantine_quanity }}</td>
+                            <td>{{ run.cabbage_patch_quanity }}</td>
+                            <td>{{ run.unplan_downtime }}</td>
+                            <td>{{ run.cycletime }}</td>
+                            <td>{{ run.standard_time }}</td>
+                            <td>{{ run.oa }}</td>
+                            <td>{{ run.oa_without_downtime }}</td>
                         </tr>
+                        </a>
                         {% endfor %}
                     </table>
                 </div>
-
-
 
     
     
