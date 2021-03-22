@@ -182,7 +182,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{{ runtotal.finish_time }}</td>
+                            <td>Totals:</td>
                             <td>{{ runtotal.plan_down_time }}</td>
                             <td>{{ runtotal.net_ope_time }}</td>
                             <td>{{ runtotal.plan_quanity }}</td>
@@ -204,7 +204,7 @@
     
                 
                     {% else %}
-                    <div name="block3" class="rounded-block center-text">
+                    <div name="block3alt" class="rounded-block center-text">
                     No Runs Found For Production Actual<br>
                     </div>
                     {% endif %}
@@ -217,8 +217,11 @@
 </div>
 </div></div>
 </div>
-
+<div name="block4" class="rounded-block center-text">
 {{ debug_out }}
+
+</div>
+
 {% else %}
 {% endif %}
 {% endblock %}

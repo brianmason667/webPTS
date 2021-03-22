@@ -1,5 +1,6 @@
 
 import datetime
+import collections, functools, operator 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import query
 from django.db.models.fields import CommaSeparatedIntegerField
@@ -559,13 +560,27 @@ def ProductionActualView(request, pk):
     ]
     RunsExist = any(ExistsAll)
 
-    runtotal = {
-        'finished_goods': 5,
-        'kanban_count': 6,
-        'finish_time': "Total",
-    }
+    # this is to calc totals for runs
+    # we dont want to calc totals for certan keys, we create new list of dict without this key, one at a time.
+    rl_wo_number = [{k: v for k, v in d.items() if k != 'number'} for d in run_list]
+    rl_wo_partal_start = [{k: v for k, v in d.items() if k != 'partal_start'} for d in rl_wo_number]
+    rl_wo_partal_end = [{k: v for k, v in d.items() if k != 'partal_end'} for d in rl_wo_partal_start]
+    rl_wo_finished_goods = [{k: v for k, v in d.items() if k != 'finished_goods'} for d in rl_wo_partal_end]
+    rl_wo_kanban_count = [{k: v for k, v in d.items() if k != 'kanban_count'} for d in rl_wo_finished_goods]
+    rl_wo_product_number = [{k: v for k, v in d.items() if k != 'product_number'} for d in rl_wo_kanban_count]
+    rl_wo_numoftm = [{k: v for k, v in d.items() if k != 'numoftm'} for d in rl_wo_product_number]
+    rl_wo_start_time = [{k: v for k, v in d.items() if k != 'start_time'} for d in rl_wo_numoftm]
+    run_list_cleaned = [{k: v for k, v in d.items() if k != 'finish_time'} for d in rl_wo_start_time]
 
-    context["runtotal"] = runtotal
+    # do the actual math to get run totals
+    counter = collections.Counter() 
+    for d in run_list_cleaned:  
+        counter.update(d) 
+    run_totals = dict(counter) 
+
+    dbgcontext["runtotal"] = run_totals
+    context["runtotal"] = run_totals
+
     context["run_list"] = run_list
     context["RunsExist"] = RunsExist
     context["ExistsAll"] = ExistsAll
@@ -573,7 +588,7 @@ def ProductionActualView(request, pk):
 
 
     # everything that goes to context goes into debug
-    dbgcontext = context
+    # dbgcontext = context
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/productionactual.html", context)
@@ -582,7 +597,111 @@ def ProductionActualView(request, pk):
 
 ##################################################
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime ## ex: lost time for an opened production actual
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime ## ex: view downtime for an opened production actual
+def ViewDowntimeView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    # downtime_query = DowntimeInstance.objects.filter(ProductionActual=pk)
+    # context["downtime_query"] = downtime_query
+    # dbgcontext["downtime_query"] = downtime_query
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+   
+    downtime_list=[]
+
+    def MakeDowntimes(*args):
+        downtimefilter = DowntimeInstance.objects.filter(ProductionActual=pk)
+        for dn in args:
+            RunFilter = RunFilter.filter(number=dn)
+            downtimes = downtimefilter.get()
+
+            downtimes_run = downtimes.run
+            downtimes_machine = downtimes.machine
+            downtimes_product_number = downtimes.product_number
+            downtimes_stop_time = downtimes.stop_time
+            downtimes_start_time = downtimes.start_time
+            downtimes_fcode = downtimes.fcode
+            
+    
+            # for automatic number of tm in runs        
+            numoftm = Runs_product_number.TeamMember
+
+            # for automatic cycletime for product in runs
+            run_cycletime = Runs_product_number.CycleTime
+
+            # for automatic tote quanity
+            tote = Runs_product_number.ToteQuantity
+
+            # math plan and result quanity from tote quanity and start/end partals
+            Runs_plan_quanity = (Runs_kanban_count * tote)
+            Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
+
+            # make time object into datetime object with date to figure out netoperation
+            date = datetime.date(1, 1, 1)
+            try:
+                dst = datetime.datetime.combine(date, downtimes_stop_time)
+            except:
+                dst = datetime.datetime.now()
+            try:
+                rft = datetime.datetime.combine(date, downtimes_start_time)
+            except:
+                rft = datetime.datetime.now()
+
+            seconds_elapsed = rft - rst
+
+            # Standard Time is quanity produced muliplied by the Cycle time divied by amount of time (60minutes)
+            
+            #Runs_standard_time = Runs_result_quanity * run_cycletime / Runs_net_ope_time + Runs_plan_down_time
+
+            downtime={
+                'number': downtimes_run,
+                'partal_start': downtimes_machine,
+                'partal_end': downtimes_product_number,
+                'finished_goods': downtimes_stop_time,
+                'kanban_count': downtimes_start_time,
+                'product_number': downtimes_fcode,
+                'numoftm': numoftm,
+                }
+            downtimec=downtime.copy()
+            downtime_list.append(downtimec)
+    
+
+    try:
+        MakeDowntimes(1)
+    except:
+        Downtime1Exist = False
+    try:
+        MakeDowntimes(2)
+    except:
+        Downtime2Exist = False
+    try:
+        MakeDowntimes(3)
+    except:
+        Downtime3Exist = False
+    try:
+        MakeDowntimes(4)
+    except:
+        Downtime4Exist = False
+    try:
+        MakeDowntimes(5)
+    except:
+        Downtime5Exist = False
+
+    context["ProductionActual"] = Production_Actual
+    dbgcontext["downtime_list"] = downtime_list
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/viewdowntimes.html", context)
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime/3 ## ex: edit downtime 3 for an opened production actual
 def EditDowntimeView(request, pk):
     context ={}
     dbgcontext ={}
@@ -611,7 +730,29 @@ def EditDowntimeView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdowntimes.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defects ## ex: lost time for an opened production actual
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect ## ex: view defects for an opened production actual
+def ViewDefectView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/viewdefects.html", context)
+
+## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect/3 ## ex: edit Defect 3 for an opened production actual
 def EditDefectView(request, pk):
     context ={}
     dbgcontext ={}

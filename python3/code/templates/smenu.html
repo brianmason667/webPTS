@@ -33,7 +33,7 @@
     <li>
     <a>Downtime</a>
         <ul>
-            <li><a href="{% url 'Downtime' ProductionActual.id %}" id="downtimemenuoption">Add/Edit Downtime</a></li>
+            <li><a href="{% url 'ViewDowntime' ProductionActual.id %}" id="downtimemenuoption">View Downtimes</a></li>
             <li><a href="{% url 'LostTime' ProductionActual.id %}" id="">View Lost Time</a></li>
             <li><a id="fcode-request">New Fcode request</a></li>
             <li class="split"></li>
@@ -44,7 +44,7 @@
     <li>
     <a>Defects</a>
         <ul>
-            <li><a href="{% url 'Defects' ProductionActual.id %}" id="defectmenuoption">Add/Edit defect</a></li>
+            <li><a href="{% url 'ViewDefects' ProductionActual.id %}" id="defectmenuoption">View Defects</a></li>
             <li><a id="dcode-request">New Dcode request</a></li>
             <li><a id=""></a></li>
             <li><a id=""></a></li>

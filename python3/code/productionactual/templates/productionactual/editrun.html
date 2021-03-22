@@ -14,7 +14,25 @@
               {% csrf_token %} 
             
               <!-- Using the formset -->
-              {{ form.as_p }} 
+              <table>
+                  <tr><th>Partal Start</th>
+                    <th>Partal End</th>
+                    <th>Finished Goods</th>
+                    <th>Kanban Count</th>
+                    <th>Product Number</th>
+                    <th>Start Time</th>
+                    <th>Finish Time</th>
+                </tr>
+              <tr><td>{{ form.partal_start }}</td>
+                <td>{{ form.partal_end }}</td>
+                <td>{{ form.finished_goods }}</td>
+                <td>{{ form.kanban_count }}</td>
+                <td>{{ form.product_number }}</td>
+                <td>{{ form.start_time }}</td>
+                <td>{{ form.finish_time }}</td>
+              </tr>
+            </table>
+               
                 <input type="submit" name="runaddbutton" value="OK" id="downtimeokbutton">
                 <a href="{% url 'ProductionActual' ProductionActual.id %}" >
                 <input type="button" class="close-modal" name="runsbackbutton" value="Close"

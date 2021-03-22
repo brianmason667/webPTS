@@ -1,0 +1,71 @@
+{% extends 'smenu.html' %}
+{% block title %}Downtime{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="rounded-block center-text">
+        <div>
+            <h1 class="modal-title">Downtime</h1>
+            <form id="downtime" action="" method="post">
+  
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Run</th>
+                            <th>Machine</th>
+                            <th>Product Number</th>
+                            <th>Stop Time</th>
+                            <th>Start Time</th>
+                            <th>Totals</th>
+                            <th>Fcode</th>
+                            <th># of TM</th>
+                            <th>Han-Cho</th>
+                            <th>Shoku-Cho</th>
+                            <th>Maintenace</th>
+                            <th>Ko-Cho</th>
+                            <th>Explanation of Trouble</th>
+                            <th>P/U</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                    </tbody>
+  
+  
+  
+  
+                </table>
+                <input type="button" name="downtimeokbutton" value="OK" id="downtimeokbutton">
+                <a href="{% url 'ProductionActual' ProductionActual.id %}" >
+                <input type="button" class="close-modal" name="downtimebackbutton" value="Close"
+                    id="downtimeclosebutton"></a>
+  
+            </form>
+        </div>
+    </div>
+  
+  
+    <div name="block4" class="rounded-block center-text">
+        {{ debug_out }}
+        
+        </div>
+
+{% else %}
+{% endif %}
+{% endblock %}
