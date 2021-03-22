@@ -27,7 +27,7 @@ class Product(models.Model):
     assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
     PartNumber = models.CharField(max_length=15)
     TeamMember = models.CharField(max_length=2)
-    CycleTime = models.CharField(max_length=4)
+    CycleTime = models.FloatField(max_length=4)
     ToteQuantity = models.IntegerField(default=0)
     class Meta:
         ordering = ['assembly_line', 'PartNumber', 'TeamMember', 'CycleTime']
