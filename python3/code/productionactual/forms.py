@@ -103,3 +103,15 @@ class RemoveRunForm(forms.ModelForm):
         fields = [
             
         ]
+
+class AddDowntimeInstance(forms.ModelForm):
+    class Meta:
+        model = DowntimeInstance
+        fields = [
+            "production_run",
+            "down_time",
+            "up_time",
+            "downtime",
+            "recovery_time",
+            "occurrence_multiplier",
+        ]
