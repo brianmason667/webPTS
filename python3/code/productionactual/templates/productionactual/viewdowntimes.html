@@ -8,7 +8,7 @@
             <h1 class="modal-title">Downtime</h1>
             <form id="downtime" action="" method="post">
   
-                <table>
+                <table class="sep-rows">
                     <thead>
                         <tr>
                             <th>Run</th>
@@ -28,23 +28,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for downtime in downtime_list %}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td> </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ downtime.run}}</td>
+                            <td>{{downtime.machine}}</td>
+                            <td>{{downtime.product}} </td>
+                            <td>{{downtime.stop}}</td>
+                            <td>{{downtime.start}}</td>
+                            <td>{{downtime.total}}</td>
+                            <td>{{downtime.downtime}}</td>
+                            <td>{{downtime.numoftm}}</td>
+                            <td>{{downtime.hancho}}</td>
+                            <td>{{downtime.shokucho}}</td>
+                            <td>{{downtime.maintenace}}</td>
+                            <td>{{downtime.kocho}}</td>
+                            <td>{{downtime.expl}}</td>
+                            <td>{{downtime.pu}}</td>
                         </tr>
-                        
+                        {% endfor %}
                     </tbody>
   
   

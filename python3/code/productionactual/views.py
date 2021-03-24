@@ -4,7 +4,7 @@ import collections, functools, operator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import query
 from django.db.models.fields import CommaSeparatedIntegerField
-from django.db.models.functions.datetime import ExtractMonth
+from django.db.models.functions.datetime import ExtractMonth, Now
 from django.db.models.query import QuerySet
 from django.db.models.functions import ExtractYear
 from django.shortcuts import render, get_object_or_404
@@ -406,6 +406,10 @@ def ProductionActualView(request, pk):
             
             #Runs_standard_time = Runs_result_quanity * run_cycletime / Runs_net_ope_time + Runs_plan_down_time
 
+            # format time strings in 24h time
+            fm_start_time = rst.strftime("%H:%M")
+            fm_finish_time = rft.strftime("%H:%M") 
+
             run={
                 'number': Runs_number,
                 'partal_start': Runs_partal_start,
@@ -414,8 +418,8 @@ def ProductionActualView(request, pk):
                 'kanban_count': Runs_kanban_count,
                 'product_number': Runs_product_number,
                 'numoftm': numoftm,
-                'start_time': Runs_start_time,
-                'finish_time': Runs_finish_time,
+                'start_time': fm_start_time,
+                'finish_time': fm_finish_time,
                 'plan_down_time': Runs_plan_down_time,
                 'net_ope_time': Runs_net_ope_time,
                 'plan_quanity': Runs_plan_quanity,
@@ -615,30 +619,26 @@ def ViewDowntimeView(request, pk):
 
     def MakeDowntimes(*args):
         downtimefilter = DowntimeInstance.objects.filter(ProductionActual=pk)
-        for dn in args:
-            RunFilter = RunFilter.filter(number=dn)
-            downtimes = downtimefilter.get()
+        for dt in args:
+            downtimeinstancefilter = downtimefilter.filter(number=dt)
+            downtimes = downtimeinstancefilter.get()
 
-            downtimes_run = downtimes.run
-            downtimes_machine = downtimes.machine
-            downtimes_product_number = downtimes.product_number
-            downtimes_stop_time = downtimes.stop_time
-            downtimes_start_time = downtimes.start_time
-            downtimes_fcode = downtimes.fcode
+            downtimes_run = downtimes.production_run
+            downtimes_product_number = downtimes_run.product_number
+            downtimes_stop_time = downtimes.down_time
+            downtimes_start_time = downtimes.up_time
+            downtimes_fcode = downtimes.downtime
+            downtimes_machine = downtimes_fcode.Machine
             
-    
+
             # for automatic number of tm in runs        
-            numoftm = Runs_product_number.TeamMember
+            numoftm = downtimes_product_number.TeamMember
 
             # for automatic cycletime for product in runs
-            run_cycletime = Runs_product_number.CycleTime
+            run_cycletime = downtimes_product_number.CycleTime
 
             # for automatic tote quanity
-            tote = Runs_product_number.ToteQuantity
-
-            # math plan and result quanity from tote quanity and start/end partals
-            Runs_plan_quanity = (Runs_kanban_count * tote)
-            Runs_result_quanity = (Runs_finnished_goods * tote) - Runs_partal_start + Runs_partal_end
+            tote = downtimes_product_number.ToteQuantity
 
             # make time object into datetime object with date to figure out netoperation
             date = datetime.date(1, 1, 1)
@@ -651,24 +651,24 @@ def ViewDowntimeView(request, pk):
             except:
                 rft = datetime.datetime.now()
 
-            seconds_elapsed = rft - rst
+            seconds_elapsed = rft - dst
 
             # Standard Time is quanity produced muliplied by the Cycle time divied by amount of time (60minutes)
             
             #Runs_standard_time = Runs_result_quanity * run_cycletime / Runs_net_ope_time + Runs_plan_down_time
 
             downtime={
-                'number': downtimes_run,
-                'partal_start': downtimes_machine,
-                'partal_end': downtimes_product_number,
-                'finished_goods': downtimes_stop_time,
-                'kanban_count': downtimes_start_time,
-                'product_number': downtimes_fcode,
+                'run': downtimes_run,
+                'machine': downtimes_machine,
+                'product': downtimes_product_number,
+                'stop': downtimes_stop_time,
+                'start': downtimes_start_time,
+                'downtime': downtimes_fcode,
                 'numoftm': numoftm,
                 }
             downtimec=downtime.copy()
             downtime_list.append(downtimec)
-    
+
 
     try:
         MakeDowntimes(1)
@@ -692,6 +692,7 @@ def ViewDowntimeView(request, pk):
         Downtime5Exist = False
 
     context["ProductionActual"] = Production_Actual
+    context["downtime_list"] = downtime_list
     dbgcontext["downtime_list"] = downtime_list
     context["line"] = line
     context["year"] = year
@@ -702,19 +703,33 @@ def ViewDowntimeView(request, pk):
     return render(request, "productionactual/viewdowntimes.html", context)
 
 ## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime/3 ## ex: edit downtime 3 for an opened production actual
-def EditDowntimeView(request, pk):
+def EditDowntimeView(request, number, pk):
+    downtime_number = number
     context ={}
     dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
-    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
-    context["hourly"] = Hourly_Count
+    
     context["ProductionActual"] = Production_Actual
     date = Production_Actual.pa_date
     year = date.year
     month = date.month
     line = Production_Actual.assembly_line_number
-    # how to get department var for loading chart urls?
     
+    downtime_filter = DowntimeInstance.objects.get(ProductionActual=pk)
+
+    context["hourly"] = Hourly_Count
+    
+
+    addform = AddDowntimeInstance(request.POST or None, initial=init_dt_form)
+    if addform.is_valid():
+        # not save until form.save()
+        addform = hourly_form.save(commit=False)
+        # link the hourly object to the correct productionactual uuid
+        addform.ProductionActual_id = pk
+        addform.save()
+        return HttpResponseRedirect("/Records/"+str(pk))
+    context["addform"] = addform
+
 
 
     
@@ -906,8 +921,14 @@ def EditRunView(request, pk, number):
     
     # make time object into datetime object with date to figure out net operation time
     date = datetime.date(1, 1, 1)
-    rst = datetime.datetime.combine(date, Runs_start_time)
-    rft = datetime.datetime.combine(date, Runs_finish_time)
+    try:
+        rst = datetime.datetime.combine(date, Runs_start_time)
+    except:
+        rst = datetime.datetime.now()
+    try:
+        rft = datetime.datetime.combine(date, Runs_finish_time)
+    except:
+        rft = datetime.datetime.now()
     seconds_elapsed = rft - rst
     Runs_net_ope_time = (seconds_elapsed.seconds / 60) - Runs_plan_down_time
 
@@ -938,11 +959,12 @@ def EditRunView(request, pk, number):
         }
 
     run_form = EditRunForm(request.POST or None, initial=setrun)
-    # i dont know why this dose not work, it should keep user from selecting products not for a line
-    #form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
+    # this should keep user from selecting products that are not for a the production actuals line
+    run_form.fields["product_number"].queryset = Product.objects.filter(assembly_line=line)
     if run_form.is_valid():
         # not save until form.save()
         run_form = run_form.save(commit=False)
+        
         # link the run object to the correct productionactual uuid
         run_form.ProductionActual_id = pk
         run_form.number=run_number
