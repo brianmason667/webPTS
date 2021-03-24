@@ -93,7 +93,7 @@ class Run(models.Model):
             ]
             
     def __str__(self):
-        return 'Run: {0} + {1} '.format(self.number, self.ProductionActual)
+        return '{0}'.format(self.number, self.ProductionActual)
         #return self.ProductionActual
 
     ## origional run constraints
@@ -140,8 +140,11 @@ class Downtime(models.Model):
         return self.downtime_code
 
 class DowntimeInstance(models.Model):
+    number = models.IntegerField(default=1)
     ProductionActual = models.ForeignKey(ProductionActual, on_delete=models.CASCADE)
     production_run = models.ForeignKey(Run,default=1, on_delete=models.CASCADE)
+    down_time = models.TimeField(blank=True, null=True)
+    up_time = models.TimeField(blank=True, null=True)
     downtime = models.ForeignKey(Downtime, on_delete=models.CASCADE)
     recovery_time = models.FloatField(max_length=7, help_text="how long of downtime")
     occurrence_multiplier = models.IntegerField(default=1, help_text="how many times did this happen")
