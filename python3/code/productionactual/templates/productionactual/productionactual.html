@@ -5,223 +5,189 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-
+<!-- let table rows be links -->
+<script>
+    $(function() {
+      $("table tbody tr").click(function(e) {
+        var u = $(this).data("link");
+        var t = $(this).data("target");
+        console.log(u, t);
+        if (t.length) {
+          window.open(u, t);
+        } else {
+          window.location.href = u;
+        }
+      });
+    });
+</script>
 
 <div class="container">
     <div class="row">
-        <!-- <div class="col-sm-6_disable"></div> -->
-            <!-- start of block1 div-->
-            <div name=block1 class="block1 rounded-block"
-                style="">
-                <h1>Prodcution Actual Record</h1>
-                <br>
-                <table>
+        <div name=block1 class="block1 rounded-block">
+            <h1>Prodcution Actual Record</h1>
+            <br>
+            <table>
+                <tr>
+                    <td width="150px">Line#</td>
+                    <td>{{ ProductionActual.assembly_line_number }}</td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td>{{ ProductionActual.pa_date }}</td>
+                </tr>
+                <tr>
+                    <td>Han-Cho:</td>
+                    <td>{{ ProductionActual.user.first_name }} {{ ProductionActual.user.last_name }}</td>
+                </tr>
+                <tr>
+                    <td>Shift:</td>
+                    <td>{{ ProductionActual.shift }}</td>
+                </tr>
+            </table>
+        </div>
+        <div name="block2" class="block2 rounded-block center-text">
+            <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data"> {% csrf_token %}
+                <table style="boarder:1px;">
                     <tr>
-                        <td width="150px">Line#</td>
-                        <td>
-                            {{ ProductionActual.assembly_line_number }}
-                        </td>
+                        <td><!--space --></td>
+                        <td>Hour 1</td><td>Hour 2</td><td>Hour 3</td><td>Hour 4</td><td>Hour 5</td><td>Hour 6</td>
+                        <td>Hour 7</td><td>Hour 8</td><td>Hour 9</td><td>Hour 10</td><td>Hour 11</td><td>Hour 12</td>
                     </tr>
                     <tr>
-                        <td>Date:</td>
-                        <td>
-                            {{ ProductionActual.pa_date }}
-                        </td>
+                        <td>Pcs/Per/Hour</td>
+                        <td>{{ hourlyform.hour1 }}</td>
+                        <td>{{ hourlyform.hour2 }}</td>
+                        <td>{{ hourlyform.hour3 }}</td>
+                        <td>{{ hourlyform.hour4 }}</td>
+                        <td>{{ hourlyform.hour5 }}</td>
+                        <td>{{ hourlyform.hour6 }}</td>
+                        <td>{{ hourlyform.hour7 }}</td>
+                        <td>{{ hourlyform.hour8 }}</td>
+                        <td>{{ hourlyform.hour9 }}</td>
+                        <td>{{ hourlyform.hour10 }}</td>
+                        <td>{{ hourlyform.hour11 }}</td>
+                        <td>{{ hourlyform.hour12 }}</td>
                     </tr>
                     <tr>
-                        <td>Han-Cho:</td>
-                        <td>
-                        {{ ProductionActual.user.first_name }} {{ ProductionActual.user.last_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Shift:</td>
-                        <td>
-                            {{ ProductionActual.shift }}
-                        </td>
+                        <td>Cumulative Pcs.</td>
+                        <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
+                        <td><input id="calchour2" type="number" value="{{ hourcalc.hour2calc }}" disabled></td>
+                        <td><input id="calchour3" type="number" value="{{ hourcalc.hour3calc }}" disabled></td>
+                        <td><input id="calchour4" type="number" value="{{ hourcalc.hour4calc }}" disabled></td>
+                        <td><input id="calchour5" type="number" value="{{ hourcalc.hour5calc }}" disabled></td>
+                        <td><input id="calchour6" type="number" value="{{ hourcalc.hour6calc }}" disabled></td>
+                        <td><input id="calchour7" type="number" value="{{ hourcalc.hour7calc }}" disabled></td>
+                        <td><input id="calchour8" type="number" value="{{ hourcalc.hour8calc }}" disabled></td>
+                        <td><input id="calchour9" type="number" value="{{ hourcalc.hour9calc }}" disabled></td>
+                        <td><input id="calchour10" type="number" value="{{ hourcalc.hour10calc }}" disabled></td>
+                        <td><input id="calchour11" type="number" value="{{ hourcalc.hour11calc }}" disabled></td>
+                        <td><input id="calchour12" type="number" value="{{ hourcalc.hour12calc }}" disabled></td>
                     </tr>
                 </table>
-            </div>
-        <!-- </div> -->
-        <!-- <div style="float: right;" class="col-sm-6_disable"> -->
-            <!-- include block 2 datatable -->
-            <div name="block2" class="block2 rounded-block center-text">
-
-
-                <form method="POST" action="{% url 'ProductionActual' ProductionActual.id %}" enctype="multipart/form-data"> {% csrf_token %}
-                    <table style="boarder:1px;">
-                        <tr>
-                            <td>
-                                <!--required td for blankspace -->
-                            </td>
-                            <td>Hour 1</td>
-                            <td>Hour 2</td>
-                            <td>Hour 3</td>
-                            <td>Hour 4</td>
-                            <td>Hour 5</td>
-                            <td>Hour 6</td>
-                            <td>Hour 7</td>
-                            <td>Hour 8</td>
-                            <td>Hour 9</td>
-                            <td>Hour 10</td>
-                            <td>Hour 11</td>
-                            <td>Hour 12</td>
-                        </tr>
-                        <tr>
-                            <td>Pcs/Per/Hour</td>
-                            <td>{{ hourlyform.hour1 }}</td>
-                            <td>{{ hourlyform.hour2 }}</td>
-                            <td>{{ hourlyform.hour3 }}</td>
-                            <td>{{ hourlyform.hour4 }}</td>
-                            <td>{{ hourlyform.hour5 }}</td>
-                            <td>{{ hourlyform.hour6 }}</td>
-                            <td>{{ hourlyform.hour7 }}</td>
-                            <td>{{ hourlyform.hour8 }}</td>
-                            <td>{{ hourlyform.hour9 }}</td>
-                            <td>{{ hourlyform.hour10 }}</td>
-                            <td>{{ hourlyform.hour11 }}</td>
-                            <td>{{ hourlyform.hour12 }}</td>
-                        </tr>
-                        <tr>
-                            <td>Cumulative Pcs.</td>
-                            <td><input id="calchour1" type="number" value="{{ hourcalc.hour1calc }}" disabled></td>
-                            <td><input id="calchour2" type="number" value="{{ hourcalc.hour2calc }}" disabled></td>
-                            <td><input id="calchour3" type="number" value="{{ hourcalc.hour3calc }}" disabled></td>
-                            <td><input id="calchour4" type="number" value="{{ hourcalc.hour4calc }}" disabled></td>
-                            <td><input id="calchour5" type="number" value="{{ hourcalc.hour5calc }}" disabled></td>
-                            <td><input id="calchour6" type="number" value="{{ hourcalc.hour6calc }}" disabled></td>
-                            <td><input id="calchour7" type="number" value="{{ hourcalc.hour7calc }}" disabled></td>
-                            <td><input id="calchour8" type="number" value="{{ hourcalc.hour8calc }}" disabled></td>
-                            <td><input id="calchour9" type="number" value="{{ hourcalc.hour9calc }}" disabled></td>
-                            <td><input id="calchour10" type="number" value="{{ hourcalc.hour10calc }}" disabled></td>
-                            <td><input id="calchour11" type="number" value="{{ hourcalc.hour11calc }}" disabled></td>
-                            <td><input id="calchour12" type="number" value="{{ hourcalc.hour12calc }}" disabled></td>
-                        </tr>
-                    </table>
-                    <!-- below is a hidden button, this is required to update the hourly -->
-                    <input type="submit" value="Submit" style="display: none;">
-                </form>
-
-
-                <!-- form end tag required -->
-            </div>
-        <!-- </div> -->
+                <!-- hidden button, required to submit hourly -->
+                <input type="submit" value="Submit" style="display: none;">
+            </form>
+        </div>
     </div>
+    {%if RunsExist %}
     <div class="row">
-        <!-- <div class="col-sm-12"> -->
-            <!-- include block 3 datatable -->
-            {%if RunsExist %}
-            <div name="block3" class="rounded-block center-text">
-                    <table id="block3" class="block3 sep-rows">
-                        <tr>
-                            <th>Run#</th>
-                            <th>Partal Start</th>
-                            <th>Partal End</th>
-                            <th>Finished Goods</th>
-                            <th>Kanban Count</th>
-                            <th class="product_number">Product Number</th>
-                            <th>Team Members</th>
-                            <th class="run_time">Start Time</th>
-                            <th class="run_time">Finish Time</th>
-                            <th>Plan Down Time</th>
-                            <th>Net Ope.</th>
-                            <th>Plan Qty</th>
-                            <th>Result Qty</th>
-                            <th>Scrap</th>
-                            <th>Repair</th>
-                            <th>Analysis</th>
-                            <th>Quarantine</th>
-                            <th>Cabbage Patch</th>
-                            <th>Unplan Downtime</th>
-                            <th>Cycle Time</th>
-                            <th>Standard Time</th>
-                            <th>OA</th>
-                            <th>OA w/o Downtime</th>
-                        </tr>
-                        {% for run in run_list %}
-                        <tr>
-                            <td><a href="{% url 'EditRun' ProductionActual.id run.number %}">{{ run.number }}</a></td>
-                            <td>{{ run.partal_start }}</td>
-                            <td>{{ run.partal_end }}</td>
-                            <td>{{ run.finished_goods }}</td>
-                            <td>{{ run.kanban_count }}</td>
-                            <td>{{ run.product_number }}</td>
-                            <td>{{ run.numoftm }}</td>
-                            <td>{{ run.start_time }}</td>
-                            <td>{{ run.finish_time }}</td>
-                            <td>{{ run.plan_down_time }}</td>
-                            <td>{{ run.net_ope_time }}</td>
-                            <td>{{ run.plan_quanity }}</td>
-                            <td>{{ run.result_quanity }}</td>
-                            <td>{{ run.scrap_quanity }}</td>
-                            <td>{{ run.repair_quanity }}</td>
-                            <td>{{ run.analysis_quanity }}</td>
-                            <td>{{ run.quarantine_quanity }}</td>
-                            <td>{{ run.cabbage_patch_quanity }}</td>
-                            <td>{{ run.unplan_downtime }}</td>
-                            <td>{{ run.cycletime }}</td>
-                            <td>{{ run.standard_time }}</td>
-                            <td>{{ run.oa }}</td>
-                            <td>{{ run.oa_without_downtime }}</td>
-                        </tr>
-                        {% endfor %}
-                        <!-- a blank row in the table -->
-                        <tr>
-                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Totals:</td>
-                            <td>{{ runtotal.plan_down_time }}</td>
-                            <td>{{ runtotal.net_ope_time }}</td>
-                            <td>{{ runtotal.plan_quanity }}</td>
-                            <td>{{ runtotal.result_quanity }}</td>
-                            <td>{{ runtotal.scrap_quanity }}</td>
-                            <td>{{ runtotal.repair_quanity }}</td>
-                            <td>{{ runtotal.analysis_quanity }}</td>
-                            <td>{{ runtotal.quarantine_quanity }}</td>
-                            <td>{{ runtotal.cabbage_patch_quanity }}</td>
-                            <td>{{ runtotal.unplan_downtime }}</td>
-                            <td>{{ runtotal.cycletime }}</td>
-                            <td>{{ runtotal.standard_time }}</td>
-                            <td>{{ runtotal.oa }}</td>
-                            <td>{{ runtotal.oa_without_downtime }}</td>
-                        </tr>
-                        </table>
-                </div>
+        <div name="block3" class="rounded-block center-text">
+            <table id="block3" class="block3 sep-rows table table-hover">
+                <tr>
+                    <th>Run#</th>
+                    <th>Partal Start</th>
+                    <th>Partal End</th>
+                    <th>Finished Goods</th>
+                    <th>Kanban Count</th>
+                    <th class="product_number">Product Number</th>
+                    <th>Team Members</th>
+                    <th class="run_time">Start Time</th>
+                    <th class="run_time">Finish Time</th>
+                    <th>Plan Down Time</th>
+                    <th>Net Ope.</th>
+                    <th>Plan Qty</th>
+                    <th>Result Qty</th>
+                    <th>Scrap</th>
+                    <th>Repair</th>
+                    <th>Analysis</th>
+                    <th>Quarantine</th>
+                    <th>Cabbage Patch</th>
+                    <th>Unplan Downtime</th>
+                    <th>Cycle Time</th>
+                    <th>Standard Time</th>
+                    <th>OA</th>
+                    <th>OA w/o Downtime</th>
+                </tr>
+                {% for run in run_list %}
+                <tr data-link="{% url 'EditRun' ProductionActual.id run.number %}" data-target="_BLANK">
+                    <td><a href="{% url 'EditRun' ProductionActual.id run.number %}">{{ run.number }}</a></td>
+                    <td>{{ run.partal_start }}</td>
+                    <td>{{ run.partal_end }}</td>
+                    <td>{{ run.finished_goods }}</td>
+                    <td>{{ run.kanban_count }}</td>
+                    <td>{{ run.product_number }}</td>
+                    <td>{{ run.numoftm }}</td>
+                    <td>{{ run.start_time }}</td>
+                    <td>{{ run.finish_time }}</td>
+                    <td>{{ run.plan_down_time }}</td>
+                    <td>{{ run.net_ope_time }}</td>
+                    <td>{{ run.plan_quanity }}</td>
+                    <td>{{ run.result_quanity }}</td>
+                    <td>{{ run.scrap_quanity }}</td>
+                    <td>{{ run.repair_quanity }}</td>
+                    <td>{{ run.analysis_quanity }}</td>
+                    <td>{{ run.quarantine_quanity }}</td>
+                    <td>{{ run.cabbage_patch_quanity }}</td>
+                    <td>{{ run.unplan_downtime }}</td>
+                    <td>{{ run.cycletime }}</td>
+                    <td>{{ run.standard_time }}</td>
+                    <td>{{ run.oa }}</td>
+                    <td>{{ run.oa_without_downtime }}</td>
+                </tr>
+                {% endfor %}
+                <!-- a blank row in the table -->
+                <tr>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td>Totals:</td>
+                    <td>{{ runtotal.plan_down_time }}</td>
+                    <td>{{ runtotal.net_ope_time }}</td>
+                    <td>{{ runtotal.plan_quanity }}</td>
+                    <td>{{ runtotal.result_quanity }}</td>
+                    <td>{{ runtotal.scrap_quanity }}</td>
+                    <td>{{ runtotal.repair_quanity }}</td>
+                    <td>{{ runtotal.analysis_quanity }}</td>
+                    <td>{{ runtotal.quarantine_quanity }}</td>
+                    <td>{{ runtotal.cabbage_patch_quanity }}</td>
+                    <td>{{ runtotal.unplan_downtime }}</td>
+                    <td>{{ runtotal.cycletime }}</td>
+                    <td>{{ runtotal.standard_time }}</td>
+                    <td>{{ runtotal.oa }}</td>
+                    <td>{{ runtotal.oa_without_downtime }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    
-                
-                    {% else %}
-                    <div name="block3alt" class="rounded-block center-text">
-                    No Runs Found For Production Actual<br>
-                    </div>
-                    {% endif %}
-
- <div>
+    {% else %}
+    <div class="row">
+        <div name="block3alt" class="rounded-block center-text">
+        No Runs Found For Production Actual<br>
+        </div>
+    </div>
+    {% endif %}
     {% load static %}
     <!-- <img src="{% static 'productionactual/icons/greenadd.svg' %}" alt="addbuttonicon" width="20" height="20"> Add Run
     <img src="{% static 'productionactual/icons/delicon.webp' %}" alt="deletebuttonicon" width="20" height="20"> Remove Last Run -->
-
+    <div name="block4" class="rounded-block center-text">
+    {{ debug_out }}
+    </div>
 </div>
-</div></div>
-</div>
-<div name="block4" class="rounded-block center-text">
-{{ debug_out }}
-
-</div>
-
 {% else %}
 {% endif %}
 {% endblock %}
