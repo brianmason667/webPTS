@@ -14,11 +14,13 @@ from django.views import generic
 from .forms import *
 from .models import *
 
+# landing page for before anything is selected
 ## /ProductionActual ##
 def BlankProductionActualView(request):
     return render(request, "productionactual/index.html", )
 
-## /ProductionActual/new/ ##
+
+# For create new production actual
 def NewProductionActualView(request):
     if request.method == 'POST':
         form = NewProductionActualForm(request.POST)
@@ -598,10 +600,11 @@ def ProductionActualView(request, pk):
     return render(request, "productionactual/productionactual.html", context)
 
 ##################################################
-
+# Downtime Related Views
 ##################################################
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime ## ex: view downtime for an opened production actual
+# View Downtime for a production actual 
+# URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime
 def ViewDowntimeView(request, pk):
     context ={}
     dbgcontext ={}
@@ -702,7 +705,49 @@ def ViewDowntimeView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/viewdowntimes.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime/3 ## ex: edit downtime 3 for an opened production actual
+def AddDowntimeView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    
+    downtime_filter = DowntimeInstance.objects.filter(ProductionActual=pk)
+
+    
+    
+
+    addform = AddDowntimeInstance(request.POST or None,)
+    if addform.is_valid():
+        # not save until form.save()
+        addform = hourly_form.save(commit=False)
+        # link the hourly object to the correct productionactual uuid
+        addform.ProductionActual_id = pk
+        addform.save()
+        return HttpResponseRedirect("/Records/"+str(pk))
+    context["addform"] = addform
+
+
+
+    
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/editdowntimes.html", context)
+
+# Edit downtime instance for a production actual
+# URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime/3
 def EditDowntimeView(request, number, pk):
     downtime_number = number
     context ={}
@@ -745,7 +790,12 @@ def EditDowntimeView(request, number, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdowntimes.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect ## ex: view defects for an opened production actual
+##################################################
+# Defect Related Views
+##################################################
+
+# View Defects for Production Actual
+# URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect
 def ViewDefectView(request, pk):
     context ={}
     dbgcontext ={}
@@ -767,7 +817,31 @@ def ViewDefectView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/viewdefects.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect/3 ## ex: edit Defect 3 for an opened production actual
+# add defect instance view
+# URL:  /Records/06abf7f5-ff7b-4fcf-8915-ce710316b506/AddDefect
+def AddDefectView(request, pk):
+    context ={}
+    dbgcontext ={}
+    Production_Actual = get_object_or_404(ProductionActual, pk=pk)
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    date = Production_Actual.pa_date
+    year = date.year
+    month = date.month
+    line = Production_Actual.assembly_line_number
+    Hourly_Count = Hourly.objects.get(ProductionActual=pk)
+    context["hourly"] = Hourly_Count
+    context["ProductionActual"] = Production_Actual
+    context["line"] = line
+    context["year"] = year
+    context["month"] = month
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/editdefects.html", context)
+
+# Edit defect instance for Production Actual
+# URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Defect/3
 def EditDefectView(request, pk):
     context ={}
     dbgcontext ={}
@@ -789,7 +863,12 @@ def EditDefectView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdefects.html", context)
 
-## /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/RemoveRun ## ex: remove run for an opened production actual
+##################################################
+# Run Related Views
+##################################################
+
+# Remove Run
+# URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/RemoveRun ## ex: remove run for an opened production actual
 def RemoveRunView(request, pk):
     context ={}
     dbgcontext ={}
@@ -1054,7 +1133,7 @@ def AddRunView(request, pk):
     return render(request, "productionactual/newrun.html", context)
 
 ##################################################
-
+# Lost Time Tracker / Charts
 ##################################################
 
 ## /ProductionActual/20a0904a-ba5f-4a67-a163-03110dae00ce/LostTime ## ex: lost time for an opened production actual

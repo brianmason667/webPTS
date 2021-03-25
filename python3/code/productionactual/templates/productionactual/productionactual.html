@@ -7,18 +7,18 @@
 
 <!-- let table rows be links -->
 <script>
-    $(function() {
-      $("table tbody tr").click(function(e) {
-        var u = $(this).data("link");
-        var t = $(this).data("target");
-        console.log(u, t);
-        if (t.length) {
-          window.open(u, t);
-        } else {
-          window.location.href = u;
-        }
-      });
-    });
+$(function() {
+  $("table tr").click(function(e) {
+    var u = $(this).data("link");
+    var t = $(this).data("target");
+    console.log(u, t);
+    if (t.length) {
+      window.open(u, t);
+    } else {
+      window.location.href = u;
+    }
+  });
+});
 </script>
 
 <div class="container">
@@ -119,7 +119,7 @@
                     <th>OA w/o Downtime</th>
                 </tr>
                 {% for run in run_list %}
-                <tr data-link="{% url 'EditRun' ProductionActual.id run.number %}" data-target="_BLANK">
+                <tr data-link="{% url 'EditRun' ProductionActual.id run.number %}" data-target="_SELF">
                     <td><a href="{% url 'EditRun' ProductionActual.id run.number %}">{{ run.number }}</a></td>
                     <td>{{ run.partal_start }}</td>
                     <td>{{ run.partal_end }}</td>
@@ -147,29 +147,29 @@
                 {% endfor %}
                 <!-- a blank row in the table -->
                 <tr>
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
+                    <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
+                    <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
+                    <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
+                    <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
                 </tr>
-                <tr>
-                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                    <td>Totals:</td>
-                    <td>{{ runtotal.plan_down_time }}</td>
-                    <td>{{ runtotal.net_ope_time }}</td>
-                    <td>{{ runtotal.plan_quanity }}</td>
-                    <td>{{ runtotal.result_quanity }}</td>
-                    <td>{{ runtotal.scrap_quanity }}</td>
-                    <td>{{ runtotal.repair_quanity }}</td>
-                    <td>{{ runtotal.analysis_quanity }}</td>
-                    <td>{{ runtotal.quarantine_quanity }}</td>
-                    <td>{{ runtotal.cabbage_patch_quanity }}</td>
-                    <td>{{ runtotal.unplan_downtime }}</td>
-                    <td>{{ runtotal.cycletime }}</td>
-                    <td>{{ runtotal.standard_time }}</td>
-                    <td>{{ runtotal.oa }}</td>
-                    <td>{{ runtotal.oa_without_downtime }}</td>
+                <tr class=totals-row>
+                    <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                    <th>Totals:</th>
+                    <th>{{ runtotal.plan_down_time }}</th>
+                    <th>{{ runtotal.net_ope_time }}</th>
+                    <th>{{ runtotal.plan_quanity }}</th>
+                    <th>{{ runtotal.result_quanity }}</th>
+                    <th>{{ runtotal.scrap_quanity }}</th>
+                    <th>{{ runtotal.repair_quanity }}</th>
+                    <th>{{ runtotal.analysis_quanity }}</th>
+                    <th>{{ runtotal.quarantine_quanity }}</th>
+                    <th>{{ runtotal.cabbage_patch_quanity }}</th>
+                    <th>{{ runtotal.unplan_downtime }}</th>
+                    <th>{{ runtotal.cycletime }}</th>
+                    <th>{{ runtotal.standard_time }}</th>
+                    <th>{{ runtotal.oa }}</th>
+                    <th>{{ runtotal.oa_without_downtime }}</th>
                 </tr>
             </table>
         </div>
