@@ -584,9 +584,22 @@ def ProductionActualView(request, pk):
         counter.update(d) 
     run_totals = dict(counter) 
 
-    dbgcontext["runtotal"] = run_totals
-    context["runtotal"] = run_totals
+    # Lets get find the weighted (by net operation) average for the cycletime, this is more correct than just average of the cycletimes
+    # get from dict then divide by run count 
+    total_netope = run_totals.get('net_ope_time')
+    # list comprehension get all cycletime for all runs
+    run_cycle_times = [ sub['cycletime'] for sub in run_list ]
+    run_net_ope_times = [ sub['net_ope_time'] for sub in run_list ]
+    percent_of_operation = [netope/total_netope for netope in run_net_ope_times]
+    # list comprehension is fun (%of netope * run cycletime)
+    precent_of_ope_multiplied_by_runct = [percent_of_operation[i] * run_cycle_times[i] for i in range(len(percent_of_operation))]
+    # finnaly, sum the (ct * %netope) to get weighted ct average. also format the float to a readable string with only 2 digits after decimal
+    wtd_avg_cycletime = str("{:.3g}".format(sum(precent_of_ope_multiplied_by_runct)))
+    update_totals={'cycletime' : wtd_avg_cycletime}
+    run_totals.update(update_totals)
 
+
+    context["runtotal"] = run_totals
     context["run_list"] = run_list
     context["RunsExist"] = RunsExist
     context["ExistsAll"] = ExistsAll
