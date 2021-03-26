@@ -721,6 +721,8 @@ def ViewDowntimeView(request, pk):
 def AddDowntimeView(request, pk):
     context ={}
     dbgcontext ={}
+    title = 'Add Downtime'
+
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
     
     context["ProductionActual"] = Production_Actual
@@ -742,7 +744,7 @@ def AddDowntimeView(request, pk):
         addform.ProductionActual_id = pk
         addform.save()
         return HttpResponseRedirect("/Records/"+str(pk))
-    context["addform"] = addform
+    context["form"] = addform
 
 
 
@@ -754,7 +756,8 @@ def AddDowntimeView(request, pk):
     context["line"] = line
     context["year"] = year
     context["month"] = month
-
+    context["title"] = title
+    dbgcontext["context"] = context
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdowntimes.html", context)
@@ -763,6 +766,7 @@ def AddDowntimeView(request, pk):
 # URL: /Records/20a0904a-ba5f-4a67-a163-03110dae00ce/Downtime/3
 def EditDowntimeView(request, number, pk):
     downtime_number = number
+    title = 'Edit Downtime '+str(downtime_number)
     context ={}
     dbgcontext ={}
     Production_Actual = get_object_or_404(ProductionActual, pk=pk)
@@ -773,20 +777,19 @@ def EditDowntimeView(request, number, pk):
     month = date.month
     line = Production_Actual.assembly_line_number
     
-    downtime_filter = DowntimeInstance.objects.get(ProductionActual=pk)
+    downtime_filter = DowntimeInstance.objects.get(ProductionActual=pk, number=downtime_number)
 
-    context["hourly"] = Hourly_Count
-    
+    init_dt_form = {}
 
-    addform = AddDowntimeInstance(request.POST or None, initial=init_dt_form)
-    if addform.is_valid():
+    editform = AddDowntimeInstance(request.POST or None, initial=init_dt_form)
+    if editform.is_valid():
         # not save until form.save()
-        addform = hourly_form.save(commit=False)
+        editform = editform.save(commit=False)
         # link the hourly object to the correct productionactual uuid
-        addform.ProductionActual_id = pk
-        addform.save()
+        editform.ProductionActual_id = pk
+        editform.save()
         return HttpResponseRedirect("/Records/"+str(pk))
-    context["addform"] = addform
+    context["form"] = editform
 
 
 
@@ -798,7 +801,7 @@ def EditDowntimeView(request, number, pk):
     context["line"] = line
     context["year"] = year
     context["month"] = month
-
+    context["title"] = title
     debug_out = "debug: "+ str(dbgcontext)
     context["debug_out"] = debug_out
     return render(request, "productionactual/editdowntimes.html", context)
