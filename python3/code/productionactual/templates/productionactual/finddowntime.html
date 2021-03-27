@@ -1,0 +1,44 @@
+{% extends 'smenu.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<div class="modal-content">
+    <div>
+        <span></span>
+        <h3 class="modal-title">{{title}}</h3>
+        <table class="sep-rows">
+            <caption>{{table_caption}}</caption>
+            <tr>
+                {% if stage == 1 %}
+                <td>Number</td><td>Short Name</td><td>Full Name</td>
+
+                {% elif stage == 2 %}
+                <td>Code</td><td>Downtime</td><td>Planned</td>
+                {% endif %}
+            </tr>
+
+            {% if stage == 1 %}
+    {% for machines in mach_list %}
+        <tr>
+            <td><a href="{{machines.machine_name_short}}">{{machines.machine_name_actual}}</a></td><td>{{machines.machine_name_short}}</td><td>{{machines.machine_name}}</td>
+        </tr>
+    {% endfor %}
+            {% elif stage == 2 %}
+    {% for dt in dt_list %}
+        <tr>
+            <td><a href="{{dt.machine_name_short}}">{{dt.downtime_code}}</a></td><td>{{dt.downtime_description}}</td><td>{{dt.planned}}</td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+        </table> 
+        
+    </div>
+</div>
+
+{{ debug_out }}
+
+{% else %}
+{% endif %}
+{% endblock %}
