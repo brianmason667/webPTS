@@ -111,7 +111,7 @@ class Machine(models.Model):
     machine_name_short = models.CharField(max_length=5)
     machine_name_actual = models.CharField(max_length=7)
     def __str__(self):
-        return self.machine_name_short
+        return '{0} {1} {2}'.format(self.assembly_line, self.machine_name_short, self.machine_name)
 
 class Defect(models.Model):
     assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
@@ -130,8 +130,8 @@ class DefectInstance(models.Model):
 
 class Downtime(models.Model):
     assembly_line = models.ForeignKey(AssemblyLine, on_delete=models.CASCADE)
-    Machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
-    FourM =  models.CharField(max_length=7)
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+    fourM =  models.CharField(max_length=7)
     downtime_code = models.CharField(max_length=5)
     planned = models.BooleanField(default=False)
     default_recovery_time = models.FloatField(max_length=7, default=0.0, help_text="how long of downtime")
@@ -148,3 +148,7 @@ class DowntimeInstance(models.Model):
     downtime = models.ForeignKey(Downtime, on_delete=models.CASCADE)
     recovery_time = models.FloatField(max_length=7, help_text="how long of downtime")
     occurrence_multiplier = models.IntegerField(default=1, help_text="how many times did this happen")
+    noti_hancho = models.BooleanField(default=True)
+    noti_shokucho = models.BooleanField(default=False)
+    noti_maint = models.BooleanField(default=False)
+    noti_kocho = models.BooleanField(default=False)
