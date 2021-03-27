@@ -34,12 +34,14 @@ services:
     image: python:3
     build:
       context: ./python3
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8001
+    command: daphne -u /tmp/daphne.sock webpts3.asgi:application
     restart: on-failure
     volumes:
       - ./python3/code:/code
     ports:
       - "8000:8000"
+      - "8001:8001"
     depends_on:
       - mysql
 
