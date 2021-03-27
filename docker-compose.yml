@@ -3,32 +3,32 @@ version: "3.7"
 
 services:
 
-  # apache2:
-  #   image: php:7.3-apache
-  #   volumes: 
-  #     - ./apache2/www:/var/www/html/
-  #   build: 
-  #     context: ./apache2
-  #   ports: 
-  #     - 80:80
-  #   depends_on: 
-  #     - mysql
-  #   links: 
-  #     - mysql
+  apache2:
+    image: php:7.3-apache
+    volumes: 
+      - ./apache2/www:/var/www/html/
+    build: 
+      context: ./apache2
+    ports: 
+      - 80:80
+    depends_on: 
+      - mysql
+    links: 
+      - mysql
 
-  # mysql:
-  #   image: mysql8
-  #   volumes:
-  #     - ./mysql/save:/var/lib/mysql
-  #   build:
-  #     context: ./mysql
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   restart: on-failure
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: example1
-  #     MYSQL_DATABASE: webpts      
-  #     ports:
-  #       3306:3306
+  mysql:
+    image: mysql8
+    volumes:
+      - ./mysql/save:/var/lib/mysql
+    build:
+      context: ./mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: example1
+      MYSQL_DATABASE: webpts      
+      ports:
+        3306:3306
 
   python3:
     image: python:3
@@ -40,13 +40,13 @@ services:
       - ./python3/code:/code
     ports:
       - "8000:8000"
-    # depends_on:
-    #   - mysql
+    depends_on:
+      - mysql
 
-  # phpmyadmin:
-  #   image: phpmyadmin
-  #   restart: on-failure
-  #   ports:
-  #     - 8080:80
-  #   environment:
-  #     - PMA_ARBITRARY=1
+  phpmyadmin:
+    image: phpmyadmin
+    restart: on-failure
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
