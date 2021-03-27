@@ -718,6 +718,55 @@ def ViewDowntimeView(request, pk):
     context["debug_out"] = debug_out
     return render(request, "productionactual/viewdowntimes.html", context)
 
+def FindDowntimeView(request, pk, mach):
+    context = {}
+    dbgcontext = {}
+
+    if mach == 'find':
+        title = 'Select Machine'
+        table_caption = 'Machines'
+        pa_query = ProductionActual.objects.filter(pk=pk)
+        get_pa = pa_query.get()
+        line_number = get_pa.assembly_line_number
+        mach_query = Machine.objects.filter(assembly_line=line_number)
+        mach_list = list(mach_query)
+        stage = 1
+        context["mach_list"] = mach_list
+    else:
+        title = 'Find Downtime for : '+mach
+        table_caption = 'Registerd Downtime Events, Ctrl+f to search'
+        # lets get the database id for machine (prob. a better way to do this, but this is from memory and it works)
+        pa_query = ProductionActual.objects.filter(pk=pk)
+        get_pa = pa_query.get()
+        line_number = get_pa.assembly_line_number
+        mach_query = Machine.objects.filter(assembly_line=line_number)
+        mach_sel = mach_query.filter(machine_name_short=mach)
+        get_mach = mach_sel.get()
+        mach_id = get_mach.id
+        # machine= is for mach_id not machine_name_short
+        dt_query = Downtime.objects.filter(machine=mach_id)
+        dt_list = list(dt_query)
+        stage = 2
+        context["dt_list"] = dt_list
+    
+    try:
+        testvar1 = dt_list
+    except:
+        testvar1 = "none"
+
+    dbgcontext["testvar1"] = testvar1
+    context["title"] = title
+    context["table_caption"] = table_caption
+    context["stage"] = stage
+    
+
+
+    
+    
+    debug_out = "debug: "+ str(dbgcontext)
+    context["debug_out"] = debug_out
+    return render(request, "productionactual/finddowntime.html", context)
+
 def AddDowntimeView(request, pk):
     context ={}
     dbgcontext ={}
