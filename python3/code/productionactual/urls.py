@@ -16,6 +16,7 @@ urlpatterns = [
     path('<uuid:pk>/EditRun/<int:number>', views.EditRunView, name="EditRun"),
     path('<uuid:pk>/RemoveRun', views.RemoveRunView, name="RemoveRun"),
     path('<uuid:pk>/Downtime', views.ViewDowntimeView, name="ViewDowntime"),
+    path('<uuid:pk>/Downtime/Add/<str:mach>', views.FindDowntimeView, name="FindDowntime"),
     path('<uuid:pk>/Downtime/Add', views.AddDowntimeView, name="AddDowntime"),
     path('<uuid:pk>/Downtime/<int:number>', views.EditDowntimeView, name="EditDowntime"),
     path('<uuid:pk>/Defect', views.ViewDefectView, name="ViewDefects"),
