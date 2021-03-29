@@ -590,6 +590,8 @@ def ProductionActualView(request, pk):
     # list comprehension get all cycletime for all runs
     run_cycle_times = [ sub['cycletime'] for sub in run_list ]
     run_net_ope_times = [ sub['net_ope_time'] for sub in run_list ]
+    if total_netope == 0:
+        total_netope = 1
     percent_of_operation = [netope/total_netope for netope in run_net_ope_times]
     # list comprehension is fun (%of netope * run cycletime)
     precent_of_ope_multiplied_by_runct = [percent_of_operation[i] * run_cycle_times[i] for i in range(len(percent_of_operation))]
