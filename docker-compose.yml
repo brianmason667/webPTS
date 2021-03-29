@@ -22,13 +22,12 @@ services:
       context: ./docker
     # dev server replaced by daphne/apache2
     #command: python manage.py runserver 0.0.0.0:8001
-    command: daphne -u /tmp/daphne.sock webpts3.asgi:application
     #command: daphne -u /tmp/daphne.sock webpts3.asgi:application
-    #command: ./command.sh
+    command: ./command.sh
     restart: on-failure
     volumes:
-      - ./python3/code:/code
-      - ./python3/www:/var/www/html/
+      - ./docker/code:/code
+      - ./docker/www:/usr/local/apache2/htdocs/
     ports:
       - "80:80"
       - "8000:8000"
