@@ -2,25 +2,25 @@
 version: "3.7"
 
 services:
-  # mysql:
-  #   image: mysql8
-  #   volumes:
-  #     - ./mysql/save:/var/lib/mysql
-  #   build:
-  #     context: ./mysql
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   restart: on-failure
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: example1
-  #     MYSQL_DATABASE: webpts      
-  #     ports:
-  #       3306:3306
+  mysql:
+    image: mysql8
+    volumes:
+      - ./mysql/save:/var/lib/mysql
+    build:
+      context: ./mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: example1
+      MYSQL_DATABASE: webpts      
+      ports:
+        3306:3306
 
   apache2-python3:
     image: httpd:2.4
     build:
       context: ./docker
-    # dev server replaced by daphne/apache2
+    # dev server start cmd replaced with command.sh to run production httpd
     #command: python manage.py runserver 0.0.0.0:8001
     #command: daphne -u /tmp/daphne.sock webpts3.asgi:application
     command: ./command.sh
@@ -28,17 +28,15 @@ services:
     volumes:
       - ./docker/code:/code
       - ./docker/www:/usr/local/apache2/htdocs/
+      - ./docker/tmp:/tmp/
     ports:
       - "80:80"
       - "8000:8000"
-      - "8001:8001"
-    #depends_on:
-    #  - mysql
 
-  # phpmyadmin:
-  #   image: phpmyadmin
-  #   restart: on-failure
-  #   ports:
-  #     - 8080:80
-  #   environment:
-  #     - PMA_ARBITRARY=1
+  phpmyadmin:
+    image: phpmyadmin
+    restart: on-failure
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

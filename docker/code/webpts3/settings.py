@@ -83,23 +83,24 @@ WSGI_APPLICATION = 'webpts3.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'webpts',
-#         'USER': 'root',
-#         'PASSWORD': 'example1',
-#         'HOST': 'mysql',
-#         'port': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'webpts',
+        'USER': 'root',
+        'PASSWORD': 'example1',
+        'HOST': 'mysql',
+        'port': '3306',
     }
 }
+
+# this was used in early development, and is commented out in favor of mysql
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

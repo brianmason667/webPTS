@@ -85,15 +85,15 @@ class Run(models.Model):
     oa = models.IntegerField(default=0)
     oa_without_downtime = models.IntegerField(default=0)
     class Meta:
-            constraints = [
-                models.UniqueConstraint(
-                    fields=['ProductionActual', 'number'], 
-                    name='unique number'
-                )
-            ]
+            # constraints = [
+            #     models.UniqueConstraint(
+            #         fields=['ProductionActual', 'number'], 
+            #         name='unique number'
+            #     )
+            # ]
             
-    def __str__(self):
-        return '{0}'.format(self.number, self.ProductionActual)
+        def __str__(self):
+            return '{0}'.format(self.number, self.ProductionActual)
         #return self.ProductionActual
 
     ## origional run constraints
