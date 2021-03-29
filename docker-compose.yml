@@ -16,14 +16,15 @@ services:
   #     ports:
   #       3306:3306
 
-  python3:
-    image: python:3
+  apache2-python3:
+    image: httpd:2.4
     build:
-      context: ./python3
+      context: ./docker
     # dev server replaced by daphne/apache2
     #command: python manage.py runserver 0.0.0.0:8001
+    command: daphne -u /tmp/daphne.sock webpts3.asgi:application
     #command: daphne -u /tmp/daphne.sock webpts3.asgi:application
-    command: ./command.sh
+    #command: ./command.sh
     restart: on-failure
     volumes:
       - ./python3/code:/code

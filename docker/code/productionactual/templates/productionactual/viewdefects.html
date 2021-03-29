@@ -1,0 +1,60 @@
+{% extends 'smenu.html' %}
+{% block title %}Defects{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="rounded-block center-text">
+        <div>
+            <span></span>
+            <h1 class="modal-title">Defects</h1>
+
+                <table style="border:1px;">
+                    <tr>
+                        <th>Run</th>
+                        <th>4M</th>
+                        <th>Trash</th>
+                        <th>Repair</th>
+                        <th>Analysis</th>
+                        <th>Quarantine</th>
+                        <th>Cabbage Patch</th>
+                        <th>Machine</th>
+                        <th>Production Number</th>
+                        <th>Code</th>
+                        <th>Defect Details</th>
+                        <th>New Code UID</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+                </table>
+  
+                <input type="submit" name="defectokbutton" value="OK" id="defectokbutton">
+                <a href="{% url 'ProductionActual' ProductionActual.id %}" >
+                <input type="button" class="close-modal" name="defectbackbutton" value="Close"
+                    id="defectclosebutton">
+                </a>
+            </form>
+        </div>
+    </div>
+  
+
+
+    <div name="block4" class="rounded-block center-text">
+        {{ debug_out }}
+        
+        </div>
+{% else %}
+{% endif %}
+{% endblock %}

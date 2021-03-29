@@ -20,5 +20,7 @@ RUN a2enmod proxy_html
 RUN a2enmod proxy_wstunnel
 RUN chown -R root:root /var/www/html/*
 COPY 000-default.conf /etc/apache2/sites-enabled/
-RUN service apache2 restart
+RUN mkdir /var/www/html/static
+RUN update-rc.d apache2 defaults
+RUN /etc/init.d/apache2 start
 #COPY . /code/

@@ -1,0 +1,45 @@
+# Use root/example as user/password credentials
+version: "3.7"
+
+services:
+  # mysql:
+  #   image: mysql8
+  #   volumes:
+  #     - ./mysql/save:/var/lib/mysql
+  #   build:
+  #     context: ./mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: on-failure
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: example1
+  #     MYSQL_DATABASE: webpts      
+  #     ports:
+  #       3306:3306
+
+  python3:
+    image: python:3
+    build:
+      context: ./python3
+    # dev server replaced by daphne/apache2
+    #command: python manage.py runserver 0.0.0.0:8001
+    command: daphne -u /tmp/daphne.sock webpts3.asgi:application
+    #command: daphne -u /tmp/daphne.sock webpts3.asgi:application
+    #command: ./command.sh
+    restart: on-failure
+    volumes:
+      - ./python3/code:/code
+      - ./python3/www:/var/www/html/
+    ports:
+      - "80:80"
+      - "8000:8000"
+      - "8001:8001"
+    #depends_on:
+    #  - mysql
+
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   restart: on-failure
+  #   ports:
+  #     - 8080:80
+  #   environment:
+  #     - PMA_ARBITRARY=1

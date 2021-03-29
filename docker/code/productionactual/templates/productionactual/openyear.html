@@ -1,0 +1,28 @@
+{% extends 'smenu.html' %}
+{% block title %}Open Production Actual{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<div class="modal-content">
+    <div>
+        <span></span>
+        <h3 class="modal-title">Select year</h3>
+        
+        {% for years in yearlist %}
+        <a href=./{{ years.year }}> {{ years.year }}  </a><br>
+             
+        {% endfor %}
+        
+        
+        
+      
+    </div>
+</div>
+{{ debug_out }}
+
+
+
+{% else %}
+{% endif %}
+{% endblock %}

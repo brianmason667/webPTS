@@ -1,0 +1,67 @@
+{% extends 'smenu.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="modal-content">
+        <div>
+            <h1 class="modal-title">{{ title }}</h1>
+            <form id="downtime" action="" method="post">
+  
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Run</th>
+                            <th>Machine</th>
+                            <th>Product Number</th>
+                            <th>Stop Time</th>
+                            <th>Start Time</th>
+                            <th>Totals</th>
+                            <th>Fcode</th>
+                            <th># of TM</th>
+                            <th>Han-Cho</th>
+                            <th>Shoku-Cho</th>
+                            <th>Maintenace</th>
+                            <th>Ko-Cho</th>
+                            <th>Explanation of Trouble</th>
+                            <th>P/U</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{form.production_run}}</td>
+                            <td>{{form.machine}}</td>
+                            <td>{{form.product_number}}</td>
+                            <td>{{form.down_time}}</td>
+                            <td>{{form.up_time}}</td>
+                            <td>{{form.aaa}}</td>
+                            <td>{{form.downtime}}</td>
+                            <td>{{form.numoftm}}</td>
+                            <td>{{form.noti_hancho}}</td>
+                            <td>{{form.noti_shokucho}}</td>
+                            <td>{{form.noti_maint}}</td>
+                            <td>{{form.noti_kocho}}</td>
+                            <td>{{form.explanation_of_trouble}}</td>
+                            <td>{{form.pu}}</tr>
+                        
+                    </tbody>
+  
+  
+  
+  
+                </table>
+                <input type="button" name="downtimeokbutton" value="Save" id="downtimeokbutton">
+                <a href="{% url 'ProductionActual' ProductionActual.id %}" >
+                <input type="button" class="close-modal" name="downtimebackbutton" value="Close"
+                    id="downtimeclosebutton"></a>
+  
+            </form>
+        </div>
+    </div>
+  
+  
+ {{debug_out}}
+
+{% else %}
+{% endif %}
+{% endblock %}

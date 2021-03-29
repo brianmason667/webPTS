@@ -1,0 +1,51 @@
+{% extends 'smenu.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="modal-content">
+        <div>
+            <h1 class="modal-title">{{ title }}</h1>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <form method="POST" action="{% url 'EditRun' ProductionActual.id run_number %}" enctype="multipart/form-data"> 
+      
+              <!-- Security token -->
+              {% csrf_token %} 
+            
+              <!-- Using the formset -->
+              <table>
+                  <tr><th>Partal Start</th>
+                    <th>Partal End</th>
+                    <th>Finished Goods</th>
+                    <th>Kanban Count</th>
+                    <th class="prod-number">Product Number</th>
+                    <th>Start Time</th>
+                    <th>Finish Time</th>
+                </tr>
+              <tr><td>{{ form.partal_start }}</td>
+                <td>{{ form.partal_end }}</td>
+                <td>{{ form.finished_goods }}</td>
+                <td>{{ form.kanban_count }}</td>
+                <td>{{ form.product_number }}</td>
+                <td>{{ form.start_time }}</td>
+                <td>{{ form.finish_time }}</td>
+              </tr>
+            </table>
+               
+                <input type="submit" name="runaddbutton" value="OK" id="downtimeokbutton">
+                <a href="{% url 'ProductionActual' ProductionActual.id %}" >
+                <input type="button" class="close-modal" name="runsbackbutton" value="Close"
+                    id="runsclosebutton"></a>
+  
+            </form>
+        </div>
+    </div>
+  
+  
+ 
+
+    {{ debug_out }}
+{% else %}
+{% endif %}
+{% endblock %}

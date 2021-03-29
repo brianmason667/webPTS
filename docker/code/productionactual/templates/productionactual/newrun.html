@@ -1,0 +1,74 @@
+{% extends 'smenu.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="modal-content">
+        <div>
+        <h1 class="modal-title">{{ title }}</h1>
+            <div class="row">
+                <table id="block3" class="block3 sep-rows">
+                    <tr>
+                        <!-- <th>Run#</th> -->
+                        <th>Partal Start</th>
+                        <th>Partal End</th>
+                        <th>Finished Goods</th>
+                        <th>Kanban Count</th>
+                        <th class="product_number">Product Number</th>
+                        <!-- <th>Team Members</th> -->
+                        <th class="run_time">Start Time</th>
+                        <th class="run_time">Finish Time</th>
+                        <!-- <th>Plan Down Time</th> -->
+                        <!-- <th>Net Ope.</th> -->
+                        <!-- <th>Plan Qty</th> -->
+                        <!-- <th>Result Qty</th> -->
+                        <!-- <th>Scrap</th> -->
+                        <!-- <th>Repair</th> -->
+                        <!-- <th>Analysis</th> -->
+                        <!-- <th>Quarantine</th> -->
+                        <!-- <th>Cabbage Patch</th> -->
+                        <!-- <th>Unplan Downtime</th> -->
+                        <!-- <th>Cycle Time</th> -->
+                        <!-- <th>Standard Time</th> -->
+                        <!-- <th>OA</th> -->
+                        <!-- <th>OA w/o Downtime</th> -->
+                    </tr>
+                    
+                    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                <form method="POST" action="{% url 'AddRun' ProductionActual.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <tr>
+                        <!-- <td>{{ form.number }}</td> -->
+                        <td>{{ form.partal_start }}</td>
+                        <td>{{ form.partal_end }}</td>
+                        <td>{{ form.finished_goods }}</td>
+                        <td>{{ form.kanban_count }}</td>
+                        <td>{{ form.product_number }}</td>
+                        <!-- <td><input type="number" value="Auto" disabled></td> -->
+                        <td>{{ form.start_time }}</td>
+                        <td>{{ form.finish_time }}</td>
+                        <!-- <td>{{ form.plan_down_time }}</td> -->
+                        <!-- <td>{{ form.net_ope_time }}</td> -->
+                        <!-- <td>{{ form.plan_quanity }}</td> -->
+                        <!-- <td>{{ form.result_quanity }}</td> -->
+                        <!-- <td>{{ form.scrap_quanity }}</td> -->
+                        <!-- <td>{{ form.repair_quanity }}</td> -->
+                        <!-- <td>{{ form.analysis_quanity }}</td> -->
+                        <!-- <td>{{ form.quarantine_quanity }}</td> -->
+                        <!-- <td>{{ form.cabbage_patch_quanity }}</td> -->
+                        <!-- <td>{{ form.unplan_downtime }}</td> -->
+                        <!-- <td><input type="number" value="Auto" disabled></td> -->
+                        <!-- <td>{{ form.standard_time }}</td> -->
+                        <!-- <td>{{ form.oa }}</td> -->
+                        <!-- <td>{{ form.oa_without_downtime }}</td> -->
+                    </tr></table>
+                    <input type="submit" value="Create Run">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{{ debug_out }}
+{% else %}
+{% endif %}
+{% endblock %}
