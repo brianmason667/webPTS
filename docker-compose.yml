@@ -21,7 +21,7 @@ services:
     build:
       context: ./docker
     # dev server start cmd replaced with command.sh to run production httpd
-    #command: python manage.py runserver 0.0.0.0:8001
+    #command: python manage.py runserver 0.0.0.0:8000
     #command: daphne -u /tmp/daphne.sock webpts3.asgi:application
     command: ./command.sh
     restart: on-failure
