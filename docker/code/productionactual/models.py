@@ -135,7 +135,7 @@ class Downtime(models.Model):
     downtime_code = models.CharField(max_length=5)
     planned = models.BooleanField(default=False)
     default_recovery_time = models.FloatField(max_length=7, default=0.0, help_text="how long of downtime")
-    downtime_description = models.CharField(max_length=50)
+    downtime_description = models.CharField(max_length=300)
     def __str__(self):
         return self.downtime_code
 

@@ -1,5 +1,5 @@
-mysql/save/
-mysql/init/
+mysql/save/*
+mysql/init/*
 docker/code/productionactual/__pycache__/*.pyc
 docker/code/webpts3/__pycache__/*.pyc
 docker/tmp/daphne.sock.lock
