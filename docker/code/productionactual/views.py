@@ -752,12 +752,13 @@ def FindDowntimeView(request, pk, mach):
         context["dt_list"] = dt_list
     
     try:
-        testvar1 = dt_list
+        testvar1 = "none"
     except:
         testvar1 = "none"
 
     dbgcontext["testvar1"] = testvar1
     context["title"] = title
+    context["mach"] = mach
     context["table_caption"] = table_caption
     context["stage"] = stage
     
@@ -769,7 +770,7 @@ def FindDowntimeView(request, pk, mach):
     context["debug_out"] = debug_out
     return render(request, "productionactual/finddowntime.html", context)
 
-def AddDowntimeView(request, pk):
+def AddDowntimeView(request, pk, mach, code):
     context ={}
     dbgcontext ={}
     title = 'Add Downtime'
