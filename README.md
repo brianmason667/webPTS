@@ -16,7 +16,7 @@ requres:
 setup:
     clone
     docker-compose up
-    docker exec -it <container id> /bin/bash
+    docker exec -it (container id) /bin/bash
     # ./manage.py migrate
     # ./manage.py makesuperuser
 
