@@ -14,11 +14,13 @@ requres:
 
 
 setup:
-    clone
-    docker-compose up
-    docker exec -it (container id) /bin/bash
-    # ./manage.py migrate
-    # ./manage.py makesuperuser
 
-    you should then be able to login to the /admin page
+clone
 
+docker-compose up
+
+docker exec -it (container id) /bin/bash
+ ./manage.py migrate
+ ./manage.py makesuperuser
+
+you should then be able to login to the /admin page
